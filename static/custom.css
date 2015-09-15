@@ -1,0 +1,59 @@
+body {
+    font-family: "Open Sans";
+    background: #f2f2f2;
+}
+
+.thumbnail {
+    width: 100%;
+}
+
+.item {
+    border: thin lightgrey solid;
+}
+
+/* dashboards */
+.chart-wrapper {
+    background: #fff;
+    border: 1px solid #e2e2e2;
+    border-radius: 3px;
+    margin-bottom: 10px;
+}
+
+.chart-wrapper .chart-title {
+    border-bottom: 1px solid #d7d7d7;
+    color: #666;
+    font-size: 14px;
+    font-weight: 200;
+    padding: 7px 10px 4px;
+}
+
+.chart-wrapper .chart-notes {
+    background: #fbfbfb;
+    border-top: 1px solid #e2e2e2;
+    color: #808080;
+    font-size: 12px;
+    padding: 8px 10px 5px;
+}
+
+.chart-wrapper .chart-notes a {
+    text-decoration: none;
+}
+
+/*http://stackoverflow.com/questions/306252/how-to-align-checkboxes-and-their-labels-consistently-cross-browsers*/
+label {
+    display: block;
+    padding-left: 15px;
+    text-indent: -15px;
+    font-weight: 200;
+}
+input {
+    width: 13px;
+    height: 13px;
+    padding: 0;
+    margin:0;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+}
+
