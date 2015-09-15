@@ -335,7 +335,7 @@ button {
   text-decoration: none;
   white-space: nowrap;
   background-color: transparent;
-  border-radius: 4px;
+  border-radius: 0px;
   border: 1px solid #bbb;
   cursor: pointer;
   box-sizing: border-box;
@@ -356,7 +356,7 @@ input[type="submit"], input[type="reset"], input[type="button"] {
   text-decoration: none;
   white-space: nowrap;
   background-color: transparent;
-  border-radius: 4px;
+  border-radius: 0px;
   border: 1px solid #bbb;
   cursor: pointer;
   box-sizing: border-box;
@@ -441,8 +441,8 @@ input[type="email"], input[type="number"], input[type="search"], input[type="tex
   height: 38px;
   padding: 6px 10px;
   background-color: #fff;
-  border: 1px solid #d1d1d1;
-  border-radius: 4px;
+  /* border: 1px solid lighten($border-color, 8.8%); */
+  border-radius: 0px;
   box-shadow: none;
   box-sizing: border-box;
 }
@@ -454,7 +454,7 @@ select {
   padding: 6px 10px;
   background-color: #fff;
   border: 1px solid #d1d1d1;
-  border-radius: 4px;
+  border-radius: 0px;
   box-shadow: none;
   box-sizing: border-box;
 }
@@ -478,7 +478,7 @@ textarea {
 
 /* line 412 */
 input[type="email"]:focus, input[type="number"]:focus, input[type="search"]:focus, input[type="text"]:focus, input[type="tel"]:focus, input[type="url"]:focus, input[type="password"]:focus {
-  border: 1px solid #33c3f0;
+  /*border: 1px solid $primary-color;*/
   outline: 0;
 }
 
@@ -557,7 +557,7 @@ code {
   white-space: nowrap;
   background: #f1f1f1;
   border: 1px solid #e1e1e1;
-  border-radius: 4px;
+  border-radius: 0px;
 }
 
 /* line 501 */

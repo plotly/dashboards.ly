@@ -3,3 +3,5 @@ node_modules/*
 *.pyc
 vv/*
 *.webassets-cache/*
+static/.webassets-cache/*
+package.json

@@ -1,5 +1,5 @@
 import flask
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 from flask.ext import assets
 from flask.ext.cors import CORS
 
@@ -44,23 +44,13 @@ def get_files():
 
 
 @app.route('/')
-def base():
-    return render_template('base.html')
-
-
-@app.route('/dashboard')
-def dashboard():
-    items = file()
-    return render_template(
-        'dashboard.html',
-        plots=items[:9],
-        builder=True)
-
-
-@app.route('/create')
 def create():
-    plots = request.args['plots']
-    return render_template('dashboard.html', plots=plots)
+    return render_template('base.html', mode='create')
+
+
+@app.route('/view')
+def view():
+    return render_template('base.html', mode='view')
 
 
 if __name__ == '__main__':

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:200,400,300,700' rel='stylesheet' type='text/css'>
     {% assets "css_all" %}
         <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"></script>
     {% endassets %}
@@ -15,6 +15,10 @@
     {% block content %}{% endblock %}
 
 </footer>
+    <script type="text/javascript">
+        ENV = {};
+        ENV.mode = "{{mode}}";
+    </script>
     <script src="/static/js/bundle.js"></script>
 </footer>
 </html>

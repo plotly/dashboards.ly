@@ -56,7 +56,7 @@ $column-width: 100 / $total-columns !default; // calculates individual column wi
 $column-margin: 0.5% !default; // space between columns
 
 // Misc
-$global-radius: 4px !default;
+$global-radius: 0px !default;
 
 // Functions
 @function grid-column-width($n) {
@@ -363,7 +363,7 @@ input {
     height: 38px;
     padding: 6px 10px; // The 6px vertically centers text on FF, ignored by Webkit
     background-color: #fff;
-    border: 1px solid lighten($border-color, 8.8%);
+    /* border: 1px solid lighten($border-color, 8.8%); */
     border-radius: $global-radius;
     box-shadow: none;
     box-sizing: border-box;
@@ -416,7 +416,7 @@ input {
   &[type="tel"]:focus,
   &[type="url"]:focus,
   &[type="password"]:focus {
-    border: 1px solid $primary-color;
+    /*border: 1px solid $primary-color;*/
     outline: 0;
   }
 }

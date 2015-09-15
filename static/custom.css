@@ -11,6 +11,23 @@ body {
     border: thin lightgrey solid;
 }
 
+input[type=text] {
+  height:17px;
+  border: 0;
+  width: calc(100% - 2px);
+  margin-left:1px;
+  -webkit-transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s;
+}
+
+input[type=text]:focus {
+    outline: none;
+    -webkit-box-shadow: 0px 1px 0px 0px rgba(174, 163, 255, 1);
+    -moz-box-shadow: 0px 1px 0px 0px rgba(174, 163, 255, 1);
+    box-shadow: 0px 1px 0px 0px rgba(174, 163, 255, 1);
+
+}
+
 /* dashboards */
 .chart-wrapper {
     background: #fff;
@@ -24,7 +41,16 @@ body {
     color: #666;
     font-size: 14px;
     font-weight: 200;
-    padding: 7px 10px 4px;
+}
+
+.chart-wrapper iframe {
+    border: none;
+    width: 100%;
+
+    height: -moz-calc(100% - 14px);
+    height: -webkit-calc(100% - 14px);
+    height: -o-calc(100% - 14px);
+    height: calc(100% - 14px);
 }
 
 .chart-wrapper .chart-notes {

@@ -1,7 +1,7 @@
 'use strict';
 
 import React from 'react';
-import AppStore from '../stores/AppStore';
+import {AppStore} from '../stores/AppStore';
 import AppActions from '../actions/AppActions';
 import appStoreMixin from './AppStore.mixin.js';
 
@@ -75,19 +75,50 @@ var ImagePanel = React.createClass({
     }
 });
 
+var InputTitle = React.createClass({
+    propTypes: {
+        placeholder: React.PropTypes.string,
+        plot_url: React.PropTypes.string
+    },
+    getInitialState: function() {
+        return {value: ''};
+    },
+    handleChange: function(event) {
+        AppActions.addKeyToPlotObject({
+            plot_url: this.props.plot_url,
+            key: 'title',
+            value: event.target.value
+        });
+        this.setState({value: event.target.value});
+    },
+    render: function() {
+        return (<input
+            className="chart-title"
+            placeholder={this.props.placeholder}
+            type="text" value={this.state.value}
+            onChange={this.handleChange}/>)
+    }
+});
+
 var IframePanel = React.createClass({
     propTypes: {
-        plot_url: React.PropTypes.string.isRequired
+        plot_url: React.PropTypes.string
     },
 
     render: function() {
-        let iframeUrl = this.props.plot_url + '.embed?autosize=true&link=false';
-        let iframeStyle = {'border': 'none', 'height': '100%'};
+        let iframeUrl = this.props.plot_url + '.embed?autosize=true&link=false&source=false';
         let chartStyle = {'height': '450px'};
+        let titleBlock;
+        if(ENV.mode==='create') {
+            titleBlock = <InputTitle plot_url={this.props.plot_url} placeholder="plot title (optional)"/>
+        } else {
+
+        }
         if(this.props.plot_url) {
             return(
                 <div style={chartStyle} className="chart-wrapper">
-                    <iframe style={iframeStyle} width="100%" src={iframeUrl}></iframe>
+                    {titleBlock}
+                    <iframe src={iframeUrl}></iframe>
                 </div>
             )
         } else {
@@ -100,14 +131,18 @@ var Dashboard = React.createClass({
     propTypes: {
         urls: React.PropTypes.array.isRequired
     },
+
+    handleClick: function (event) {
+        AppActions.publishDashboard();
+    },
+
     render: function() {
-        let containerStyle = {};
         let urls = this.props.urls;
         if(urls.length===0) {
             let divStyle = {
                 'text-align': 'center'
             };
-            return (<div style={containerStyle} className="container">
+            return (<div className="container">
                 <div style={divStyle}>dashboard.ly</div>
             </div>)
         } else {
@@ -116,16 +151,25 @@ var Dashboard = React.createClass({
                 rows.push(
                     <div className="row">
                         <div className="six columns">
-                            <IframePanel plot_url={urls[i]}/>
+                            <IframePanel plot_url={urls[i].plot_url}/>
                         </div>
                         <div className="six columns">
-                            <IframePanel plot_url={urls[i+1]}/>
+                            <IframePanel plot_url={i+1 >= urls.length ? '' : urls[i+1].plot_url}/>
                         </div>
                     </div>)
             }
-            return (<div style={containerStyle} className="container">
-                {rows}
-                <a id="generate" style={{float: "right"}} className="button">generate dashboard</a>
+            let footer;
+            if(ENV.mode === 'create') {
+                footer = (<div style={{textAlign: 'center', padding: '30px'}}>
+                    <a id="generate" onClick={this.handleClick} className="button">publish dashboard</a>
+                </div>);
+            }
+            return (
+                <div>
+                    <div style={{boxShadow: '0 0 12px 1px rgba(87,87,87,0.2)', backgroundColor: 'f9f9f9'}} className="container">
+                        {rows}
+                    </div>
+                    {footer}
             </div>);
         }
     }
@@ -146,12 +190,19 @@ var AppContainer = React.createClass({
         this.setState(this.getState());
     },
 
+    handleClick: function (event) {
+        console.warn('click!!');
+        AppActions.publishDashboard();
+    },
+
     render: function () {
         console.log('render: AppContainer');
         let state = this.getState();
-        if(!('plots' in state)) {
+        console.warn(state);
+        if(!('plots' in state) && state.selectedPlots.length === 0) {
             return (<div>loading...</div>)
-        } else {
+        }
+        if(ENV.mode === 'create') {
             let rows = [];
             for(var i=0; i<state.plots.length; i+=4) {
                 rows.push(
@@ -174,8 +225,14 @@ var AppContainer = React.createClass({
                 <div>
                     <Dashboard urls={state.selectedPlots}/>
                     {rows}
+                    <a onClick={this.handleClick} class="button">load more</a>
                 </div>
             );
+        } else {
+            console.warn('rendering dashboard', state.selectedPlots);
+            return (<div>
+                <Dashboard urls={state.selectedPlots}/>
+            </div>)
         }
     }
 });

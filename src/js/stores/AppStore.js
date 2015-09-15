@@ -22,16 +22,30 @@ var actions = function(action) {
     switch(action.event) {
 
     case 'SETSTORE':
-        _appStore.plots = action.plots
+        _appStore[action.key] = action.value
         AppStore.emitChange();
         break;
 
     case 'ADD_OR_REMOVE_PLOT_URL':
-        let index = _appStore.selectedPlots.indexOf(action.plot_url);
-        if(index === -1) {
-            _appStore.selectedPlots.push(action.plot_url);
-        } else {
-            _appStore.selectedPlots.splice(index, 1);
+        var i;
+        for(i=0; i<_appStore.selectedPlots.length; i++) {
+            if(_appStore.selectedPlots[i].plot_url === action.plot_url) {
+                _appStore.selectedPlots.splice(i, 1);
+            }
+        }
+        console.warn(i);
+        if(i===_appStore.selectedPlots.length){
+            _appStore.selectedPlots.push({'plot_url': action.plot_url});
+        }
+        console.warn('selectedPlots: ', _appStore.selectedPlots);
+        AppStore.emitChange();
+        break;
+
+    case 'ADD_KEY_TO_PLOT_OBJECT':
+        for(var i=0; i<_appStore.selectedPlots.length; i++) {
+            if(_appStore.selectedPlots[i].plot_url === action.plot_url) {
+                _appStore.selectedPlots[action.plot_url][action.key] = action.value;
+            }
         }
         AppStore.emitChange();
         break;
@@ -40,7 +54,7 @@ var actions = function(action) {
 };
 
 AppDispatcher.register(actions);
-module.exports = AppStore;
+exports.AppStore = AppStore;
 
 (function(){
     AppActions.initialize();
