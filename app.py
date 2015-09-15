@@ -8,6 +8,8 @@ import json
 import os
 
 app = Flask(__name__)
+app.config['DEBUG'] = True
+
 env = assets.Environment(app)
 env.load_path = [os.path.join(os.path.dirname(__file__), 'sass')]
 env.register(
