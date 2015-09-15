@@ -1,5 +1,5 @@
 import flask
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from flask.ext import assets
 from flask.ext.cors import CORS
 
@@ -24,23 +24,27 @@ env.register(
 CORS(app)
 
 
-def files():
-    r = requests.get('https://api.plot.ly/v2/folders/home?user=chriddyp')
-    r.raise_for_status()
-    c = json.loads(r.content)
-    files = c['children']['results']
-    items = [
-        {
-            'plot_name': f['filename'],
-            'plot_url': f['web_url']
-        } for f in files if f['filetype'] == 'plot'
-    ]
+def files(username):
+    items = []
+    for page in range(1, 3):
+        r = requests.get('https://api.plot.ly/v2/folders/home'
+                         '?page={}&user={}'.format(page, username))
+        r.raise_for_status()
+        c = json.loads(r.content)
+        files = c['children']['results']
+        items.extend([
+            {
+                'plot_name': f['filename'],
+                'plot_url': f['web_url']
+            } for f in files if f['filetype'] == 'plot'
+        ])
     return items
 
 
 @app.route('/files')
 def get_files():
-    return flask.jsonify({'plots': files()})
+    username = request.args.get('username', 'chriddyp')
+    return flask.jsonify({'plots': files(username)})
 
 
 @app.route('/')

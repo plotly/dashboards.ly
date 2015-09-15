@@ -7,7 +7,8 @@ import Collection from 'ampersand-collection';
 import AppActions from '../actions/AppActions';
 
 var _appStore = {
-    selectedPlots: []
+    selectedPlots: [],
+    requestIsPending: false
 }
 
 var AppStore = BaseStore.extend({
@@ -28,13 +29,15 @@ var actions = function(action) {
 
     case 'ADD_OR_REMOVE_PLOT_URL':
         var i;
+        var removed=false;
         for(i=0; i<_appStore.selectedPlots.length; i++) {
             if(_appStore.selectedPlots[i].plot_url === action.plot_url) {
+                console.warn('removing', i, action.plot_url);
                 _appStore.selectedPlots.splice(i, 1);
+                removed=true;
             }
         }
-        console.warn(i);
-        if(i===_appStore.selectedPlots.length){
+        if(!removed){
             _appStore.selectedPlots.push({'plot_url': action.plot_url});
         }
         console.warn('selectedPlots: ', _appStore.selectedPlots);
@@ -57,5 +60,5 @@ AppDispatcher.register(actions);
 exports.AppStore = AppStore;
 
 (function(){
-    AppActions.initialize();
+    AppActions.initialize('PewResearch');
 })();

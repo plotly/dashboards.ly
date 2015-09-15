@@ -37,23 +37,23 @@ var ImagePanel = React.createClass({
         let imageStyle = {
             'cursor': 'pointer',
             'background': 'url(' + imageUrl + ')',
-            'background-position-x': 'center',
-            'background-position-y': 'center',
-            'background-size': 'cover',
-            'background-repeat': 'no-repeat'
+            'backgroundPositionX': 'center',
+            'backgroundPositionY': 'center',
+            'backgroundSize': 'cover',
+            'backgroundRepeat': 'no-repeat'
         };
         let overlayStyle = {
             'background': 'rgba(0,0,0,.5)',
-            'text-align': 'center',
+            'textAlign': 'center',
             'padding': '45px 0 66px 0',
             'opacity': this.state.hover ? 1 : 0,
-            '-webkit-transition': 'opacity .25s ease',
-            '-moz-transition': 'opacity .25s ease'
+            'WebkitTransition': 'opacity .25s ease',
+            'MozTransition': 'opacity .25s ease'
         };
         let hoverTextStyle =  {
            'color': 'rgba(255,255,255,.85)',
-           'font-size': '18px',
-           'font-weight': 200
+           'fontSize': '18px',
+           'fontWeight': 200
        };
 
         return (<div className="chart-wrapper">
@@ -100,6 +100,8 @@ var InputTitle = React.createClass({
     }
 });
 
+
+
 var IframePanel = React.createClass({
     propTypes: {
         plot_url: React.PropTypes.string
@@ -143,7 +145,7 @@ var Dashboard = React.createClass({
                 'text-align': 'center'
             };
             return (<div className="container">
-                <div style={divStyle}>dashboard.ly</div>
+                <div style={divStyle}></div>
             </div>)
         } else {
             let rows = [];
@@ -175,6 +177,36 @@ var Dashboard = React.createClass({
     }
 });
 
+var UsernameInput = React.createClass({
+    propTypes: {
+        username: React.PropTypes.string
+    },
+    getInitialState: function() {
+        return {value: 'PewResearch'};
+    },
+    handleChange: function(event) {
+        this.setState({value: event.target.value});
+        AppActions.initialize(event.target.value);
+    },
+    render: function() {
+        return (<input
+            style={{
+                display: 'inline-block',
+                width: '120px',
+                height: '30px',
+                backgroundColor: 'inherit',
+                borderBottom: 'thin grey solid',
+                lineHeight: '30px',
+                paddingBottom: '0px',
+                paddingTop: '0px'
+            }}
+            className="chart-title"
+            placeholder={this.props.placeholder}
+            type="text" value={this.state.value}
+            onChange={this.handleChange}/>)
+    }
+});
+
 var AppContainer = React.createClass({
     getInitialState: function () {
         return this.getState();
@@ -199,8 +231,17 @@ var AppContainer = React.createClass({
         console.log('render: AppContainer');
         let state = this.getState();
         console.warn(state);
+        if(true) {
+        }
         if(!('plots' in state) && state.selectedPlots.length === 0) {
-            return (<div>loading...</div>)
+            return (<img
+                style={{
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    display: 'block',
+                    marginTop: '50px'
+                }}
+                src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-large.gif"/>)
         }
         if(ENV.mode === 'create') {
             let rows = [];
@@ -221,11 +262,25 @@ var AppContainer = React.createClass({
                         </div>
                     </div>)
             }
+            let loadingSpinner;
+            if('requestIsPending' in state && state.requestIsPending) {
+                loadingSpinner = (<img
+                    style={{height: '18px', 'marginBottom': '-6px'}}
+                    src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-small.gif"/>);
+            }
             return (
                 <div>
                     <Dashboard urls={state.selectedPlots}/>
+                    <div style={{marginBottom: '10px'}}>
+                        <label style={{
+                            display: 'inline-block',
+                            height: '30px',
+                            marginBottom: '0px',
+                            marginRight: '10px'
+                        }}>plotly username</label>
+                        <UsernameInput/> {loadingSpinner}
+                    </div>
                     {rows}
-                    <a onClick={this.handleClick} class="button">load more</a>
                 </div>
             );
         } else {

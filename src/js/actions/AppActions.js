@@ -26,19 +26,29 @@ var AppActions = {
     publishDashboard: function() {
         // Serialize dashboard as JSON
         let plots = AppStore.getState().selectedPlots;
-        let win = window.open('/view?plots='+JSON.stringify(plots), '_blank');
+        let win = window.open('/view?plots='+encodeURIComponent(JSON.stringify(plots)), '_blank');
         win.focus();
     },
 
-    initialize: function() {
+    initialize: function(username) {
         console.warn('initialize');
         if(ENV.mode==='create') {
-            var url = location.protocol + '//' + window.location.host + '/files';
+            AppDispatcher.dispatch({
+                event: 'SETSTORE',
+                key: 'requestIsPending',
+                value: true
+            });
+            var url = location.protocol + '//' + window.location.host + '/files?username='+username;
             console.warn(url);
             request({
                 method: 'GET',
                 url: url
             }, function(err, res, body) {
+                AppDispatcher.dispatch({
+                    event: 'SETSTORE',
+                    key: 'requestIsPending',
+                    value: false
+                });
                 if(!err && res.statusCode == 200) {
                     console.log('initialize: ', body);
                     body = JSON.parse(body);
