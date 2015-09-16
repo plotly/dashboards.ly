@@ -186,7 +186,8 @@ var UsernameInput = React.createClass({
     },
     handleChange: function(event) {
         this.setState({value: event.target.value});
-        AppActions.initialize(event.target.value);
+        AppActions.updateUsername(event.target.value);
+        AppActions.initialize();
     },
     render: function() {
         return (<input
@@ -207,6 +208,70 @@ var UsernameInput = React.createClass({
     }
 });
 
+var PlotPicker = React.createClass({
+    handleLoadMoreClick: function(event) {
+        AppActions.incrementPage();
+        AppActions.initialize();
+    },
+
+    render: function() {
+
+        let rows = [];
+        for(var i=0; i<this.props.plots.length; i+=4) {
+            rows.push(
+                <div key={i} className="row">
+                    <div className="three columns">
+                        <ImagePanel {...this.props.plots[i]}/>
+                    </div>
+                    <div className="three columns">
+                        <ImagePanel {...this.props.plots[i+1]}/>
+                    </div>
+                    <div className="three columns">
+                        <ImagePanel {...this.props.plots[i+2]}/>
+                    </div>
+                    <div className="three columns">
+                        <ImagePanel {...this.props.plots[i+3]}/>
+                    </div>
+                </div>)
+        }
+
+        let loadingSpinner=null;
+        if(this.props.requestIsPending) {
+            loadingSpinner = (<img
+                style={{height: '18px', 'marginBottom': '-6px'}}
+                src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-small.gif"/>);
+        }
+
+        let loadMoreButton;
+        if(this.props.requestWasEmpty) {
+            loadMoreButton = null;
+        } else {
+            loadMoreButton = (<div style={{textAlign: 'center', padding: '30px'}}>
+                <a id="generate" onClick={this.handleLoadMoreClick} className="button"
+                    style={{'cursor': this.props.requestIsPending ? 'default' : 'pointer'}}>
+                    {this.props.requestIsPending ? 'loading...' : 'load more'}
+                </a>
+            </div>);
+        }
+
+        return(
+            <div>
+                <div style={{marginBottom: '10px'}}>
+                    <label style={{
+                        display: 'inline-block',
+                        height: '30px',
+                        marginBottom: '0px',
+                        marginRight: '10px'
+                    }}>plotly username</label>
+                    <UsernameInput/> {loadingSpinner}
+                </div>
+                {rows}
+                {loadMoreButton}
+            </div>);
+    }
+
+});
+
 var AppContainer = React.createClass({
     getInitialState: function () {
         return this.getState();
@@ -222,8 +287,7 @@ var AppContainer = React.createClass({
         this.setState(this.getState());
     },
 
-    handleClick: function (event) {
-        console.warn('click!!');
+    handlePublishClick: function (event) {
         AppActions.publishDashboard();
     },
 
@@ -244,45 +308,14 @@ var AppContainer = React.createClass({
                 src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-large.gif"/>)
         }
         if(ENV.mode === 'create') {
-            let rows = [];
-            for(var i=0; i<state.plots.length; i+=4) {
-                rows.push(
-                    <div className="row">
-                        <div className="three columns">
-                            <ImagePanel {...state.plots[i]}/>
-                        </div>
-                        <div className="three columns">
-                            <ImagePanel {...state.plots[i+1]}/>
-                        </div>
-                        <div className="three columns">
-                            <ImagePanel {...state.plots[i+2]}/>
-                        </div>
-                        <div className="three columns">
-                            <ImagePanel {...state.plots[i+3]}/>
-                        </div>
-                    </div>)
-            }
-            let loadingSpinner;
-            if('requestIsPending' in state && state.requestIsPending) {
-                loadingSpinner = (<img
-                    style={{height: '18px', 'marginBottom': '-6px'}}
-                    src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-small.gif"/>);
-            }
+
             return (
                 <div>
                     <Dashboard urls={state.selectedPlots}/>
-                    <div style={{marginBottom: '10px'}}>
-                        <label style={{
-                            display: 'inline-block',
-                            height: '30px',
-                            marginBottom: '0px',
-                            marginRight: '10px'
-                        }}>plotly username</label>
-                        <UsernameInput/> {loadingSpinner}
-                    </div>
-                    {rows}
+                    <PlotPicker {...this.state}/>
                 </div>
             );
+
         } else {
             console.warn('rendering dashboard', state.selectedPlots);
             return (<div>

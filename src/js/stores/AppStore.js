@@ -8,7 +8,10 @@ import AppActions from '../actions/AppActions';
 
 var _appStore = {
     selectedPlots: [],
-    requestIsPending: false
+    requestIsPending: false,
+    page: 0,
+    username: 'PewResearch',
+    plots: []
 }
 
 var AppStore = BaseStore.extend({
@@ -24,6 +27,15 @@ var actions = function(action) {
 
     case 'SETSTORE':
         _appStore[action.key] = action.value
+        AppStore.emitChange();
+        break;
+
+    case 'EXTENDPLOTS':
+        if(_appStore.page===0) {
+            _appStore.plots = action.plots;
+        } else {
+            Array.prototype.push.apply(_appStore.plots, action.plots);
+        }
         AppStore.emitChange();
         break;
 
@@ -60,5 +72,5 @@ AppDispatcher.register(actions);
 exports.AppStore = AppStore;
 
 (function(){
-    AppActions.initialize('PewResearch');
+    AppActions.initialize();
 })();

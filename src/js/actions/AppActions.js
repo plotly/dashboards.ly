@@ -8,12 +8,22 @@ import AppState from 'ampersand-app';
 import request from 'request';
 
 var AppActions = {
-
-    handleResult: function (result) {
+    updateStore: function(key, value) {
         AppDispatcher.dispatch({
-            event: AppConstants.HANDLE_RESULT,
-            result: result
+            event: 'SETSTORE',
+            key: key,
+            value: value
         });
+    },
+
+    updateUsername: function(username) {
+        this.updateStore('username', username);
+        this.updateStore('page', 0);
+    },
+
+    incrementPage: function(username) {
+        let currentPage = AppStore.getState().page;
+        this.updateStore('page', currentPage+1);
     },
 
     addOrRemovePlotUrl: function(plot_url) {
@@ -30,36 +40,50 @@ var AppActions = {
         win.focus();
     },
 
-    initialize: function(username) {
+
+
+    initialize: function() {
         console.warn('initialize');
+        let username = AppStore.getState().username;
+        let page = AppStore.getState().page;
         if(ENV.mode==='create') {
             AppDispatcher.dispatch({
                 event: 'SETSTORE',
                 key: 'requestIsPending',
                 value: true
             });
-            var url = location.protocol + '//' + window.location.host + '/files?username='+username;
+            AppDispatcher.dispatch({
+                event: 'SETSTORE',
+                key: 'requestWasEmpty',
+                value: false
+            });
+            var url = location.protocol + '//' + window.location.host + '/files?username='+username+'&page='+page;
             console.warn(url);
             request({
                 method: 'GET',
                 url: url
             }, function(err, res, body) {
-                AppDispatcher.dispatch({
-                    event: 'SETSTORE',
-                    key: 'requestIsPending',
-                    value: false
-                });
                 if(!err && res.statusCode == 200) {
                     console.log('initialize: ', body);
                     body = JSON.parse(body);
                     console.log('DISPATCH: SETSTORE');
                     AppDispatcher.dispatch({
-                        event: 'SETSTORE',
-                        key: 'plots',
-                        value: body.plots
+                        event: 'EXTENDPLOTS',
+                        plots: body.plots
                     });
                     console.log('CLEAR: SETSTORE');
+                } else if(res.statusCode == 404) {
+                    AppDispatcher.dispatch({
+                        event: 'SETSTORE',
+                        key: 'requestWasEmpty',
+                        value: true
+                    });
                 }
+                AppDispatcher.dispatch({
+                    event: 'SETSTORE',
+                    key: 'requestIsPending',
+                    value: false
+                });
             });
         } else if(ENV.mode==='view') {
             console.warn('view');
