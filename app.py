@@ -25,6 +25,14 @@ CORS(app)
 
 
 def files(username, page):
+    # check if username exists. once /folders returns 404 on invalid username,
+    # i can remove this
+    r = requests.head('https://api.plot.ly/v2/users/{}'.format(username))
+    try:
+        r.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        abort(e.response.status_code)
+
     items = []
     pages = range((page + 1) * 2 - 1, (page + 1) * 2 + 1)
     for page in pages:
@@ -42,6 +50,10 @@ def files(username, page):
 
         c = json.loads(r.content)
         files = c['children']['results']
+        if c['children']['next'] is None:
+            last = True
+        else:
+            last = False
         items.extend([
             {
                 'plot_name': f['filename'],
@@ -49,14 +61,15 @@ def files(username, page):
             } for f in files
         ])
 
-    return items
+    return items, last
 
 
 @app.route('/files')
 def get_files():
     username = request.args.get('username', 'chriddyp')
     page = int(request.args.get('page', 0))
-    return flask.jsonify({'plots': files(username, page)})
+    plots, is_last = files(username, page)
+    return flask.jsonify({'plots': plots, 'is_last': is_last})
 
 
 @app.route('/')

@@ -67,6 +67,19 @@ var AppActions = {
                     console.log('initialize: ', body);
                     body = JSON.parse(body);
                     console.log('DISPATCH: SETSTORE');
+                    if((page===0 && body.plots.length === 0) || body.is_last === true) {
+                        AppDispatcher.dispatch({
+                            event: 'SETSTORE',
+                            key: 'requestWasEmpty',
+                            value: true
+                        });
+                    } else {
+                        AppDispatcher.dispatch({
+                            event: 'SETSTORE',
+                            key: 'requestWasEmpty',
+                            value: false
+                        });
+                    }
                     AppDispatcher.dispatch({
                         event: 'EXTENDPLOTS',
                         plots: body.plots
