@@ -11,7 +11,8 @@ var _appStore = {
     page: 0,
     username: 'christopherp',
     rows: [[]],
-    plots: []
+    plots: [],
+    canRearrange: false
 }
 
 var AppStore = BaseStore.extend({
@@ -62,6 +63,14 @@ var actions = function(action) {
                 _appStore.rows[action.targetRowNumber].push({'plot_url': action.plot_url});
             }
         }
+
+        for(var i=0; i<_appStore.rows.length; i++) {
+            if(_appStore.rows[i].length > 1) {
+                _appStore.canRearrange = true;
+                break;
+            }
+        }
+
         console.warn('rows: ', _appStore.rows);
         AppStore.emitChange();
         break;
