@@ -36,7 +36,7 @@ var AppActions = {
 
     publishDashboard: function() {
         // Serialize dashboard as JSON
-        let plots = AppStore.getState().selectedPlots;
+        let plots = AppStore.getState().rows;
         let win = window.open('/view?plots='+encodeURIComponent(JSON.stringify(plots)), '_blank');
         win.focus();
     },
@@ -111,7 +111,7 @@ var AppActions = {
             console.warn(plots);
             AppDispatcher.dispatch({
                 event: 'SETSTORE',
-                key: 'selectedPlots',
+                key: 'rows',
                 value: plots
             });
         }
