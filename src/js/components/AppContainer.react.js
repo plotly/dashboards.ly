@@ -25,7 +25,7 @@ var ImagePanel = React.createClass({
 
     handleChange: function(event) {
         this.setState({selected: !this.state.selected});
-        AppActions.addOrRemovePlotUrl(this.props.plot_url);
+        AppActions.addPlotToDashboard(this.props.plot_url);
     },
 
     mouseOver: function() {
@@ -237,6 +237,39 @@ function panelCollect(connect, monitor) {
 
 var Row = DropTarget('IframePanel', panelTarget, panelCollect)(RowTarget);
 
+var CreateNewRowz = React.createClass({
+    propTypes: {
+        isOver: React.PropTypes.bool.isRequired,
+        canDrop: React.PropTypes.bool.isRequired
+    },
+    render: function(){
+        let style={
+            'backgroundColor': 'rgb(227, 236, 249)',
+            'width': '100%',
+            'height': '50px',
+            'border': 'thin dashed rgb(174, 163, 255)',
+            'textAlign': 'center',
+            'color': 'rgb(161, 176, 203)',
+            'fontSize': '14px',
+            'lineHeight': '50px',
+            'fontWeight': 200,
+            'marginLeft': '-1px',
+            'marginRight': '-1px'
+        };
+
+        if(this.props.isOver) {
+            style.border = 'thin solid rgba(174, 163, 255, 1)';
+        }
+        let content = 'drag plots here to create a new row'
+        return this.props.connectDropTarget(<div style={style} className="row">{content}</div>);
+    }
+});
+
+let createNewRowTarget = {};
+createNewRowTarget.drop = panelTarget.drop;
+createNewRowTarget.canDrop = panelTarget.canDrop;
+
+var CreateNewRow = DropTarget('IframePanel', createNewRowTarget, panelCollect)(CreateNewRowz);
 
 var Dashboard = React.createClass({
     propTypes: {
@@ -263,15 +296,25 @@ var Dashboard = React.createClass({
             }
 
             let footer = null;
-            if(ENV.mode === 'create') {
+            if(ENV.mode === 'create' && rows[0].length > 0) {
                 footer = (<div style={{textAlign: 'center', padding: '30px'}}>
                     <a id="generate" onClick={this.handleClick} className="button">publish dashboard</a>
                 </div>);
+            }
+            let addNewRowTarget = null;
+            if(ENV.mode === 'create') {
+                for(var i=0; i<rows.length; i++) {
+                    if(rows[i].length > 1) {
+                        addNewRowTarget = <CreateNewRow rowNumber={-1}></CreateNewRow>;
+                        break;
+                    }
+                }
             }
             return (
                 <div>
                     <div style={{boxShadow: '0 0 12px 1px rgba(87,87,87,0.2)', backgroundColor: 'f9f9f9'}} className="container">
                         {rowItems}
+                        {addNewRowTarget}
                     </div>
                     {footer}
             </div>);

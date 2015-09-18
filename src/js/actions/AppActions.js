@@ -26,6 +26,15 @@ var AppActions = {
         this.updateStore('page', currentPage+1);
     },
 
+    addPlotToDashboard: function(plot_url) {
+        let rowNumber = AppStore.getState().rows.length-1;
+        AppDispatcher.dispatch({
+            event: 'ADD_OR_REMOVE_PLOT_URL',
+            targetRowNumber: rowNumber,
+            plot_url: plot_url
+        });
+    },
+
     addOrRemovePlotUrl: function(plot_url) {
         AppDispatcher.dispatch({
             event: 'ADD_OR_REMOVE_PLOT_URL',

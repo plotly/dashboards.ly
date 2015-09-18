@@ -10,7 +10,7 @@ var _appStore = {
     requestIsPending: false,
     page: 0,
     username: 'christopherp',
-    rows: [],
+    rows: [[]],
     plots: []
 }
 
@@ -41,7 +41,7 @@ var actions = function(action) {
 
     case 'ADD_OR_REMOVE_PLOT_URL':
         var i, j;
-        var removed=false, dontremove=false;
+        var dontremove=false;
         for(i=0; i<_appStore.rows.length; i++) {
             for(j=0; j<_appStore.rows[i].length; j++){
                 if(_appStore.rows[i][j].plot_url === action.plot_url) {
@@ -51,11 +51,11 @@ var actions = function(action) {
                     }
                     console.warn('removing', i, j, action.plot_url);
                     _appStore.rows[i].splice(j, 1);
-                    removed=true;
                 }
             }
         }
-        if(!removed && !dontremove){
+        if(!dontremove){
+            console.warn('removing', i, j, action.plot_url);
             if(action.targetRowNumber===-1) {
                 _appStore.rows.push([{'plot_url': action.plot_url}])
             } else {
