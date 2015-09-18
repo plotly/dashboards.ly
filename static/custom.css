@@ -14,7 +14,7 @@ body {
 input[type=text] {
   height:17px;
   border: 0;
-  width: calc(100% - 2px);
+  width: calc(100% - 19px);
   margin-left:1px;
   -webkit-transition: box-shadow 0.3s;
   transition: box-shadow 0.3s;
@@ -26,6 +26,16 @@ input[type=text]:focus {
     -moz-box-shadow: 0px 1px 0px 0px rgba(174, 163, 255, 1);
     box-shadow: 0px 1px 0px 0px rgba(174, 163, 255, 1);
 
+}
+
+.grab {
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+}
+
+.grabbing {
+    cursor: -webkit-grabbing;
+    cursor: -moz-grabbing;
 }
 
 /* dashboards */

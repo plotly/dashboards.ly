@@ -7,10 +7,10 @@ import Collection from 'ampersand-collection';
 import AppActions from '../actions/AppActions';
 
 var _appStore = {
-    selectedPlots: [],
     requestIsPending: false,
     page: 0,
     username: 'PewResearch',
+    rows: [],
     plots: []
 }
 
@@ -40,26 +40,38 @@ var actions = function(action) {
         break;
 
     case 'ADD_OR_REMOVE_PLOT_URL':
-        var i;
-        var removed=false;
-        for(i=0; i<_appStore.selectedPlots.length; i++) {
-            if(_appStore.selectedPlots[i].plot_url === action.plot_url) {
-                console.warn('removing', i, action.plot_url);
-                _appStore.selectedPlots.splice(i, 1);
-                removed=true;
+        var i, j;
+        var removed=false, dontremove=false;
+        for(i=0; i<_appStore.rows.length; i++) {
+            for(j=0; j<_appStore.rows[i].length; j++){
+                if(_appStore.rows[i][j].plot_url === action.plot_url) {
+                    if(i === action.targetRowNumber) {
+                        dontremove=true;
+                        continue;
+                    }
+                    console.warn('removing', i, j, action.plot_url);
+                    _appStore.rows[i].splice(j, 1);
+                    removed=true;
+                }
             }
         }
-        if(!removed){
-            _appStore.selectedPlots.push({'plot_url': action.plot_url});
+        if(!removed && !dontremove){
+            if(action.targetRowNumber===-1) {
+                _appStore.rows.push([{'plot_url': action.plot_url}])
+            } else {
+                _appStore.rows[action.targetRowNumber].push({'plot_url': action.plot_url});
+            }
         }
-        console.warn('selectedPlots: ', _appStore.selectedPlots);
+        console.warn('rows: ', _appStore.rows);
         AppStore.emitChange();
         break;
 
     case 'ADD_KEY_TO_PLOT_OBJECT':
-        for(var i=0; i<_appStore.selectedPlots.length; i++) {
-            if(_appStore.selectedPlots[i].plot_url === action.plot_url) {
-                _appStore.selectedPlots[action.plot_url][action.key] = action.value;
+        for(i=0; i<_appStore.rows.length; i++) {
+            for(j=0; j<_appStore.rows[i].length; j++){
+                if(_appStore.rows[i][j].plot_url === action.plot_url) {
+                    _appStore.rows[i][j][action.key] = action.value;
+                }
             }
         }
         AppStore.emitChange();

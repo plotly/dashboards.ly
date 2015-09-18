@@ -5,6 +5,11 @@ import {AppStore} from '../stores/AppStore';
 import AppActions from '../actions/AppActions';
 import appStoreMixin from './AppStore.mixin.js';
 
+var DragDropContext = require('react-dnd').DragDropContext;
+var HTML5Backend = require('react-dnd/modules/backends/HTML5');
+var DragSource = require('react-dnd').DragSource;
+var DropTarget = require('react-dnd').DropTarget;
+
 var ImagePanel = React.createClass({
     propTypes: {
         plot_url: React.PropTypes.string.isRequired,
@@ -75,6 +80,20 @@ var ImagePanel = React.createClass({
     }
 });
 
+var IframeSettings = React.createClass({
+    render: function() {
+        return (<img
+            style={{
+                'float': 'right',
+                'height': '17px',
+                'display': 'inline-block',
+                'marginTop': '3px',
+                'marginBottom': 'auto'
+            }}
+            src="http://www.clker.com/cliparts/Z/q/J/9/Q/w/grey-gear-md.png"/>);
+    }
+});
+
 var InputTitle = React.createClass({
     propTypes: {
         placeholder: React.PropTypes.string,
@@ -92,35 +111,41 @@ var InputTitle = React.createClass({
         this.setState({value: event.target.value});
     },
     render: function() {
-        return (<input
+        return (<span>
+            <input
             className="chart-title"
             placeholder={this.props.placeholder}
             type="text" value={this.state.value}
-            onChange={this.handleChange}/>)
+            onChange={this.handleChange}/>
+        </span>)
     }
 });
 
-
-
-var IframePanel = React.createClass({
+var IframePanelz = React.createClass({
     propTypes: {
-        plot_url: React.PropTypes.string
+        plot_url: React.PropTypes.string.isRequired,
+        connectDragSource: React.PropTypes.func.isRequired,
+        isDragging: React.PropTypes.bool.isRequired
     },
 
     render: function() {
-        let iframeUrl = this.props.plot_url + '.embed?autosize=true&link=false&source=false';
-        let chartStyle = {'height': '450px'};
-        let titleBlock;
+        let connectDragSource = this.props.connectDragSource;
+        let isDragging = this.props.isDragging;
+
+        // let iframeUrl = this.props.plot_url + '.embed?autosize=true&link=false&source=false';
+        let imageUrl = this.props.plot_url + '.png';
+        let chartStyle = {}; // {'height': '450px'};
+        let chartClasses = 'chart-wrapper grab';
+        let titleBlock = null;
         if(ENV.mode==='create') {
             titleBlock = <InputTitle plot_url={this.props.plot_url} placeholder="plot title (optional)"/>
-        } else {
-
         }
+
         if(this.props.plot_url) {
-            return(
-                <div style={chartStyle} className="chart-wrapper">
+            return connectDragSource(
+                <div style={chartStyle} className={chartClasses}>
                     {titleBlock}
-                    <iframe src={iframeUrl}></iframe>
+                    <img style={{width: '100%'}} src={imageUrl}/>
                 </div>
             )
         } else {
@@ -129,9 +154,87 @@ var IframePanel = React.createClass({
     }
 });
 
+var DraggablePlotSource = {
+    beginDrag: function(props, monitor, component) {
+        return {id: props.plot_url};
+    }
+};
+
+function collect(connect, monitor) {
+    return {
+        connectDragSource: connect.dragSource(),
+        isDragging: monitor.isDragging()
+    }
+};
+
+var IframePanel = DragSource('IframePanel', DraggablePlotSource, collect)(IframePanelz);
+
+
+var RowTarget = React.createClass({
+    propTypes: {
+        isOver: React.PropTypes.bool.isRequired,
+        canDrop: React.PropTypes.bool.isRequired,
+        plots: React.PropTypes.array.isRequired,
+        rowNumber: React.PropTypes.number.isRequired
+    },
+
+    gridColumnWidth: function (n) {
+        let padding=2.
+        return (100-padding*(n-1))/n + '%';
+    },
+
+    render: function () {
+        let connectDropTarget = this.props.connectDropTarget;
+        let isOver = this.props.isOver;
+        let canDrop = this.props.canDrop;
+        let style={'backgroundColor': 'lightblue', 'width': '300px', 'height': '300px'};
+        if(isOver){
+            style.backgroundColor = 'darkblue';
+        }
+        let columns = [];
+        for(var i=0; i<this.props.plots.length; i++) {
+            columns.push(
+                <div style={{width: this.gridColumnWidth(this.props.plots.length)}} className="columns">
+                    <IframePanel plot_url={this.props.plots[i].plot_url}/>
+                </div>)
+        }
+        return connectDropTarget(<div className="row">{columns}</div>);
+    }
+});
+
+var panelTarget = {
+    hover: function(props, monitor) {
+        let targetRowNumber = props.rowNumber
+        let plot_url = monitor.getItem().id;
+        console.warn('HOVER: Plot '+plot_url+' -> '+targetRowNumber);
+        AppActions.movePlotToRow(plot_url, targetRowNumber);
+    },
+
+    drop: function(props, monitor) {
+        let targetRowNumber = props.rowNumber
+        let plot_url = monitor.getItem().id;
+        AppActions.movePlotToRow(plot_url, targetRowNumber);
+    },
+
+    canDrop: function(props) {
+        return true;
+    }
+}
+
+function panelCollect(connect, monitor) {
+    return {
+        connectDropTarget: connect.dropTarget(),
+        isOver: monitor.isOver(),
+        canDrop: monitor.canDrop()
+    };
+}
+
+var Row = DropTarget('IframePanel', panelTarget, panelCollect)(RowTarget);
+
+
 var Dashboard = React.createClass({
     propTypes: {
-        urls: React.PropTypes.array.isRequired
+        rows: React.PropTypes.array.isRequired
     },
 
     handleClick: function (event) {
@@ -139,8 +242,8 @@ var Dashboard = React.createClass({
     },
 
     render: function() {
-        let urls = this.props.urls;
-        if(urls.length===0) {
+        let rows = this.props.rows;
+        if(rows.length===0) {
             let divStyle = {
                 'text-align': 'center'
             };
@@ -148,19 +251,12 @@ var Dashboard = React.createClass({
                 <div style={divStyle}></div>
             </div>)
         } else {
-            let rows = [];
-            for(var i=0; i<urls.length; i+=2) {
-                rows.push(
-                    <div className="row">
-                        <div className="six columns">
-                            <IframePanel plot_url={urls[i].plot_url}/>
-                        </div>
-                        <div className="six columns">
-                            <IframePanel plot_url={i+1 >= urls.length ? '' : urls[i+1].plot_url}/>
-                        </div>
-                    </div>)
+            let rowItems = [];
+            for(var i=0; i<rows.length; i++) {
+                rowItems.push(<Row plots={this.props.rows[i]} rowNumber={i}/>);
             }
-            let footer;
+
+            let footer = null;
             if(ENV.mode === 'create') {
                 footer = (<div style={{textAlign: 'center', padding: '30px'}}>
                     <a id="generate" onClick={this.handleClick} className="button">publish dashboard</a>
@@ -169,7 +265,7 @@ var Dashboard = React.createClass({
             return (
                 <div>
                     <div style={{boxShadow: '0 0 12px 1px rgba(87,87,87,0.2)', backgroundColor: 'f9f9f9'}} className="container">
-                        {rows}
+                        {rowItems}
                     </div>
                     {footer}
             </div>);
@@ -292,12 +388,9 @@ var AppContainer = React.createClass({
     },
 
     render: function () {
-        console.log('render: AppContainer');
         let state = this.getState();
-        console.warn(state);
-        if(true) {
-        }
-        if(!('plots' in state) && state.selectedPlots.length === 0) {
+
+        if(!('plots' in state) && state.rows.length === 0) {
             return (<img
                 style={{
                     marginLeft: 'auto',
@@ -307,22 +400,22 @@ var AppContainer = React.createClass({
                 }}
                 src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-large.gif"/>)
         }
+
         if(ENV.mode === 'create') {
 
             return (
                 <div>
-                    <Dashboard urls={state.selectedPlots}/>
+                    <Dashboard rows={state.rows}/>
                     <PlotPicker {...this.state}/>
                 </div>
             );
 
         } else {
-            console.warn('rendering dashboard', state.selectedPlots);
             return (<div>
-                <Dashboard urls={state.selectedPlots}/>
+                <Dashboard rows={state.rows}/>
             </div>)
         }
     }
 });
 
-module.exports = AppContainer;
+module.exports = DragDropContext(HTML5Backend)(AppContainer);

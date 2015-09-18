@@ -29,6 +29,7 @@ var AppActions = {
     addOrRemovePlotUrl: function(plot_url) {
         AppDispatcher.dispatch({
             event: 'ADD_OR_REMOVE_PLOT_URL',
+            targetRowNumber: -1,
             plot_url: plot_url
         });
     },
@@ -40,7 +41,13 @@ var AppActions = {
         win.focus();
     },
 
-
+    movePlotToRow: function(plot_url, rowNumber) {
+        AppDispatcher.dispatch({
+            event: 'ADD_OR_REMOVE_PLOT_URL',
+            plot_url: plot_url,
+            targetRowNumber: rowNumber
+        });
+    },
 
     initialize: function() {
         console.warn('initialize');
