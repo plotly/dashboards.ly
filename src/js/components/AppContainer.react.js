@@ -145,7 +145,13 @@ var IframePanelz = React.createClass({
             return connectDragSource(
                 <div style={chartStyle} className={chartClasses}>
                     {titleBlock}
-                    <img style={{width: '100%'}} src={imageUrl}/>
+                    <img style={{
+                        maxWidth: '100%',
+                        maxHeight: '50vh',
+                        objectFit: 'contain',
+                        margin: '0 auto',
+                        display: 'block'
+                    }} src={imageUrl}/>
                 </div>
             )
         } else {
