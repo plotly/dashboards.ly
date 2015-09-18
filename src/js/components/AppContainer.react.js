@@ -283,11 +283,7 @@ var UsernameInput = React.createClass({
     propTypes: {
         username: React.PropTypes.string
     },
-    getInitialState: function() {
-        return {value: 'PewResearch'};
-    },
     handleChange: function(event) {
-        this.setState({value: event.target.value});
         AppActions.updateUsername(event.target.value);
         AppActions.initialize();
     },
@@ -305,7 +301,7 @@ var UsernameInput = React.createClass({
             }}
             className="chart-title"
             placeholder={this.props.placeholder}
-            type="text" value={this.state.value}
+            type="text" value={this.props.username}
             onChange={this.handleChange}/>)
     }
 });
@@ -365,7 +361,7 @@ var PlotPicker = React.createClass({
                         marginBottom: '0px',
                         marginRight: '10px'
                     }}>plotly username</label>
-                    <UsernameInput/> {loadingSpinner}
+                    <UsernameInput username={this.props.username}/> {loadingSpinner}
                 </div>
                 {rows}
                 {loadMoreButton}
