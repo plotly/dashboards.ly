@@ -193,9 +193,12 @@ var RowTarget = React.createClass({
         let connectDropTarget = this.props.connectDropTarget;
         let isOver = this.props.isOver;
         let canDrop = this.props.canDrop;
-        let style={'backgroundColor': 'lightblue', 'width': '300px', 'height': '300px'};
-        if(isOver){
-            style.backgroundColor = 'darkblue';
+        let rowStyle={};
+        console.warn('row:', this.props.rowNumber, 'canDrop:', canDrop, 'isOver:', isOver);
+        if(!isOver && canDrop){
+            rowStyle.border = 'dashed rgb(174, 163, 255)';
+        } else if(isOver && canDrop){
+            rowStyle.border = 'thin solid rgb(174, 163, 255)';
         }
         let columns = [];
         for(var i=0; i<this.props.plots.length; i++) {
@@ -204,7 +207,7 @@ var RowTarget = React.createClass({
                     <IframePanel plot_url={this.props.plots[i].plot_url}/>
                 </div>)
         }
-        return connectDropTarget(<div className="row">{columns}</div>);
+        return connectDropTarget(<div style={rowStyle} className="row">{columns}</div>);
     }
 });
 
@@ -222,7 +225,17 @@ var panelTarget = {
         AppActions.movePlotToRow(plot_url, targetRowNumber);
     },
 
-    canDrop: function(props) {
+    canDrop: function(props, monitor) {
+        // Can't drop on our own row
+        let rows = AppStore.getState().rows;
+        let plot_url = monitor.getItem().id;
+        for(let i=0; i<rows.length; i++) {
+            for(let j=0; j<rows[i].length; j++){
+                if(rows[i][j].plot_url === plot_url && i === props.rowNumber) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 }
@@ -256,11 +269,15 @@ var CreateNewRowz = React.createClass({
             'marginLeft': '-1px',
             'marginRight': '-1px'
         };
-
-        if(this.props.isOver) {
-            style.border = 'thin solid rgba(174, 163, 255, 1)';
-        }
         let content = 'drag plots here to create a new row'
+        if(this.props.canDrop) {
+            style.border = 'dashed rgba(174, 163, 255, 1)';
+        }
+        if(this.props.canDrop && this.props.isOver) {
+            style.border = 'solid rgba(174, 163, 255, 1)';
+            content = 'drop';
+        }
+
         return this.props.connectDropTarget(<div style={style} className="row">{content}</div>);
     }
 });
