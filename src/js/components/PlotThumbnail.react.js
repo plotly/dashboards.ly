@@ -17,7 +17,6 @@ var PlotThumbnail = React.createClass({
     },
 
     handleChange: function(event) {
-        this.setState({selected: !this.state.selected});
         AppActions.addPlotToDashboard(this.props.plot_url);
     },
 
@@ -58,9 +57,7 @@ var PlotThumbnail = React.createClass({
             <div onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} className="chart-stage">
                 <div style={imageStyle} onClick={this.handleChange}>
                     <div style={overlayStyle}>
-                        <span style={hoverTextStyle}>
-                            {this.state.selected ? 'remove' : 'add to dashboard'}
-                        </span>
+                        <span style={hoverTextStyle}>add to dashboard</span>
                     </div>
                 </div>
             </div>

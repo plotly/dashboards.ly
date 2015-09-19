@@ -23,6 +23,15 @@ var AppStore = BaseStore.extend({
 
 });
 
+function setDashboardRearrangability() {
+    for(var i=0; i<_appStore.rows.length; i++) {
+        if(_appStore.rows[i].length > 1) {
+            _appStore.canRearrange = true;
+            break;
+        }
+    }
+}
+
 var actions = function(action) {
     switch(action.event) {
 
@@ -40,38 +49,46 @@ var actions = function(action) {
         AppStore.emitChange();
         break;
 
-    case 'ADD_OR_REMOVE_PLOT_URL':
-        var i, j;
-        var dontremove=false;
-        for(i=0; i<_appStore.rows.length; i++) {
-            for(j=0; j<_appStore.rows[i].length; j++){
+    case 'REMOVE_PLOT':
+        for(var i=0; i<_appStore.rows.length; i++) {
+            for(var j=0; j<_appStore.rows[i].length; j++){
                 if(_appStore.rows[i][j].plot_url === action.plot_url) {
-                    if(i === action.targetRowNumber) {
-                        dontremove=true;
-                        continue;
-                    }
-                    console.warn('removing', i, j, action.plot_url);
                     _appStore.rows[i].splice(j, 1);
                 }
             }
         }
+        setDashboardRearrangability();
+        AppStore.emitChange();
+        break;
+
+    case 'APPEND_PLOT_TO_DASHBOARD':
+        _appStore.rows.push([{'plot_url': action.plot_url}])
+        setDashboardRearrangability();
+        AppStore.emitChange();
+        break;
+
+
+    case 'MOVE_PLOT_TO_NEW_ROW':
+        var i, j;
+        var dontremove=false;
+        if(!action.allow_duplicates) {
+            for(i=0; i<_appStore.rows.length; i++) {
+                for(j=0; j<_appStore.rows[i].length; j++){
+                    if(_appStore.rows[i][j].plot_url === action.plot_url) {
+                        if(i === action.targetRowNumber) {
+                            dontremove=true;
+                            break;
+                        }
+                        console.warn('removing', i, j, action.plot_url);
+                        _appStore.rows[i].splice(j, 1);
+                    }
+                }
+            }
+        }
         if(!dontremove){
-            console.warn('removing', i, j, action.plot_url);
-            if(action.targetRowNumber===-1) {
-                _appStore.rows.push([{'plot_url': action.plot_url}])
-            } else {
-                _appStore.rows[action.targetRowNumber].push({'plot_url': action.plot_url});
-            }
+            _appStore.rows[action.targetRowNumber].push({'plot_url': action.plot_url});
         }
-
-        for(var i=0; i<_appStore.rows.length; i++) {
-            if(_appStore.rows[i].length > 1) {
-                _appStore.canRearrange = true;
-                break;
-            }
-        }
-
-        console.warn('rows: ', _appStore.rows);
+        setDashboardRearrangability();
         AppStore.emitChange();
         break;
 

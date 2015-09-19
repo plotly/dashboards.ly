@@ -75,19 +75,27 @@ var NewRowTarget = React.createClass({
     }
 });
 
+var newRowTargetSpec = {
+    hover: function(props, monitor) {
+        AppActions.appendPlotToDashboard(monitor.getItem().id);
+    },
+    drop: function(props, monitor) {
+        AppActions.appendPlotToDashboard(monitor.getItem().id);
+    }
+};
 
 var panelTargetSpec = {
     hover: function(props, monitor) {
         let targetRowNumber = props.rowNumber
         let plot_url = monitor.getItem().id;
         console.warn('HOVER: Plot '+plot_url+' -> '+targetRowNumber);
-        AppActions.movePlotToRow(plot_url, targetRowNumber);
+        AppActions.movePlotToNewRow(plot_url, targetRowNumber);
     },
 
     drop: function(props, monitor) {
         let targetRowNumber = props.rowNumber
         let plot_url = monitor.getItem().id;
-        AppActions.movePlotToRow(plot_url, targetRowNumber);
+        AppActions.movePlotToNewRow(plot_url, targetRowNumber);
     },
 
     canDrop: function(props, monitor) {
@@ -112,10 +120,6 @@ function panelCollect(connect, monitor) {
         canDrop: monitor.canDrop()
     };
 }
-let createNewRowTargetSpec = {};
-createNewRowTargetSpec.drop = panelTargetSpec.drop;
-createNewRowTargetSpec.canDrop = panelTargetSpec.canDrop;
 
-
-exports.NewRowTarget = DropTarget(ComponentTypes.DRAGGABLE_PLOT_BLOCK, createNewRowTargetSpec, panelCollect)(NewRowTarget);
+exports.NewRowTarget = DropTarget(ComponentTypes.DRAGGABLE_PLOT_BLOCK, newRowTargetSpec, panelCollect)(NewRowTarget);
 exports.Row = DropTarget(ComponentTypes.DRAGGABLE_PLOT_BLOCK, panelTargetSpec, panelCollect)(Row);

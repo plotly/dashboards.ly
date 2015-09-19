@@ -41,6 +41,10 @@ var DashboardPlotBlock = React.createClass({
         canRearrange: React.PropTypes.bool.isRequired
     },
 
+    handleRemovePlot: function(e) {
+        AppActions.removePlotFromDashboard(this.props.plot_url);
+    },
+
     render: function() {
         let connectDragSource = this.props.connectDragSource;
         let isDragging = this.props.isDragging;
@@ -67,7 +71,8 @@ var DashboardPlotBlock = React.createClass({
             let dragBar = null;
             if(this.props.canRearrange) {
                 dragBar = (<div style={{height: '18px'}}>
-                    <img style={{'float': 'right', 'height': '100%'}} src="http://i.imgur.com/F5biwyG.png"/>
+                    <a onClick={this.handleRemovePlot} dataTip="remove plot" style={{'cursor': 'pointer', 'float': 'left', 'fontSize': '18px', 'lineHeight': '18px', 'paddingLeft': '4px', 'color': 'rgb(80, 107, 123)'}}>&times;</a>
+                    <a className="grab" dataTip="move plot to a new row"><img style={{'float': 'right', 'height': '100%'}} src="http://i.imgur.com/F5biwyG.png"/></a>
                 </div>)
             }
             return connectDragSource(

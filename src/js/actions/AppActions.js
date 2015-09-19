@@ -16,6 +16,38 @@ var AppActions = {
         });
     },
 
+    addPlotToDashboard: function(plot_url) {
+        AppDispatcher.dispatch({
+            event: 'MOVE_PLOT_TO_NEW_ROW',
+            plot_url: plot_url,
+            targetRowNumber: AppStore.getState().rows.length-1,
+            allow_duplicates: true
+        });
+    },
+
+    appendPlotToDashboard: function(plot_url) {
+        AppDispatcher.dispatch({
+            event: 'APPEND_PLOT_TO_DASHBOARD',
+            plot_url: plot_url
+        });
+    },
+
+    removePlotFromDashboard: function(plot_url) {
+        AppDispatcher.dispatch({
+            event: 'REMOVE_PLOT',
+            plot_url: plot_url
+        });
+    },
+
+    movePlotToNewRow: function(plot_url, rowNumber) {
+        AppDispatcher.dispatch({
+            event: 'MOVE_PLOT_TO_NEW_ROW',
+            plot_url: plot_url,
+            targetRowNumber: rowNumber,
+            allow_duplicates: false
+        });
+    },
+
     updateUsername: function(username) {
         this.updateStore('username', username);
         this.updateStore('page', 0);
@@ -26,36 +58,11 @@ var AppActions = {
         this.updateStore('page', currentPage+1);
     },
 
-    addPlotToDashboard: function(plot_url) {
-        let rowNumber = AppStore.getState().rows.length-1;
-        AppDispatcher.dispatch({
-            event: 'ADD_OR_REMOVE_PLOT_URL',
-            targetRowNumber: rowNumber,
-            plot_url: plot_url
-        });
-    },
-
-    addOrRemovePlotUrl: function(plot_url) {
-        AppDispatcher.dispatch({
-            event: 'ADD_OR_REMOVE_PLOT_URL',
-            targetRowNumber: -1,
-            plot_url: plot_url
-        });
-    },
-
     publishDashboard: function() {
         // Serialize dashboard as JSON
         let plots = AppStore.getState().rows;
         let win = window.open('/view?plots='+encodeURIComponent(JSON.stringify(plots)), '_blank');
         win.focus();
-    },
-
-    movePlotToRow: function(plot_url, rowNumber) {
-        AppDispatcher.dispatch({
-            event: 'ADD_OR_REMOVE_PLOT_URL',
-            plot_url: plot_url,
-            targetRowNumber: rowNumber
-        });
     },
 
     initialize: function() {

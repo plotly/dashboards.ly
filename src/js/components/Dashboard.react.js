@@ -36,7 +36,7 @@ var Dashboard = React.createClass({
 
             let addNewRowTarget = null;
             if(ENV.mode === 'create' && this.props.canRearrange) {
-                addNewRowTarget = <NewRowTarget rowNumber={-1}></NewRowTarget>;
+                addNewRowTarget = <NewRowTarget></NewRowTarget>;
             }
 
             return (
