@@ -51,22 +51,26 @@ var DashboardPlotBlock = React.createClass({
 
         let iframeUrl = this.props.plot_url + '.embed?autosize=true&link=false&source=false';
         let imageUrl = this.props.plot_url + '.png';
-        let chartStyle = {}; // {'height': '450px'};
-        let chartClasses = 'chart-wrapper grab';
+        let chartStyle = {
+            'border': '1px solid #e2e2e2',
+            'borderRadius': '3px'
+        };
+        let chartClasses = 'chart-wrapper';
         let titleBlock = null;
         if(ENV.mode==='create') {
             titleBlock = <InputTitle plot_url={this.props.plot_url} placeholder="plot title (optional)"/>
         }
 
         if(this.props.plot_url) {
-            let style = {
+            let iframeStyle = {
                 maxWidth: '100%',
                 minHeight: '50vh',
                 maxHeight: '80vh',
                 objectFit: 'contain',
                 margin: '0 auto',
                 display: 'block',
-                border: 'none'
+                border: 'none',
+                borderRadius: '3px'
             };
             let dragBar = null;
             if(this.props.canRearrange) {
@@ -78,7 +82,7 @@ var DashboardPlotBlock = React.createClass({
             return connectDragSource(
                 <div style={chartStyle} className={chartClasses}>
                     {dragBar}
-                    <iframe src={iframeUrl} style={style}></iframe>
+                    <iframe src={iframeUrl} style={iframeStyle}></iframe>
                 </div>
             );
             /*
