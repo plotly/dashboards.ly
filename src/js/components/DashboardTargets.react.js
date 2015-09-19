@@ -17,7 +17,7 @@ var Row = React.createClass({
     },
 
     gridColumnWidth: function (n) {
-        let padding=2.
+        let padding=0.5;
         return (100-padding*(n-1))/n + '%';
     },
 
