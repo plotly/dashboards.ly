@@ -41,7 +41,7 @@ var Dashboard = React.createClass({
 
             return (
                 <div>
-                    <div style={{boxShadow: '0 0 12px 1px rgba(87,87,87,0.2)', backgroundColor: 'f9f9f9'}} className="container">
+                    <div>
                         {rowItems}
                         {addNewRowTarget}
                     </div>
