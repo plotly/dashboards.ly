@@ -71,8 +71,6 @@ var DashboardHeaderEditor = React.createClass({
         <div style={{backgroundColor: "white", width: "450px", border: "thin lightgrey solid",
                      padding: "5px", marginRight: "5px", position: "relative", zIndex: 5,
                      float: 'right'}}>
-            banner settings
-            <hr/>
             <TextInput inputId="dashboardTitle" index={0} inputKey="text" label="brand or dashboard title" value={title}/>
             <hr/>
             {linkOptions}
