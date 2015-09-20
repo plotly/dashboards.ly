@@ -12,7 +12,23 @@ var _appStore = {
     username: 'christopherp',
     rows: [[]],
     plots: [],
-    canRearrange: false
+    canRearrange: false,
+
+    // Weird datastructure to abstract out updating text inputs with a
+    // key, index, key lookup
+    textInputs: {
+        dashboardHeaderLinks: [
+            {link: 'https://google.com', text: 'Financials'},
+            {link: 'https://google.com', text: 'Growth'},
+            {link: 'https://google.com', text: 'Performance'}
+        ],
+        dashboardTitle: [{text: 'Quarterly Outlook'}]
+    },
+
+    colors: {
+        banner: AppConstants.DEFAULT_BANNER_COLOR,
+        bannertext: AppConstants.DEFAULT_BANNERTEXT_COLOR
+    }
 }
 
 var AppStore = BaseStore.extend({
@@ -37,6 +53,29 @@ var actions = function(action) {
 
     case 'SETSTORE':
         _appStore[action.key] = action.value
+        AppStore.emitChange();
+        break;
+
+    case 'SETINPUT':
+        _appStore.textInputs[action.inputId][action.index][action.inputKey] = action.value;
+        AppStore.emitChange();
+        break;
+
+    case 'UPDATECOLOR':
+        console.warn('UPDATECOLOR', action.colorId, action.color);
+        _appStore.colors[action.colorId] = action.color;
+        AppStore.emitChange();
+        break;
+
+    case 'ADDNEWLINK':
+        console.log('ADDNEWLINK');
+        _appStore.textInputs.dashboardHeaderLinks.push({link: '', text: ''});
+        AppStore.emitChange();
+        break;
+
+    case 'REMOVELINK':
+        console.log('REMOVELINK', action.index);
+        _appStore.textInputs.dashboardHeaderLinks.splice(action.index, 1);
         AppStore.emitChange();
         break;
 
@@ -79,7 +118,6 @@ var actions = function(action) {
                             dontremove=true;
                             break;
                         }
-                        console.warn('removing', i, j, action.plot_url);
                         _appStore.rows[i].splice(j, 1);
                     }
                 }

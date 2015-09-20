@@ -44,20 +44,18 @@ var AppContainer = React.createClass({
                 src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-large.gif"/>)
         }
 
+        let plotPicker = null;
         if(ENV.mode === 'create') {
-
-            return (
-                <div>
-                    <Dashboard rows={state.rows} canRearrange={state.canRearrange}/>
-                    <PlotPicker {...this.state}/>
-                </div>
-            );
-
-        } else {
-            return (<div>
-                <Dashboard rows={state.rows}/>
-            </div>)
+            plotPicker = <PlotPicker {...this.state}/>
         }
+
+        return (
+            <div>
+                <Dashboard {...this.state}/>
+                <div style={{paddingTop: '40px'}}></div>
+                {plotPicker}
+            </div>
+        );
     }
 });
 

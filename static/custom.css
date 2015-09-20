@@ -1,6 +1,9 @@
 body {
     font-family: "Open Sans";
     background: #f2f2f2;
+    margin-top: -25px;
+    margin-right: 0px;
+    margin-left: 0px;
 }
 
 .thumbnail {
@@ -11,23 +14,6 @@ body {
     border: thin lightgrey solid;
 }
 
-input[type=text] {
-  height:17px;
-  border: 0;
-  width: calc(100% - 19px);
-  margin-left:1px;
-  -webkit-transition: box-shadow 0.3s;
-  transition: box-shadow 0.3s;
-}
-
-input[type=text]:focus {
-    outline: none;
-    -webkit-box-shadow: 0px 1px 0px 0px rgba(174, 163, 255, 1);
-    -moz-box-shadow: 0px 1px 0px 0px rgba(174, 163, 255, 1);
-    box-shadow: 0px 1px 0px 0px rgba(174, 163, 255, 1);
-
-}
-
 .grab {
     cursor: -webkit-grab;
     cursor: -moz-grab;
@@ -36,6 +22,37 @@ input[type=text]:focus {
 .grabbing {
     cursor: -webkit-grabbing;
     cursor: -moz-grabbing;
+}
+
+.navbar {
+    min-height: 50px;
+    line-height: 20px;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar .navbar-brand {
+    float: left;
+    font-size: 20px;
+    padding-left: 2.5%; /* matches half of container padding */
+    padding-right: 15px;
+    height: 50px;
+    line-height: 50px;
+}
+
+.navbar li {
+    list-style: none;
+    display: block;
+    position: relative;
+    float: left;
+}
+
+.navbar li a{
+    padding: 15px;
+    line-height: 50px;
+    font-size: 14px;
+    text-decoration: none;
+    font-weight: 200;
 }
 
 /* dashboards */
@@ -81,15 +98,40 @@ label {
     padding-left: 15px;
     text-indent: -15px;
     font-weight: 200;
+    display: inline-block;
+    height: 30px;
+    margin-bottom: 0px;
+    margin-right: 10px;
 }
-input {
-    width: 13px;
-    height: 13px;
+
+input[type=text] {
+    /*width: 13px;*/
+    /*height: 13px;*/
     padding: 0;
     margin:0;
     vertical-align: bottom;
     position: relative;
     top: -1px;
     *overflow: hidden;
+
+    display: inline-block;
+    width: 120px;
+    height: 30px;
+    background-color: inherit;
+    border: 0;
+    border-bottom: thin darkgrey solid;
+    line-height: 30px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+
+  margin-left:1px;
+  -webkit-transition: box-shadow 0.3s;
+  transition: box-shadow 0.3s;
 }
 
+input[type=text]:focus {
+    outline: none;
+    -webkit-box-shadow: 0px 1px 0px 0px rgba(174, 163, 255, 1);
+    -moz-box-shadow: 0px 1px 0px 0px rgba(174, 163, 255, 1);
+    box-shadow: 0px 1px 0px 0px rgba(174, 163, 255, 1);
+}

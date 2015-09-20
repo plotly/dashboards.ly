@@ -45,6 +45,20 @@ var DashboardPlotBlock = React.createClass({
         AppActions.removePlotFromDashboard(this.props.plot_url);
     },
 
+    getInitialState: function(){
+        return {'cursor': '-webkit-grab'};
+    },
+
+    handleDraggingMouseDown: function(e) {
+        console.log('mouse down!');
+        this.setState({'cursor': '-webkit-grabbing'});
+    },
+
+    handleDraggingMouseUp: function(e) {
+        console.log('mouse up!');
+        this.setState({'cursor': '-webkit-grab'});
+    },
+
     render: function() {
         let connectDragSource = this.props.connectDragSource;
         let isDragging = this.props.isDragging;
@@ -72,11 +86,17 @@ var DashboardPlotBlock = React.createClass({
                 border: 'none',
                 borderRadius: '3px'
             };
+
             let dragBar = null;
             if(this.props.canRearrange) {
                 dragBar = (<div style={{height: '18px'}}>
-                    <a onClick={this.handleRemovePlot} dataTip="remove plot" style={{'cursor': 'pointer', 'float': 'left', 'fontSize': '18px', 'lineHeight': '18px', 'paddingLeft': '4px', 'color': 'rgb(80, 107, 123)'}}>&times;</a>
-                    <a className="grab" dataTip="move plot to a new row"><img style={{'float': 'right', 'height': '100%'}} src="http://i.imgur.com/F5biwyG.png"/></a>
+                    <a onClick={this.handleRemovePlot} style={{'cursor': 'pointer', 'float': 'left', 'fontSize': '18px', 'lineHeight': '18px', 'paddingLeft': '4px', 'color': 'rgb(80, 107, 123)'}}>&times;</a>
+                    <a className="grab"
+                        style={{cursor: this.state.cursor}}
+                        onMouseDown={this.handleDraggingMouseDown}
+                        onMouseUp={this.handleDraggingMouseUp}>
+                        <img style={{'float': 'right', 'height': '100%'}} src="http://i.imgur.com/F5biwyG.png"/>
+                    </a>
                 </div>)
             }
             return connectDragSource(
@@ -85,14 +105,7 @@ var DashboardPlotBlock = React.createClass({
                     <iframe src={iframeUrl} style={iframeStyle}></iframe>
                 </div>
             );
-            /*
-            return connectDragSource(
-                <div style={chartStyle} className={chartClasses}>
-                    {titleBlock}
-                    <img style={style} src={imageUrl}/>
-                </div>
-            )
-            */
+
         } else {
             return(<div style={chartStyle} className="chart-wrapper"></div>)
         }
@@ -102,6 +115,12 @@ var DashboardPlotBlock = React.createClass({
 var DraggableBlockSpec = {
     beginDrag: function(props, monitor, component) {
         return {id: props.plot_url};
+    },
+    endDrag: function(props, monitor, component) {
+        console.log('endDrag');
+        if(component) {
+            component.handleDraggingMouseUp();
+        }
     }
 };
 

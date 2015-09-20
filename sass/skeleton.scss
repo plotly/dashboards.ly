@@ -362,7 +362,7 @@ input {
   &[type="password"] {
     height: 38px;
     padding: 6px 10px; // The 6px vertically centers text on FF, ignored by Webkit
-    background-color: #fff;
+    /* background-color: #fff;*/
     /* border: 1px solid lighten($border-color, 8.8%); */
     border-radius: $global-radius;
     box-shadow: none;
@@ -576,8 +576,8 @@ form {
 //––––––––––––––––––––––––––––––––––––––––––––––––––
 
 hr {
-  margin-top: 3rem;
-  margin-bottom: 3.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   border-width: 0;
   border-top: 1px solid $light-grey;
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import AppActions from '../actions/AppActions';
 import {Row, NewRowTarget} from './DashboardTargets.react';
+import DashboardHeader from './DashboardHeader.react';
 
 var Dashboard = React.createClass({
     propTypes: {
@@ -27,11 +28,17 @@ var Dashboard = React.createClass({
                 rowItems.push(<Row plots={this.props.rows[i]} rowNumber={i} canRearrange={this.props.canRearrange}/>);
             }
 
+            let header = null;
             let footer = null;
             if(ENV.mode === 'create' && rows[0].length > 0) {
-                footer = (<div style={{textAlign: 'center', padding: '30px'}}>
-                    <a id="generate" onClick={this.handleClick} className="button">publish dashboard</a>
+                footer = (
+                <div>
+                    <hr/>
+                    <div style={{textAlign: 'center', padding: '30px'}}>
+                        <a id="generate" onClick={this.handleClick} className="button">publish dashboard</a>
+                    </div>
                 </div>);
+                header = <DashboardHeader {...this.props}/>
             }
 
             let addNewRowTarget = null;
@@ -40,13 +47,17 @@ var Dashboard = React.createClass({
             }
 
             return (
-                <div>
-                    <div>
-                        {rowItems}
-                        {addNewRowTarget}
-                    </div>
-                    {footer}
+            <div>
+                {header}
+                <div style={{clear: 'both'}}></div>
+                <div className="container">
+                    {rowItems}
+                    {addNewRowTarget}
+                </div>
+                <div style={{clear: 'both'}}></div>
+                {footer}
             </div>);
+
         }
     }
 });

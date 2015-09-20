@@ -16,6 +16,30 @@ var AppActions = {
         });
     },
 
+    updateInput: function(inputId, index, inputKey, value) {
+        AppDispatcher.dispatch({
+            event: 'SETINPUT',
+            inputId: inputId,
+            index: index,
+            inputKey: inputKey,
+            value: value
+        });
+    },
+
+    updateColor: function(colorId, color) {
+        console.warn('AppACtions updateColor', colorId, color);
+        AppDispatcher.dispatch({event: 'UPDATECOLOR', colorId: colorId, color: color});
+    },
+
+    addNewLink: function(){
+        AppDispatcher.dispatch({event: 'ADDNEWLINK'});
+    },
+
+    removeLink: function(i){
+        console.log('removeLink');
+        AppDispatcher.dispatch({event: 'REMOVELINK', index: i});
+    },
+
     addPlotToDashboard: function(plot_url) {
         AppDispatcher.dispatch({
             event: 'MOVE_PLOT_TO_NEW_ROW',
@@ -87,7 +111,6 @@ var AppActions = {
                 url: url
             }, function(err, res, body) {
                 if(!err && res.statusCode == 200) {
-                    console.log('initialize: ', body);
                     body = JSON.parse(body);
                     console.log('DISPATCH: SETSTORE');
                     if((page===0 && body.plots.length === 0) || body.is_last === true) {

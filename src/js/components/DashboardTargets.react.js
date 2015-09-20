@@ -26,7 +26,6 @@ var Row = React.createClass({
         let isOver = this.props.isOver;
         let canDrop = this.props.canDrop;
         let rowStyle={};
-        console.warn('row:', this.props.rowNumber, 'canDrop:', canDrop, 'isOver:', isOver);
         if(!isOver && canDrop){
             rowStyle.border = 'dashed rgb(174, 163, 255)';
         } else if(isOver && canDrop){
@@ -88,7 +87,6 @@ var panelTargetSpec = {
     hover: function(props, monitor) {
         let targetRowNumber = props.rowNumber
         let plot_url = monitor.getItem().id;
-        console.warn('HOVER: Plot '+plot_url+' -> '+targetRowNumber);
         AppActions.movePlotToNewRow(plot_url, targetRowNumber);
     },
 

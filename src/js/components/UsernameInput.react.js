@@ -13,16 +13,7 @@ var UsernameInput = React.createClass({
     },
     render: function() {
         return (<input
-            style={{
-                display: 'inline-block',
-                width: '120px',
-                height: '30px',
-                backgroundColor: 'inherit',
-                borderBottom: 'thin grey solid',
-                lineHeight: '30px',
-                paddingBottom: '0px',
-                paddingTop: '0px'
-            }}
+            style={{}}
             className="chart-title"
             placeholder={this.props.placeholder}
             type="text" value={this.props.username}
