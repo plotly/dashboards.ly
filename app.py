@@ -90,6 +90,11 @@ def files(username, page):
     return items, last
 
 
+@app.route('/index')
+def index():
+    return render_template('index.html')
+
+
 @app.route('/files')
 def get_files():
     username = request.args.get('username', 'chriddyp')
