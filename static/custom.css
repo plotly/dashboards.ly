@@ -1,9 +1,49 @@
 body {
     font-family: "Open Sans";
     background: #f2f2f2;
-    margin-top: -25px;
+    margin-top: 0px;
     margin-right: 0px;
     margin-left: 0px;
+}
+
+.overlay {
+    background: rgba(0,0,0,.5);
+    text-align: center;
+    padding: 45px 0 66px 0;
+    -webkit-transition: opacity .25s ease;
+    -moz-transition: opacity .25s ease;
+}
+
+.overlay-text {
+   color: rgba(255,255,255,.85);
+   font-size: 18px;
+   font-weight: 200;
+}
+
+table.thumbnail-table {
+    font-size: 10px;
+    margin: 0;
+}
+
+.thumbnail-table th,
+.thumbnail-table td{
+  padding: 1px 2px;
+  text-align: left;
+  border-bottom: 1px solid $light-grey;
+  max-width: 35px;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+
+}
+
+.thumbnail-table th:first-child,
+.thumbnail-table td:first-child {
+  padding-left: 0;
+}
+
+.thumbnail-table th:last-child,
+.thumbnail-table td:last-child {
+  padding-right: 0;
 }
 
 .thumbnail {

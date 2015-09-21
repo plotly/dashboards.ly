@@ -24,6 +24,24 @@ env.register(
 CORS(app)
 
 
+def _gridjson_to_tabular_form(gridjson, preview):
+    if gridjson is None or gridjson == '':
+        return gridjson
+    if isinstance(gridjson, basestring):
+        gridjson = json.loads(gridjson)
+
+    if preview:
+        ordered_cols = [k for k in gridjson]
+        tabular_data = zip(*[gridjson[c][:6] for c in ordered_cols])
+    else:
+        # full grid json
+        ordered_cols = sorted((c for c in gridjson),
+                              key=lambda c: int(gridjson[c]['order']))
+        tabular_data = zip(*[gridjson[c]['data'][0:50] for c in ordered_cols])
+
+    return {'column_names': ordered_cols, 'data': tabular_data}
+
+
 def files(username, page):
     # check if username exists. once /folders returns 404 on invalid username,
     # i can remove this
@@ -38,8 +56,9 @@ def files(username, page):
     for page in pages:
         r = requests.get('https://api.plot.ly/v2/folders/home'
                          '?page={}&user={}'
-                         '&filetype=plot'
+                         '&filetype=grid&filetype=plot'
                          '&order_by=date_modified'.format(page, username))
+
         try:
             r.raise_for_status()
         except requests.exceptions.HTTPError as e:
@@ -54,10 +73,17 @@ def files(username, page):
             last = True
         else:
             last = False
+
+        print 'files: ', files
         items.extend([
             {
-                'plot_name': f['filename'],
-                'plot_url': f['web_url']
+                'filetype': f['filetype'],
+                'name': f['filename'],
+                'url': (f['web_url'] if f['filetype'] == 'plot'
+                        else ('/grid/' +
+                              f['api_urls']['grids'].split('/')[-1])),
+                'preview': _gridjson_to_tabular_form(f.get('preview', None),
+                                                     preview=True)
             } for f in files
         ])
 
@@ -80,6 +106,16 @@ def create():
 @app.route('/view')
 def view():
     return render_template('base.html', mode='view')
+
+
+@app.route('/grid/<fid>.embed')
+def embed(fid):
+    r = requests.get('https://api.plot.ly/v2/grids/{}/content'.format(fid))
+    data = json.loads(r.content)['cols']
+    tabular = _gridjson_to_tabular_form(data, preview=False)
+    return render_template('grid.html',
+                           cols=tabular['column_names'],
+                           data=tabular['data'])
 
 
 @app.after_request

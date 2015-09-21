@@ -5,8 +5,8 @@ import AppActions from '../actions/AppActions';
 
 var PlotThumbnail = React.createClass({
     propTypes: {
-        plot_url: React.PropTypes.string.isRequired,
-        plot_name: React.PropTypes.string.isRequired
+        url: React.PropTypes.string.isRequired,
+        name: React.PropTypes.string.isRequired
     },
 
     getInitialState: function(){
@@ -17,7 +17,7 @@ var PlotThumbnail = React.createClass({
     },
 
     handleChange: function(event) {
-        AppActions.addPlotToDashboard(this.props.plot_url);
+        AppActions.addPlotToDashboard(this.props.url);
     },
 
     mouseOver: function() {
@@ -29,7 +29,7 @@ var PlotThumbnail = React.createClass({
     },
 
     render: function () {
-        let imageUrl = this.props.plot_url + '.png';
+        let imageUrl = this.props.url + '.png';
 
         let imageStyle = {
             'cursor': 'pointer',
@@ -39,31 +39,20 @@ var PlotThumbnail = React.createClass({
             'backgroundSize': 'cover',
             'backgroundRepeat': 'no-repeat'
         };
-        let overlayStyle = {
-            'background': 'rgba(0,0,0,.5)',
-            'textAlign': 'center',
-            'padding': '45px 0 66px 0',
-            'opacity': this.state.hover ? 1 : 0,
-            'WebkitTransition': 'opacity .25s ease',
-            'MozTransition': 'opacity .25s ease'
-        };
-        let hoverTextStyle =  {
-           'color': 'rgba(255,255,255,.85)',
-           'fontSize': '18px',
-           'fontWeight': 200
-       };
+
+        let overlayStyle = {'opacity': this.state.hover ? 1 : 0};
 
         return (<div className="chart-wrapper">
             <div onMouseOver={this.mouseOver} onMouseOut={this.mouseOut} className="chart-stage">
                 <div style={imageStyle} onClick={this.handleChange}>
-                    <div style={overlayStyle}>
-                        <span style={hoverTextStyle}>add to dashboard</span>
+                    <div className="overlay" style={overlayStyle}>
+                        <span className="overlay-text">add to dashboard</span>
                     </div>
                 </div>
             </div>
 
             <div className="chart-notes">
-                {this.props.plot_name}
+                {this.props.name}
             </div>
         </div>);
 

@@ -568,32 +568,37 @@ pre > code {
 }
 
 /* line 510 */
+table {
+  font-size: 1.1rem;
+}
+
+/* line 514 */
 th,
 td {
-  padding: 12px 15px;
+  padding: 6px 8px;
   text-align: left;
   border-bottom: 1px solid #e1e1e1;
 }
 
-/* line 517 */
+/* line 521 */
 th:first-child,
 td:first-child {
   padding-left: 0;
 }
 
-/* line 522 */
+/* line 526 */
 th:last-child,
 td:last-child {
   padding-right: 0;
 }
 
-/* line 530 */
+/* line 534 */
 button,
 .button {
   margin-bottom: 1rem;
 }
 
-/* line 535 */
+/* line 539 */
 input,
 textarea,
 select,
@@ -601,7 +606,7 @@ fieldset {
   margin-bottom: 1.5rem;
 }
 
-/* line 542 */
+/* line 546 */
 pre,
 blockquote,
 dl,
@@ -614,29 +619,29 @@ form {
   margin-bottom: 2.5rem;
 }
 
-/* line 557 */
+/* line 561 */
 .u-full-width {
   width: 100%;
   box-sizing: border-box;
 }
 
-/* line 562 */
+/* line 566 */
 .u-max-full-width {
   max-width: 100%;
   box-sizing: border-box;
 }
 
-/* line 567 */
+/* line 571 */
 .u-pull-right {
   float: right;
 }
 
-/* line 571 */
+/* line 575 */
 .u-pull-left {
   float: left;
 }
 
-/* line 578 */
+/* line 582 */
 hr {
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -644,7 +649,7 @@ hr {
   border-top: 1px solid #e1e1e1;
 }
 
-/* line 590 */
+/* line 594 */
 .container:after,
 .row:after,
 .u-cf {

@@ -3,6 +3,7 @@
 import React from 'react';
 import AppActions from '../actions/AppActions';
 import PlotThumbnail from './PlotThumbnail.react';
+import GridThumbnail from './GridThumbnail.react';
 import UsernameInput from './UsernameInput.react';
 
 var PlotPicker = React.createClass({
@@ -12,24 +13,16 @@ var PlotPicker = React.createClass({
     },
 
     render: function() {
-
         let rows = [];
+        let row, thumbnail;
         for(var i=0; i<this.props.plots.length; i+=4) {
-            rows.push(
-                <div key={i} className="row">
-                    <div className="three columns">
-                        <PlotThumbnail {...this.props.plots[i]}/>
-                    </div>
-                    <div className="three columns">
-                        <PlotThumbnail {...this.props.plots[i+1]}/>
-                    </div>
-                    <div className="three columns">
-                        <PlotThumbnail {...this.props.plots[i+2]}/>
-                    </div>
-                    <div className="three columns">
-                        <PlotThumbnail {...this.props.plots[i+3]}/>
-                    </div>
-                </div>)
+            row = [];
+            for(var j=0; j<4 && i+j < this.props.plots.length; j++) {
+                row.push(<div className="three columns">
+                    {this.props.plots[i+j].filetype==="plot" ? <PlotThumbnail {...this.props.plots[i+j]}/> : <GridThumbnail {...this.props.plots[i+j]}/>}
+                </div>);
+            }
+            rows.push(<div key={i} className="row">{row}</div>);
         }
 
         let loadingSpinner=null;

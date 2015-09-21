@@ -9,7 +9,7 @@ import AppActions from '../actions/AppActions';
 var _appStore = {
     requestIsPending: false,
     page: 0,
-    username: 'christopherp',
+    username: 'dashboardsly',
     rows: [[]],
     plots: [],
     canRearrange: false,
