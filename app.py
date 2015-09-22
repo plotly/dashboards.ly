@@ -90,7 +90,7 @@ def files(username, page):
     return items, last
 
 
-@app.route('/index')
+@app.route('/')
 def index():
     return render_template('index.html')
 
@@ -103,7 +103,7 @@ def get_files():
     return flask.jsonify({'plots': plots, 'is_last': is_last})
 
 
-@app.route('/')
+@app.route('/create')
 def create():
     return render_template('base.html', mode='create')
 
