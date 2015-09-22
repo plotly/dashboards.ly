@@ -57,7 +57,7 @@ def files(username, page):
         r = requests.get('https://api.plot.ly/v2/folders/home'
                          '?page={}&user={}'
                          '&filetype=grid&filetype=plot'
-                         '&order_by=date_modified'.format(page, username))
+                         '&order_by=-date_modified'.format(page, username))
 
         try:
             r.raise_for_status()
