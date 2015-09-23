@@ -57,7 +57,6 @@ var DashboardHeader = React.createClass({
         if(ENV.mode === 'view') {
             togglesettingsbutton = null;
         } else if(ENV.mode === 'create') {
-            let togglesettingsbutton = (<a  onClick={this.hideOrShowSettings}
                     style={{
                         float: 'right',
                         verticalAlign: 'middle',
@@ -84,6 +83,7 @@ var DashboardHeader = React.createClass({
                         zIndex: 10
                     }}>edit banner &#9013;
                 </a>);
+            togglesettingsbutton = (<a
         }
 
         let settings = null;
