@@ -102,8 +102,9 @@ var actions = function(action) {
         break;
 
     case 'REMOVE_PLOT':
+        // TODO - Removes *all* plots with that URL
         for(var i=0; i<_appStore.rows.length; i++) {
-            for(var j=0; j<_appStore.rows[i].length; j++){
+            for(var j=_appStore.rows[i].length-1; j>=0; j--){
                 if(_appStore.rows[i][j].plot_url === action.plot_url) {
                     _appStore.rows[i].splice(j, 1);
                 }
