@@ -34,7 +34,7 @@ var Row = React.createClass({
         let columns = [];
         for(var i=0; i<this.props.plots.length; i++) {
             columns.push(
-                <div style={{width: this.gridColumnWidth(this.props.plots.length)}} className="columns">
+                <div key={i} style={{width: this.gridColumnWidth(this.props.plots.length)}} className="columns">
                     <DashboardPlotBlock plot_url={this.props.plots[i].plot_url} canRearrange={this.props.canRearrange}/>
                 </div>)
         }

@@ -34,7 +34,7 @@ var GridThumbnail = React.createClass({
 
         let tableHeaderCells = [];
         for(let i=0; i<preview.column_names.length; i++) {
-            tableHeaderCells.push(<th>{preview.column_names[i]}</th>);
+            tableHeaderCells.push(<th key={i}>{preview.column_names[i]}</th>);
         }
 
         let tableRows = [];
@@ -42,9 +42,9 @@ var GridThumbnail = React.createClass({
         for(let i=0; i<preview.data.length; i++) {
             tableRow = [];
             for(let j=0; j<preview.data[i].length; j++) {
-                tableRow.push(<td>{preview.data[i][j]}</td>);
+                tableRow.push(<td key={j}>{preview.data[i][j]}</td>);
             }
-            tableRows.push(<tr>{tableRow}</tr>);
+            tableRows.push(<tr key={i}>{tableRow}</tr>);
         }
 
         let overlayStyle = {

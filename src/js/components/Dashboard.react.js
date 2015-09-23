@@ -25,7 +25,7 @@ var Dashboard = React.createClass({
         } else {
             let rowItems = [];
             for(var i=0; i<rows.length; i++) {
-                rowItems.push(<Row plots={this.props.rows[i]} rowNumber={i} canRearrange={this.props.canRearrange}/>);
+                rowItems.push(<Row key={i} plots={this.props.rows[i]} rowNumber={i} canRearrange={this.props.canRearrange}/>);
             }
 
             let header = null;

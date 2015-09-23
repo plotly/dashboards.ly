@@ -33,7 +33,7 @@ var DashboardHeader = React.createClass({
             let title = this.props.banner.title;
             let linkList = [];
             for(var i=0; i<links.length; i++) {
-                linkList.push(<li>
+                linkList.push(<li key={i}>
                     <a href={links[i].href}
                        style={{color: this.props.banner.textcolor}}
                        target="_blank" >{links[i].text}</a>

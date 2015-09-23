@@ -14,15 +14,15 @@ var PlotPicker = React.createClass({
 
     render: function() {
         let rows = [];
-        let row, thumbnail;
+        let row, thumbnail, j;
         for(var i=0; i<this.props.plots.length; i+=4) {
             row = [];
-            for(var j=0; j<4 && i+j < this.props.plots.length; j++) {
-                row.push(<div className="three columns">
+            for(j=0; j<4 && i+j < this.props.plots.length; j++) {
+                row.push(<div key={i+j} className="three columns">
                     {this.props.plots[i+j].filetype==="plot" ? <PlotThumbnail {...this.props.plots[i+j]}/> : <GridThumbnail {...this.props.plots[i+j]}/>}
                 </div>);
             }
-            rows.push(<div key={i} className="row">{row}</div>);
+            rows.push(<div key={i+j} className="row">{row}</div>);
         }
 
         let loadingSpinner=null;
