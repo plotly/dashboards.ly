@@ -10,11 +10,11 @@ var _appStore = {
     requestIsPending: false,
     page: 0,
     username: 'benji.b',
-    rows: [[]],
+    plots: [],
     canRearrange: false,
 
     // gets serialized as JSON in URL params
-    plots: [],
+    rows: [[]],
 
     banner: {
         links: [
@@ -47,6 +47,7 @@ function setDashboardRearrangability() {
 }
 
 var actions = function(action) {
+    console.warn(action.event, '--', action)
     switch(action.event) {
 
     case 'SETSTORE':
