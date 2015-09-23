@@ -5,10 +5,10 @@ import AppActions from '../actions/AppActions';
 
 var GridThumbnail = React.createClass({
     propTypes: {
-        grid_name: React.PropTypes.string.isRequired,
-        preview: React.PropTypes.object.isRequired
+        name: React.PropTypes.string.isRequired,
+        preview: React.PropTypes.object.isRequired,
+        url: React.PropTypes.string.isRequired
     },
-
 
     getInitialState: function(){
         return {
