@@ -109,6 +109,14 @@ var actions = function(action) {
                 }
             }
         }
+
+        // Remove empty rows
+        for(var i=_appStore.rows.length-1; i>=0; i--) {
+            if(_appStore.rows[i].length === 0) {
+                _appStore.rows.splice(i, 1);
+            }
+        }
+
         setDashboardRearrangability();
         AppStore.emitChange();
         break;
@@ -139,6 +147,14 @@ var actions = function(action) {
         if(!dontremove){
             _appStore.rows[action.targetRowNumber].push({'plot_url': action.plot_url});
         }
+
+        // Remove empty rows
+        for(var i=_appStore.rows.length-1; i>=0; i--) {
+            if(_appStore.rows[i].length === 0) {
+                _appStore.rows.splice(i, 1);
+            }
+        }
+
         setDashboardRearrangability();
         AppStore.emitChange();
         break;
