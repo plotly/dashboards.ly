@@ -92,10 +92,18 @@ var DashboardPlotBlock = React.createClass({
                 dragBar = (<div style={{height: '18px'}}>
                     <a onClick={this.handleRemovePlot} style={{'cursor': 'pointer', 'float': 'left', 'fontSize': '18px', 'lineHeight': '18px', 'paddingLeft': '4px', 'color': 'rgb(80, 107, 123)'}}>&times;</a>
                     <a className="grab"
-                        style={{cursor: this.state.cursor}}
+                        style={{
+                            cursor: this.state.cursor,
+                            float: 'right',
+                            lineHeight: '16px',
+                            fontSize: '10px',
+                            color: '#555555',
+                            textTransform: 'uppercase'
+                        }}
                         onMouseDown={this.handleDraggingMouseDown}
                         onMouseUp={this.handleDraggingMouseUp}>
-                        <img style={{'float': 'right', 'height': '100%'}} src="http://i.imgur.com/F5biwyG.png"/>
+                        <span style={{verticalAlign: 'middle', paddingRight: '3px'}}>drag to rearrange</span>
+                        <img style={{'height': '14px', verticalAlign: 'middle'}} src="http://i.imgur.com/F5biwyG.png"/>
                     </a>
                 </div>)
             }
