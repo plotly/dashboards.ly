@@ -45,7 +45,7 @@ var PlotPicker = React.createClass({
         }
 
         return(
-            <div>
+            <div className="container">
                 <div style={{marginBottom: '10px'}}>
                     <label>plotly username</label>
                     <UsernameInput username={this.props.username}/> {loadingSpinner}
