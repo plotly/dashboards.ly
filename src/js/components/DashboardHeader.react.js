@@ -4,13 +4,17 @@ import DashboardHeaderEditor from './DashboardHeaderEditor';
 
 var DashboardHeader = React.createClass({
     propTypes: {
-        textInputs: React.PropTypes.shape({
-            dashboardHeaderLinks: React.PropTypes.array.isRequired,
-            dashboardTitle: React.PropTypes.array.isRequired,
-            colors: React.PropTypes.shape({
-                banner: React.PropTypes.string.isRequired,
-                bannertext: React.PropTypes.string.isRequired
-            }),
+        banner: React.PropTypes.shape({
+            links: React.PropTypes.arrayOf(
+                React.PropTypes.shape({
+                    link: React.PropTypes.string,
+                    text: React.PropTypes.string
+                })
+            ),
+            title: React.PropTypes.string,
+            backgroundcolor: React.PropTypes.string,
+            textcolor: React.PropTypes.string,
+            showbanner: React.PropTypes.bool
         }).isRequired
     },
 
@@ -19,61 +23,77 @@ var DashboardHeader = React.createClass({
     },
 
     hideOrShowSettings: function(){
-        console.log('hideOrShowSettings', this.state.settingsIsVisible);
         this.setState({settingsIsVisible: !this.state.settingsIsVisible});
     },
 
     render: function() {
-        let links = this.props.textInputs.dashboardHeaderLinks;
-        let title = this.props.textInputs.dashboardTitle;
-        let linkList = [];
-        for(var i=0; i<links.length; i++) {
-            linkList.push(<li>
-                <a style={{color: this.props.colors.bannertext}} target="_blank" href={links[i].link}>{links[i].text}</a>
-            </li>);
+        let banner = null;
+        if(this.props.banner.visible!==false) {
+            let links = this.props.banner.links;
+            let title = this.props.banner.title;
+            let linkList = [];
+            for(var i=0; i<links.length; i++) {
+                linkList.push(<li>
+                    <a href={links[i].href}
+                       style={{color: this.props.banner.textcolor}}
+                       target="_blank" >{links[i].text}</a>
+                </li>);
+            }
+
+            banner = (
+                <div className="navbar" style={{backgroundColor: this.props.banner.backgroundcolor}}>
+                    <div style={{display: 'inline-block', verticalAlign: 'top'}} className="navbar-brand">
+                        {title}
+                    </div>
+                    <div style={{display: 'inline-block', verticalAlign: 'top'}}>
+                        <ul>{linkList}</ul>
+                    </div>
+                </div>
+            )
+        } else {
+            banner = <div className="navbar" style={{backgroundColor: 'rgba(0, 0, 0, 0)'}}></div>
+        }
+        let togglesettingsbutton;
+        if(ENV.mode === 'view') {
+            togglesettingsbutton = null;
+        } else if(ENV.mode === 'create') {
+            let togglesettingsbutton = (<a  onClick={this.hideOrShowSettings}
+                    style={{
+                        float: 'right',
+                        verticalAlign: 'middle',
+                        border: 'none',
+                        backgroundColor: 'rgba(255, 255, 255, 0.25)',
+                        marginRight: '6px',
+                        minHeight: '41px',
+                        lineHeight: '50px',
+                        display: 'inline-block',
+                        padding: '0 30px',
+                        color: this.props.banner.backgroundcolor,
+                        textAlign: 'center',
+                        letterSpacing: '0.1rem',
+                        textTransform: 'uppercase',
+                        textDecoration: 'none',
+                        whiteSpace: 'nowrap',
+                        borderRadius: 0,
+                        cursor: 'pointer',
+                        boxSizing: 'border-box',
+                        fontWeight: 500,
+                        position: 'absolute',
+                        right: 0,
+                        top: 0,
+                        zIndex: 10
+                    }}>edit banner &#9013;
+                </a>);
         }
 
         let settings = null;
         if(this.state.settingsIsVisible) {
-            console.log('settings: ', this.state.settingsIsVisible);
-            settings = (
-                <div id="editor-container">
-                    <DashboardHeaderEditor {...this.props}/>
-                </div>
-            );
+            settings = <DashboardHeaderEditor {...this.props}/>;
         }
-
         return (
             <div>
-                <div className="navbar" style={{backgroundColor: this.props.colors.banner}}>
-                    <div className="navbar-brand">
-                        {title}
-                    </div>
-                    <ul>{linkList}</ul>
-                    <a  onClick={this.hideOrShowSettings}
-                        style={{
-                            float: 'right',
-                            verticalAlign: 'middle',
-                            border: 'none',
-                            backgroundColor: 'rgba(255, 255, 255, 0.25)',
-                            marginRight: '6px',
-                            minHeight: '41px',
-                            lineHeight: '50px',
-                            display: 'inline-block',
-                            padding: '0 30px',
-                            color: this.props.colors.banner,
-                            textAlign: 'center',
-                            letterSpacing: '0.1rem',
-                            textTransform: 'uppercase',
-                            textDecoration: 'none',
-                            whiteSpace: 'nowrap',
-                            borderRadius: 0,
-                            cursor: 'pointer',
-                            boxSizing: 'border-box',
-                            fontWeight: 500
-                        }}>edit banner &#9013;
-                    </a>
-                </div>
+                {banner}
+                {togglesettingsbutton}
                 {settings}
             </div>
         )

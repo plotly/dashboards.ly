@@ -38,6 +38,8 @@ var Dashboard = React.createClass({
                         <a id="generate" onClick={this.handleClick} className="button">publish dashboard</a>
                     </div>
                 </div>);
+            }
+            if(rows[0].length > 0) {
                 header = <DashboardHeader {...this.props}/>
             }
 

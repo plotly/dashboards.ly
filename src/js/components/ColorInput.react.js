@@ -4,14 +4,13 @@ import AppActions from '../actions/AppActions';
 var ColorInput = React.createClass({
     propTypes: {
         color: React.PropTypes.string.isRequired,
-        colorId: React.PropTypes.string.isRequired,
         label: React.PropTypes.string.isRequired,
-        placeholder: React.PropTypes.string
+        placeholder: React.PropTypes.string.isRequired,
+        keystring: React.PropTypes.string.isRequired
     },
 
     updateColor: function(e) {
-        console.warn('updateColor', e.target.value);
-        AppActions.updateColor(this.props.colorId, e.target.value);
+        AppActions.updateKey(this.props.keystring, e.target.value);
     },
 
     render: function (){

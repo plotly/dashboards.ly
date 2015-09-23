@@ -54,21 +54,17 @@ var NewRowTarget = React.createClass({
             'height': '50px',
             'border': 'thin dashed rgb(174, 163, 255)',
             'textAlign': 'center',
-            'color': 'rgb(161, 176, 203)',
+            'color': '#555555',
             'fontSize': '14px',
             'lineHeight': '50px',
-            'fontWeight': 200,
+            'fontWeight': 400,
             'marginLeft': '-1px',
-            'marginRight': '-1px'
+            'marginRight': '-1px',
+            'letterSpacing': '0.1rem',
+            'textTransform': 'uppercase',
+            'fontWeight': 500
         };
         let content = 'drag plots here to create a new row'
-        if(this.props.canDrop) {
-            style.border = 'dashed rgba(174, 163, 255, 1)';
-        }
-        if(this.props.canDrop && this.props.isOver) {
-            style.border = 'solid rgba(174, 163, 255, 1)';
-            content = 'drop';
-        }
 
         return this.props.connectDropTarget(<div style={style} className="row">{content}</div>);
     }

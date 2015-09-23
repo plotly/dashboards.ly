@@ -11,23 +11,21 @@ var _appStore = {
     page: 0,
     username: 'benji.b',
     rows: [[]],
-    plots: [],
     canRearrange: false,
 
-    // Weird datastructure to abstract out updating text inputs with a
-    // key, index, key lookup
-    textInputs: {
-        dashboardHeaderLinks: [
-            {link: 'https://google.com', text: 'Financials'},
-            {link: 'https://google.com', text: 'Growth'},
-            {link: 'https://google.com', text: 'Performance'}
-        ],
-        dashboardTitle: [{text: 'Quarterly Outlook'}]
-    },
+    // gets serialized as JSON in URL params
+    plots: [],
 
-    colors: {
-        banner: AppConstants.DEFAULT_BANNER_COLOR,
-        bannertext: AppConstants.DEFAULT_BANNERTEXT_COLOR
+    banner: {
+        links: [
+            {href: 'https://google.com', text: 'Financials'},
+            {href: 'https://google.com', text: 'Growth'},
+            {href: 'https://google.com', text: 'Performance'}
+        ],
+        title: 'Quarterly Outlook',
+        backgroundcolor: AppConstants.DEFAULT_BANNER_COLOR,
+        textcolor: AppConstants.DEFAULT_BANNERTEXT_COLOR,
+        visible: true
     }
 }
 
@@ -56,26 +54,41 @@ var actions = function(action) {
         AppStore.emitChange();
         break;
 
-    case 'SETINPUT':
-        _appStore.textInputs[action.inputId][action.index][action.inputKey] = action.value;
-        AppStore.emitChange();
-        break;
+    case 'UPDATEKEY':
+        let keystring = action.keystring; // eg 'banner.links[0].href'
+        let keys = keystring.split('.');
+        let obj = _appStore;
+        let idx, splitOnIdx;
+        for(var i=0; i<keys.length; i++) {
+            console.log(obj, keys[i]);
+            splitOnIdx = keys[i].split(/[\[\]]/); // split out
+            if(splitOnIdx.length > 1) {
+                if(i<keys.length-1) {
+                    obj = obj[splitOnIdx[0]][splitOnIdx[1]];
+                } else {
+                    obj[splitOnIdx[0]][splitOnIdx[1]] = action.value;
+                }
+            } else {
+                if(i<keys.length-1) {
+                    obj = obj[keys[i]];
+                } else {
+                    obj[keys[i]] = action.value;
+                }
 
-    case 'UPDATECOLOR':
-        console.warn('UPDATECOLOR', action.colorId, action.color);
-        _appStore.colors[action.colorId] = action.color;
+            }
+        }
         AppStore.emitChange();
         break;
 
     case 'ADDNEWLINK':
         console.log('ADDNEWLINK');
-        _appStore.textInputs.dashboardHeaderLinks.push({link: '', text: ''});
+        _appStore.banner.links.push({link: '', text: ''});
         AppStore.emitChange();
         break;
 
     case 'REMOVELINK':
         console.log('REMOVELINK', action.index);
-        _appStore.textInputs.dashboardHeaderLinks.splice(action.index, 1);
+        _appStore.banner.links.splice(action.index, 1);
         AppStore.emitChange();
         break;
 

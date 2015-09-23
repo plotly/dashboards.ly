@@ -65,14 +65,14 @@ table.thumbnail-table {
 }
 
 .navbar {
-    min-height: 50px;
-    line-height: 20px;
+    height: 50px;
+    line-height: 50px;
     color: white;
     text-decoration: none;
+    margin-bottom: 10px;
 }
 
 .navbar .navbar-brand {
-    float: left;
     font-size: 20px;
     padding-left: 2.5%; /* matches half of container padding */
     padding-right: 15px;

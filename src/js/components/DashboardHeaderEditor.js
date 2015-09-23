@@ -5,17 +5,14 @@ import ColorInput from './ColorInput.react';
 
 var TextInput = React.createClass({
     propTypes: {
-        index: React.PropTypes.number.isRequired,
-        inputId: React.PropTypes.string.isRequired,
-        inputKey: React.PropTypes.string.isRequired,
         label: React.PropTypes.string.isRequired,
         value: React.PropTypes.string.isRequired,
-        isVisible: React.PropTypes.bool.isRequired
+        keystring: React.PropTypes.string.isRequired
     },
 
     updateInput: function(e) {
-        console.warn('updateInput', e.target.value)
-        AppActions.updateInput(this.props.inputId, this.props.index, this.props.inputKey, e.target.value);
+        console.warn('updateInput: ', this.props.keystring);
+        AppActions.updateKey(this.props.keystring, e.target.value);
     },
 
     render: function() {
@@ -25,6 +22,36 @@ var TextInput = React.createClass({
             <input onChange={this.updateInput} type="text" value={this.props.value}/>
         </div>);
     }
+});
+
+var CheckBox= React.createClass({
+
+    propTypes: {
+        label: React.PropTypes.string.isRequired,
+        checked: React.PropTypes.bool.isRequired,
+        keystring: React.PropTypes.string.isRequired
+    },
+
+    updateInput: function(e) {
+        console.warn('updateInput: ', this.props.keystring, e.target.checked);
+        AppActions.updateKey(this.props.keystring, e.target.checked);
+    },
+
+    render: function() {
+        let input;
+        if(this.props.checked) {
+            input = <input onChange={this.updateInput} type="checkbox" checked="checked"/>
+        } else {
+            input = <input onChange={this.updateInput} type="checkbox"/>
+        }
+
+        return (
+        <div style={{display: "inline-block"}}>
+            <label className="chart-title">{this.props.label}</label>
+            {input}
+        </div>);
+    }
+
 });
 
 var RemoveLinkButton = React.createClass({
@@ -42,26 +69,18 @@ var RemoveLinkButton = React.createClass({
 });
 
 var DashboardHeaderEditor = React.createClass({
-    propTypes: {
-        textInputs: React.PropTypes.shape({
-            dashboardHeaderLinks: React.PropTypes.array.isRequired,
-            dashboardTitle: React.PropTypes.array.isRequired,
-        }).isRequired
-    },
+    propTypes: {},
 
     addNewLink: function(e) {
         AppActions.addNewLink();
     },
 
     render: function() {
-        let links = this.props.textInputs.dashboardHeaderLinks;
-        let title = this.props.textInputs.dashboardTitle[0].text;
-
         let linkOptions = [];
-        for(var i=0; i<links.length; i++) {
+        for(var i=0; i<this.props.banner.links.length; i++) {
             linkOptions.push(<div>
-                <TextInput key={i*2}   inputId="dashboardHeaderLinks" index={i} inputKey="text" label="link name" value={links[i].text}/>
-                <TextInput key={i*2+1} inputId="dashboardHeaderLinks" index={i} inputKey="link" label="link target" value={links[i].link}/>
+                <TextInput key={i*2}    value={this.props.banner.links[i].text} keystring={'banner.links['+i+'].text'} label="link name" />
+                <TextInput key={i*2+1}  value={this.props.banner.links[i].href} keystring={'banner.links['+i+'].href'} label="link target"/>
                 <RemoveLinkButton index={i}/>
             </div>);
         }
@@ -71,13 +90,15 @@ var DashboardHeaderEditor = React.createClass({
         <div style={{backgroundColor: "white", width: "450px", border: "thin lightgrey solid",
                      padding: "5px", marginRight: "5px", position: "relative", zIndex: 5,
                      float: 'right'}}>
-            <TextInput inputId="dashboardTitle" index={0} inputKey="text" label="brand or dashboard title" value={title}/>
+            <CheckBox label="show banner" keystring="banner.visible" checked={this.props.banner.visible}/>
+            <hr/>
+            <TextInput label="brand or dashboard title" keystring="banner.title" value={this.props.banner.title}/>
             <hr/>
             {linkOptions}
             {loadMoreLinks}
             <hr/>
-            <ColorInput placeholder={AppConstants.DEFAULT_BANNER_COLOR} label="background color" colorId="banner" color={this.props.colors.banner}/>
-            <ColorInput placeholder={AppConstants.DEFAULT_BANNERTEXT_COLOR} label="text color" colorId="bannertext" color={this.props.colors.bannertext}/>
+            <ColorInput placeholder={AppConstants.DEFAULT_BANNER_COLOR} label="background color" keystring="banner.backgroundcolor" color={this.props.banner.backgroundcolor}/>
+            <ColorInput placeholder={AppConstants.DEFAULT_BANNERTEXT_COLOR} label="text color"   keystring="banner.textcolor"       color={this.props.banner.textcolor}/>
         </div>);
     }
 });

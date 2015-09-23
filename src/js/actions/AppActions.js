@@ -16,19 +16,12 @@ var AppActions = {
         });
     },
 
-    updateInput: function(inputId, index, inputKey, value) {
+    updateKey: function(keystring, value) {
         AppDispatcher.dispatch({
-            event: 'SETINPUT',
-            inputId: inputId,
-            index: index,
-            inputKey: inputKey,
+            event: 'UPDATEKEY',
+            keystring: keystring,
             value: value
         });
-    },
-
-    updateColor: function(colorId, color) {
-        console.warn('AppACtions updateColor', colorId, color);
-        AppDispatcher.dispatch({event: 'UPDATECOLOR', colorId: colorId, color: color});
     },
 
     addNewLink: function(){
@@ -146,13 +139,15 @@ var AppActions = {
             });
         } else if(ENV.mode==='view') {
             console.warn('view');
-            let plots = JSON.parse(decodeURIComponent(window.location.search.slice(window.location.search.indexOf('plots=')+'plots='.length, window.location.search.length)));
-            console.warn(plots);
-            AppDispatcher.dispatch({
-                event: 'SETSTORE',
-                key: 'rows',
-                value: plots
-            });
+            let dashboardRepr = JSON.parse(decodeURIComponent(window.location.search.slice(window.location.search.indexOf('plots=')+'plots='.length, window.location.search.length)));
+            console.warn(dashboardRepr);
+            for(var i in dashboardRepr) {
+                AppDispatcher.dispatch({
+                    event: 'SETSTORE',
+                    key: i,
+                    value: dashboardRepr[i]
+                });
+            }
         }
     }
 };
