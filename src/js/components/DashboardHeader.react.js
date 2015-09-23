@@ -57,33 +57,33 @@ var DashboardHeader = React.createClass({
         if(ENV.mode === 'view') {
             togglesettingsbutton = null;
         } else if(ENV.mode === 'create') {
-                    style={{
-                        float: 'right',
-                        verticalAlign: 'middle',
-                        border: 'none',
-                        backgroundColor: 'rgba(255, 255, 255, 0.25)',
-                        marginRight: '6px',
-                        minHeight: '41px',
-                        lineHeight: '50px',
-                        display: 'inline-block',
-                        padding: '0 30px',
-                        color: this.props.banner.backgroundcolor,
-                        textAlign: 'center',
-                        letterSpacing: '0.1rem',
-                        textTransform: 'uppercase',
-                        textDecoration: 'none',
-                        whiteSpace: 'nowrap',
-                        borderRadius: 0,
-                        cursor: 'pointer',
-                        boxSizing: 'border-box',
-                        fontWeight: 500,
-                        position: 'absolute',
-                        right: 0,
-                        top: 0,
-                        zIndex: 10
-                    }}>edit banner &#9013;
-                </a>);
             togglesettingsbutton = (<a
+                onClick={this.hideOrShowSettings}
+                style={{
+                    verticalAlign: 'middle',
+                    border: 'none',
+                    backgroundColor: 'rgba(255, 255, 255, 0.25)',
+                    marginRight: '6px',
+                    minHeight: '41px',
+                    lineHeight: '50px',
+                    display: 'inline-block',
+                    padding: '0 30px',
+                    color: this.props.banner.backgroundcolor,
+                    textAlign: 'center',
+                    letterSpacing: '0.1rem',
+                    textTransform: 'uppercase',
+                    textDecoration: 'none',
+                    whiteSpace: 'nowrap',
+                    borderRadius: 0,
+                    cursor: 'pointer',
+                    boxSizing: 'border-box',
+                    fontWeight: 500,
+                    position: 'absolute',
+                    right: 0,
+                    top: 0,
+                    zIndex: 10
+                }}>edit banner &#9013;
+            </a>);
         }
 
         let settings = null;
