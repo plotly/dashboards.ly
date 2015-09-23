@@ -77,8 +77,11 @@ var AppActions = {
 
     publishDashboard: function() {
         // Serialize dashboard as JSON
-        let plots = AppStore.getState().rows;
-        let win = window.open('/view?plots='+encodeURIComponent(JSON.stringify(plots)), '_blank');
+        let dashboard = {
+            'rows': AppStore.getState().rows,
+            'banner': AppStore.getState().banner
+        };
+        let win = window.open('/view?plots='+encodeURIComponent(JSON.stringify(dashboard)), '_blank');
         win.focus();
     },
 
