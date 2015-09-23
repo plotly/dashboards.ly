@@ -27,9 +27,7 @@ var Row = React.createClass({
         let canDrop = this.props.canDrop;
         let rowStyle={};
         if(!isOver && canDrop){
-            rowStyle.border = 'dashed rgb(174, 163, 255)';
-        } else if(isOver && canDrop){
-            rowStyle.border = 'thin solid rgb(174, 163, 255)';
+            rowStyle.border = 'thin dashed rgb(174, 163, 255)';
         }
         let columns = [];
         for(var i=0; i<this.props.plots.length; i++) {
