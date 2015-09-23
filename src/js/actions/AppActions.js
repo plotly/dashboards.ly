@@ -7,6 +7,8 @@ import {AppStore} from '../stores/AppStore';
 import AppState from 'ampersand-app';
 import request from 'request';
 
+var pendingRequest;
+
 var AppActions = {
     updateStore: function(key, value) {
         AppDispatcher.dispatch({
@@ -90,6 +92,9 @@ var AppActions = {
         let username = AppStore.getState().username;
         let page = AppStore.getState().page;
         if(ENV.mode==='create') {
+            if(pendingRequest) {
+                pendingRequest.abort();
+            }
             AppDispatcher.dispatch({
                 event: 'SETSTORE',
                 key: 'requestIsPending',
@@ -102,7 +107,7 @@ var AppActions = {
             });
             var url = location.protocol + '//' + window.location.host + '/files?username='+username+'&page='+page;
             console.warn(url);
-            request({
+            pendingRequest = request({
                 method: 'GET',
                 url: url
             }, function(err, res, body) {
