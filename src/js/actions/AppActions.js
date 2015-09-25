@@ -64,7 +64,7 @@ var AppActions = {
 
     incrementPage: function(username) {
         let currentPage = AppStore.getState().page;
-        this.updateStore('page', currentPage+1);
+        this.updateKey('page', currentPage+1);
     },
 
     publishDashboard: function() {
