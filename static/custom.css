@@ -20,6 +20,47 @@ body {
    font-weight: 200;
 }
 
+[data-tooltip] {
+    border-bottom: thin dotted grey;
+    cursor: pointer;
+}
+
+/*http://stackoverflow.com/a/25813336/4142536*/
+[data-tooltip]:before {
+    content: attr(data-tooltip);
+    position: absolute;
+    opacity: 0;
+
+    /* customizable */
+    transition: all 0.0s ease;
+    transition-delay: 0.15s;
+    padding: 5px;
+    color: white;
+    border-radius: 1px;
+    text-indent: 0px;
+    box-shadow: 2px 2px 1px silver;
+    font-family: "Open sans",verdana,arial,sans-serif;
+    z-index: 1;
+    font-size: 12px;
+    text-transform: none;
+    width: 400px;
+    margin-left:1px;
+}
+
+[data-tooltip]:hover:before {
+    /* needed - do not touch */
+    opacity: 0.9;
+
+    /* customizable */
+    background: rgb(16, 32, 77);
+    margin-top: 30px;
+    margin-left: 0px;
+}
+
+[data-tooltip]:not([data-tooltip-persistent]):before {
+    pointer-events: none;
+}
+
 table.thumbnail-table {
     font-size: 10px;
     margin: 0;
@@ -163,10 +204,8 @@ input[type=text] {
     line-height: 30px;
     padding-bottom: 0px;
     padding-top: 0px;
-
-  margin-left:1px;
-  -webkit-transition: box-shadow 0.3s;
-  transition: box-shadow 0.3s;
+    -webkit-transition: box-shadow 0.3s;
+    transition: box-shadow 0.3s;
 }
 
 input[type=text]:focus {

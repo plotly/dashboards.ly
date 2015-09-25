@@ -4,7 +4,7 @@ import React from 'react';
 import AppActions from '../actions/AppActions';
 import PlotThumbnail from './PlotThumbnail.react';
 import GridThumbnail from './GridThumbnail.react';
-import UsernameInput from './UsernameInput.react';
+import TextInput from './TextInput.react';
 
 var PlotPicker = React.createClass({
     handleLoadMoreClick: function(event) {
@@ -44,11 +44,35 @@ var PlotPicker = React.createClass({
             </div>);
         }
 
+        let auth;
+        if(this.props.requestIsPending) {
+            auth = null;
+        } else if(this.props.isAuth===true) {
+            auth = (
+                <span>
+                    <span style={{color: '#2ECC40', verticalAlign: 'middle', fontSize: '16px', paddingLeft: '5px', paddingRight: '5px'}}>&#10003;</span>
+                    <span style={{fontSize: '10px', lineHeight: '16px'}}>(authenticated)</span>
+                </span>)
+        } else if(this.props.isAuth===false) {
+            auth = (
+                <span>
+                    <span style={{color: '#FF4136', verticalAlign: 'middle', fontSize: '16px', paddingLeft: '5px', paddingRight: '5px'}}>&times;</span>
+                    <span style={{fontSize: '10px', lineHeight: '16px'}}>(not authenticated)</span>
+                </span>)
+        }
+
         return(
             <div className="container">
                 <div style={{marginBottom: '10px'}}>
-                    <label>plotly username</label>
-                    <UsernameInput username={this.props.username}/> {loadingSpinner}
+                    <TextInput labelstyle={{textTransform: 'uppercase', fontWeight: 400, letterSpacing: '0.01rem'}}
+                               label={"plotly username"} keystring="username" value={this.props.username}/>
+                    <TextInput labelstyle={{textTransform: 'uppercase', fontWeight: 400,
+                                            letterSpacing: '0.01rem', marginLeft: '30px'}}
+                               tooltip={"Authenticate with your plotly API key to access private and secret plots and grids. "+
+                                        "Find your API key in your plotly settings: https://plot.ly/settings/api/"}
+                               label={"plotly api key (optional)"} keystring="apikey" value={this.props.apikey}/>
+                    {auth}
+                    {loadingSpinner}
                 </div>
                 {rows}
                 {loadMoreButton}

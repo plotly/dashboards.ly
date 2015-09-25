@@ -10,9 +10,11 @@ var _appStore = {
     requestIsPending: false,
     page: 0,
     username: 'benji.b',
+    apikey: '4r26wpg85l',
     plots: [],
     canRearrange: false,
-
+    requests: [],
+    isAuth: false,
     // gets serialized as JSON in URL params
     rows: [[]],
 

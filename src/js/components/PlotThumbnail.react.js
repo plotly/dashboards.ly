@@ -29,8 +29,13 @@ var PlotThumbnail = React.createClass({
     },
 
     render: function () {
-        let imageUrl = this.props.url + '.png';
-
+        let sharekey;
+        let plot_url = this.props.url;
+        if(plot_url.indexOf('share_key') > -1){
+            sharekey = plot_url.slice(plot_url.indexOf('?share_key=')+'?share_key='.length, plot_url.length);
+            plot_url = plot_url.replace('?share_key='+sharekey, '');
+        }
+        let imageUrl = plot_url + '.png' + (sharekey ? '?share_key='+sharekey : '');
         let imageStyle = {
             'cursor': 'pointer',
             'background': 'url(' + imageUrl + ')',

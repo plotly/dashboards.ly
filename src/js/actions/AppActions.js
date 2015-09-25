@@ -10,20 +10,15 @@ import request from 'request';
 var pendingRequest;
 
 var AppActions = {
-    updateStore: function(key, value) {
-        AppDispatcher.dispatch({
-            event: 'SETSTORE',
-            key: key,
-            value: value
-        });
-    },
-
     updateKey: function(keystring, value) {
         AppDispatcher.dispatch({
             event: 'UPDATEKEY',
             keystring: keystring,
             value: value
         });
+        if(keystring === 'username' || keystring === 'apikey') {
+            this.initialize();
+        }
     },
 
     addNewLink: function(){
@@ -67,11 +62,6 @@ var AppActions = {
         });
     },
 
-    updateUsername: function(username) {
-        this.updateStore('username', username);
-        this.updateStore('page', 0);
-    },
-
     incrementPage: function(username) {
         let currentPage = AppStore.getState().page;
         this.updateStore('page', currentPage+1);
@@ -91,6 +81,7 @@ var AppActions = {
         console.warn('initialize');
         let username = AppStore.getState().username;
         let page = AppStore.getState().page;
+        let apikey = AppStore.getState().apikey;
         if(ENV.mode==='create') {
             if(pendingRequest) {
                 pendingRequest.abort();
@@ -105,7 +96,8 @@ var AppActions = {
                 key: 'requestWasEmpty',
                 value: false
             });
-            var url = location.protocol + '//' + window.location.host + '/files?username='+username+'&page='+page;
+
+            var url = location.protocol + '//' + window.location.host + '/files?username='+username+'&page='+page+'&apikey='+apikey;
             console.warn(url);
             pendingRequest = request({
                 method: 'GET',
@@ -127,6 +119,11 @@ var AppActions = {
                             value: false
                         });
                     }
+                    AppDispatcher.dispatch({
+                        event: 'SETSTORE',
+                        key: 'isAuth',
+                        value: body.is_authenticated
+                    });
                     AppDispatcher.dispatch({
                         event: 'EXTENDPLOTS',
                         plots: body.plots

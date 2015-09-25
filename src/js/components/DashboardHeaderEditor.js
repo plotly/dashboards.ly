@@ -2,27 +2,7 @@ import React from 'react';
 import AppActions from '../actions/AppActions';
 import AppConstants from '../constants/AppConstants';
 import ColorInput from './ColorInput.react';
-
-var TextInput = React.createClass({
-    propTypes: {
-        label: React.PropTypes.string.isRequired,
-        value: React.PropTypes.string.isRequired,
-        keystring: React.PropTypes.string.isRequired
-    },
-
-    updateInput: function(e) {
-        console.warn('updateInput: ', this.props.keystring);
-        AppActions.updateKey(this.props.keystring, e.target.value);
-    },
-
-    render: function() {
-        return (
-        <div style={{display: "inline-block"}}>
-            <label className="chart-title">{this.props.label}</label>
-            <input onChange={this.updateInput} type="text" value={this.props.value}/>
-        </div>);
-    }
-});
+import TextInput from './TextInput.react';
 
 var CheckBox= React.createClass({
 

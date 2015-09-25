@@ -4,6 +4,7 @@ from flask.ext import assets
 from flask.ext.cors import CORS
 
 import requests
+from requests.auth import HTTPBasicAuth
 import json
 import os
 
@@ -42,7 +43,7 @@ def _gridjson_to_tabular_form(gridjson, preview):
     return {'column_names': ordered_cols, 'data': tabular_data}
 
 
-def files(username, page):
+def files(username, apikey, page):
     # check if username exists. once /folders returns 404 on invalid username,
     # i can remove this
     r = requests.head('https://api.plot.ly/v2/users/{}'.format(username))
@@ -51,14 +52,36 @@ def files(username, page):
     except requests.exceptions.HTTPError as e:
         abort(e.response.status_code)
 
+    # check if the user is authenticated
+    # /folders/all is an authenticated endpoint, so query against
+    # that resource to see if the API key is OK
+    r = requests.head('https://api.plot.ly/v2/folders/all'
+                      '?user={}'.format(username),
+                      auth=HTTPBasicAuth(username, apikey),
+                      headers={'plotly-client-platform': 'dashboardsly'})
+    try:
+        r.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        if e.response.status_code == 401:
+            authenticated = False
+        else:
+            abort(e.response.status_code)
+    else:
+        authenticated = True
+
     items = []
     pages = range((page + 1) * 2 - 1, (page + 1) * 2 + 1)
     for page in pages:
-        r = requests.get('https://api.plot.ly/v2/folders/home'
-                         '?page={}&user={}'
-                         '&filetype=grid&filetype=plot'
-                         '&order_by=-date_modified'.format(page, username))
-
+        url = ('https://api.plot.ly/v2/folders/all'
+               '?page={}&user={}'
+               '&filetype=grid&filetype=plot'
+               '&order_by=-date_modified').format(page, username)
+        if authenticated:
+            auth = HTTPBasicAuth(username, apikey)
+        else:
+            auth = HTTPBasicAuth('benji.b', '4r26wpg85l')
+        r = requests.get(url, auth=auth, headers={
+            'plotly-client-platform': 'dashboardsly'})
         try:
             r.raise_for_status()
         except requests.exceptions.HTTPError as e:
@@ -74,20 +97,22 @@ def files(username, page):
         else:
             last = False
 
-        print 'files: ', files
-        items.extend([
-            {
+        for f in files:
+            if f['filetype'] == 'plot':
+                url = f['web_url']
+                if f.get('share_key_enabled', '') is True:
+                    url += '?share_key=' + f['share_key']
+            elif f['filetype'] == 'grid':
+                url = '/grid/' + f['api_urls']['grids'].split('/')[-1]
+            items.append({
                 'filetype': f['filetype'],
                 'name': f['filename'],
-                'url': (f['web_url'] if f['filetype'] == 'plot'
-                        else ('/grid/' +
-                              f['api_urls']['grids'].split('/')[-1])),
+                'url': url,
                 'preview': _gridjson_to_tabular_form(f.get('preview', None),
                                                      preview=True)
-            } for f in files
-        ])
+            })
 
-    return items, last
+    return items, last, authenticated
 
 
 @app.route('/')
@@ -97,10 +122,14 @@ def index():
 
 @app.route('/files')
 def get_files():
-    username = request.args.get('username', 'chriddyp')
-    page = int(request.args.get('page', 0))
-    plots, is_last = files(username, page)
-    return flask.jsonify({'plots': plots, 'is_last': is_last})
+    username = request.args.get('username', 'benji.b')
+    page = int(request.args.get('page', 1))
+    apikey = request.args.get('apikey', '4r26wpg85l')
+    plots, is_last, is_authenticated = files(username, apikey, page)
+    return flask.jsonify({
+        'plots': plots,
+        'is_last': is_last,
+        'is_authenticated': is_authenticated})
 
 
 @app.route('/create')

@@ -62,9 +62,14 @@ var DashboardPlotBlock = React.createClass({
     render: function() {
         let connectDragSource = this.props.connectDragSource;
         let isDragging = this.props.isDragging;
-
-        let iframeUrl = this.props.plot_url + '.embed?autosize=true&link=false&source=false';
-        let imageUrl = this.props.plot_url + '.png';
+        let plot_url = this.props.plot_url;
+        let sharekey;
+        if(plot_url.indexOf('share_key') > -1){
+            sharekey = plot_url.slice(plot_url.indexOf('?share_key=')+'?share_key='.length, plot_url.length);
+            plot_url = plot_url.replace('?share_key='+sharekey, '');
+        }
+        let iframeUrl = plot_url + '.embed?autosize=true&link=false&source=false' + (sharekey ? '&share_key='+sharekey : '');
+        let imageUrl = plot_url + '.png' + (sharekey ? '?share_key='+sharekey : '');
         let chartStyle = {
             'border': '1px solid #e2e2e2',
             'borderRadius': '3px'
