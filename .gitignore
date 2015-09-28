@@ -1,4 +1,4 @@
-*node_modules/*
+dashboardsly/node_modules/*
 *.ipynb
 *.pyc
 vv/*
