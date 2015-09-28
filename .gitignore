@@ -3,5 +3,5 @@ dashboardsly/node_modules/*
 *.pyc
 vv/*
 *.webassets-cache/*
-static/.webassets-cache/*
+dashboardsly/static/.webassets-cache/*
 package.json
