@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="">
+
+    <div class="row">
+        <a id="generate" class="button">generate dashboard</a>
+    </div>
+
+    {% for plot_row in plots | batch(4, '&nbsp;') %}
+    <div class="row">
+      {% for plot in plot_row %}
+        <div class="three columns">
+          <div class="chart-wrapper">
+            {% if not builder %}
+            <div class="chart-title">
+            </div>
+            {% endif %}
+            <div class="chart-stage">
+              {% if builder %}
+              <img width="100%" src="{{plot.plot_url}}.png">
+              {% else %}
+              <iframe
+                width="100%"
+                style="border: none;"
+                src="{{plot.plot_url}}.embed?autosize=true&link=false">
+              </iframe>
+              {% endif %}
+            </div>
+            <div class="chart-notes">
+              {% if builder %}
+              <input type="checkbox"> {{plot.filename | truncate(12) }} </input>
+              {% else %}
+              <a href="{{plot.plot_url}}"><i class="icon-edit"></i> Copy &amp; Edit</a>
+              <a href="{{plot.plot_url}}" style="float:right"><i class="fa fa-comment"></i> Comment</a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+
+</div>
+<script src="/static/custom.js" type="text/javascript"></script>
+
+{% endblock %}

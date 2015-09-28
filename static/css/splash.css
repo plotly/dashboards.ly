@@ -1,8 +1,0 @@
-a.muted {
-    text-decoration: none;
-    color: #AAAAAA;
-}
-
-a.muted:hover {
-    text-decoration: underline;
-}
