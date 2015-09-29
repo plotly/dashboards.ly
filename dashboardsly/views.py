@@ -1,18 +1,20 @@
 import requests
-from requests.auth import HTTPBasicAuth
 import json
 import os
 import shortuuid  # https://github.com/stochastic-technologies/shortuuid
 import logging
 import sys
 import urllib
+import md5
 
 import flask
 from flask import render_template, request, abort
+
 from flask.ext import assets
 from flask.ext.cors import CORS
-
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask_httpauth import HTTPBasicAuth
+from werkzeug.security import generate_password_hash, check_password_hash
 
 from dashboardsly import app
 
@@ -34,18 +36,38 @@ env.register(
 
 CORS(app)
 
+auth = HTTPBasicAuth()
+
+
+@auth.verify_password
+def verify_pw(username, password):
+    if username == '':
+        return False
+    shortlink = request.path[1:]
+    dashboard = Dashboard.query.get(shortlink)
+    if dashboard is None:
+        return True
+    if dashboard.username != username:
+        return False
+    pw_hash = dashboard.pw_hash
+    return check_password_hash(pw_hash, password)
+
 
 class Dashboard(db.Model):
     __tablename__ = 'dashboards'
-
-    json = db.Column(db.Text)
     shortlink = db.Column(db.String, primary_key=True)
+    json = db.Column(db.Text)
+    username = db.Column(db.Text)
+    pw_hash = db.Column(db.Text)
 
 
-def commit_dashboard(dashboard_json):
+def commit_dashboard(dashboard_json, username, password):
     dashboard = Dashboard(
         json=dashboard_json,
-        shortlink=shortuuid.uuid())
+        shortlink=shortuuid.uuid(),
+        username=username,
+        pw_hash=generate_password_hash(password))
+
     db.session.add(dashboard)
     db.session.commit()
     return dashboard
@@ -83,7 +105,7 @@ def files(username, apikey, page):
     # that resource to see if the API key is OK
     r = requests.head('https://api.plot.ly/v2/folders/all'
                       '?user={}'.format(username),
-                      auth=HTTPBasicAuth(username, apikey),
+                      auth=requests.auth.HTTPBasicAuth(username, apikey),
                       headers={'plotly-client-platform': 'dashboardsly'})
     try:
         r.raise_for_status()
@@ -103,9 +125,9 @@ def files(username, apikey, page):
                '&filetype=grid&filetype=plot'
                '&order_by=-date_modified').format(page, username)
         if authenticated:
-            auth = HTTPBasicAuth(username, apikey)
+            auth = requests.auth.HTTPBasicAuth(username, apikey)
         else:
-            auth = HTTPBasicAuth('benji.b', '4r26wpg85l')
+            auth = requests.auth.HTTPBasicAuth('benji.b', '4r26wpg85l')
         r = requests.get(url, auth=auth, headers={
             'plotly-client-platform': 'dashboardsly'})
         try:
@@ -158,14 +180,23 @@ def get_files():
         'is_authenticated': is_authenticated})
 
 
-@app.route('/publish', methods=['GET'])
+@app.route('/publish', methods=['POST'])
 def publish():
-    url_encoded_dashboard_json = request.args['dashboard']
-    dashboard_json = urllib.unquote(url_encoded_dashboard_json).decode('utf8')
+    dashboard_json = request.form['dashboard']
+    # dashboard_json = urllib.unquote(url_encoded_dashboard_json).decode('utf8')
+    dashboard = json.loads(dashboard_json)
+    username = dashboard['auth']['username'] if dashboard['requireauth'] else ''
+    password = dashboard['auth']['passphrase'] if dashboard['requireauth'] else ''
 
-    dashboard_obj = commit_dashboard(dashboard_json)
-    return flask.redirect('/{}'.format(dashboard_obj.shortlink), code=302)
-    # return flask.jsonify({'resource': dashboard_obj.shortlink})
+    dashboard_obj = commit_dashboard(dashboard_json, username, password)
+    dashboard_url = '/{}'.format(dashboard_obj.shortlink)
+    if not dashboard['requireauth']:
+        dashboard_url = '/ua-' + dashboard_url[1:]
+
+    return flask.jsonify(
+        url=dashboard_url
+    )
+    # return flask.redirect(dashboard_url, code=302)
 
 
 @app.route('/create')
@@ -192,11 +223,19 @@ def embed(fid):
 def serve_dashboard_json():
     shortlink = request.args.get('id')
     dashboard = Dashboard.query.get(shortlink)
-    return flask.jsonify(content=json.loads(dashboard.json))
+    return flask.jsonify(
+        content=json.loads(dashboard.json),
+        shortlink=shortlink)
+
+
+@app.route('/ua-<shortlink>', methods=['GET'])
+def serve_unauthenticated_dashboard(shortlink):
+    return render_template('base.html', mode='view')
 
 
 @app.route('/<shortlink>', methods=['GET'])
-def serve_dashboard(shortlink):
+@auth.login_required
+def serve_authenticated_dashboard(shortlink):
     return render_template('base.html', mode='view')
 
 

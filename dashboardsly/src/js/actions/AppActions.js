@@ -68,13 +68,44 @@ var AppActions = {
     },
 
     publishDashboard: function() {
+        let that = this;
         // Serialize dashboard as JSON
         let dashboard = {
-            'rows': AppStore.getState().rows,
-            'banner': AppStore.getState().banner
+            rows: AppStore.getState().rows,
+            banner: AppStore.getState().banner,
+            requireauth: AppStore.getState().requireauth,
+            auth: {
+                username: AppStore.getState().auth.username,
+                passphrase: AppStore.getState().auth.passphrase
+            }
         };
+
+        this.updateKey('publishIsPending', true);
+
+        request({
+            method: 'POST',
+            url: location.origin+'/publish',
+            form: {'dashboard': JSON.stringify(dashboard)}
+        }, function(err, res, body) {
+            that.updateKey('publishIsPending', false);
+            if(!err && res.statusCode == 200) {
+                let url = JSON.parse(body).url;
+                let win = window.open(url, '_blank');
+                let urllist = AppStore.getState().publishUrl;
+                urllist.push(url);
+                that.updateKey('publishUrl', urllist);
+                console.warn('urllist: ', urllist);
+                try {
+                    win.focus();
+                } catch(e) {}
+            }
+        });
+
+        /*
         let win = window.open('/publish?dashboard='+encodeURIComponent(JSON.stringify(dashboard)), '_blank');
         win.focus();
+        */
+
     },
 
     initialize: function() {
@@ -143,9 +174,16 @@ var AppActions = {
                 });
             });
         } else if(ENV.mode==='view') {
+            let dashboard_id;
+            if(window.location.pathname.indexOf('/ua-')===0) {
+                dashboard_id = window.location.pathname.slice(4, window.location.pathname.length);
+            } else {
+                dashboard_id = window.location.pathname.slice(1, window.location.pathname.length);
+            }
+
             request({
                 method: 'GET',
-                url: location.origin+'/dashboard?id='+window.location.pathname.slice(1, window.location.pathname.length)
+                url: location.origin+'/dashboard?id='+dashboard_id
             }, function(err, res, body) {
                 if(!err && res.statusCode == 200) {
                     let content = JSON.parse(body).content;

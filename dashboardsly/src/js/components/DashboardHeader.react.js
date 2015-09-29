@@ -82,7 +82,7 @@ var DashboardHeader = React.createClass({
                     right: 0,
                     top: 0,
                     zIndex: 10
-                }}>edit banner &#9013;
+                }}>settings &#9013;
             </a>);
         }
 

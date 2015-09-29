@@ -31,11 +31,39 @@ var Dashboard = React.createClass({
             let header = null;
             let footer = null;
             if(ENV.mode === 'create' && rows[0].length > 0) {
+                let showurl = null;
+                if(this.props.publishUrl.length > 0) {
+                    if(this.props.publishUrl.length === 1) {
+                        showurl = (<div>
+                            Dashboard URL: <a target="_blank" href={this.props.publishUrl}>{this.props.publishUrl}</a>
+                        </div>)
+                    } else {
+                        let urllist = [];
+                        for(var i=this.props.publishUrl.length-1; i>=0; i--) {
+                            urllist.push(<div>
+                                <a target="_blank" href={this.props.publishUrl[i]}>
+                                    {this.props.publishUrl[i]}
+                                </a>
+                            </div>);
+                        }
+
+                        showurl = (<div>
+                            Dashboard URLs
+                            <div>
+                                {urllist}
+                            </div>
+                        </div>);
+                    }
+
+                }
                 footer = (
                 <div>
                     <hr/>
                     <div style={{textAlign: 'center', padding: '30px'}}>
-                        <a id="generate" onClick={this.handleClick} className="button">publish dashboard</a>
+                        <a id="generate" onClick={this.handleClick} className="button">
+                            {this.props.publishIsPending ? 'publishing': 'publish dashboard'}
+                        </a>
+                        {showurl}
                     </div>
                 </div>);
             }

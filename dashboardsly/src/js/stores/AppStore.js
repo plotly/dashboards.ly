@@ -15,6 +15,8 @@ var _appStore = {
     canRearrange: false,
     requests: [],
     isAuth: false,
+    publishIsPending: false,
+    publishUrl: [],
     // gets serialized as JSON in URL params
     rows: [[]],
 
@@ -28,8 +30,14 @@ var _appStore = {
         backgroundcolor: AppConstants.DEFAULT_BANNER_COLOR,
         textcolor: AppConstants.DEFAULT_BANNERTEXT_COLOR,
         visible: true
+    },
+
+    requireauth: false,
+    auth: {
+        username: 'Acme Corp',
+        passphrase: ''
     }
-}
+};
 
 var AppStore = BaseStore.extend({
 

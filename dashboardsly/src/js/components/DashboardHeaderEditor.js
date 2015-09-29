@@ -66,10 +66,23 @@ var DashboardHeaderEditor = React.createClass({
         }
         let loadMoreLinks = <div onClick={this.addNewLink} style={{cursor: "pointer", fontSize: "10px"}}>+ add header link</div>;
 
+        let authenticationBlock = null;
+        if(this.props.requireauth) {
+            authenticationBlock = (<div>
+                <TextInput label="username" keystring="auth.username" value={this.props.auth.username}/>
+                <TextInput label="passphrase" keystring="auth.passphrase" value={this.props.auth.passphrase}/>
+                <hr/>
+            </div>)
+        }
+
         return (
         <div style={{backgroundColor: "white", width: "450px", border: "thin lightgrey solid",
                      padding: "5px", marginRight: "5px", position: "relative", zIndex: 5,
                      float: 'right'}}>
+            <div>
+            <CheckBox label="require password authentication" keystring="requireauth" checked={this.props.requireauth}/>
+            </div>
+            {authenticationBlock}
             <CheckBox label="show banner" keystring="banner.visible" checked={this.props.banner.visible}/>
             <hr/>
             <TextInput label="brand or dashboard title" keystring="banner.title" value={this.props.banner.title}/>
