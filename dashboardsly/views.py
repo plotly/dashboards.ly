@@ -151,6 +151,8 @@ def files(username, apikey, page):
                 if f.get('share_key_enabled', '') is True:
                     url += '?share_key=' + f['share_key']
             elif f['filetype'] == 'grid':
+                if f['world_readable'] is False:
+                    continue  # gotta find a workaround to embedabble grids first.
                 url = '/grid/' + f['api_urls']['grids'].split('/')[-1]
             items.append({
                 'filetype': f['filetype'],
