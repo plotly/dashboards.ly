@@ -7,7 +7,14 @@ var TextInput = React.createClass({
         value: React.PropTypes.string.isRequired,
         keystring: React.PropTypes.string.isRequired,
         labelstyle: React.PropTypes.shape.isRequired, // surely there's a better way
-        tooltip: React.PropTypes.string
+        tooltip: React.PropTypes.string,
+        type: React.PropTypes.string
+    },
+
+    getDefaultProps: function() {
+        return {
+            type: "text"
+        }
     },
 
     updateInput: function(e) {
@@ -31,7 +38,7 @@ var TextInput = React.createClass({
         return (
         <div style={{display: "inline-block", marginBottom: '10px'}}>
             {label}
-            <input onChange={this.updateInput} type="text" value={this.props.value}/>
+            <input onChange={this.updateInput} type={this.props.type} value={this.props.value}/>
         </div>);
     }
 });

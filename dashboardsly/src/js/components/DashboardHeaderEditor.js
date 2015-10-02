@@ -64,13 +64,13 @@ var DashboardHeaderEditor = React.createClass({
                 <RemoveLinkButton index={i}/>
             </div>);
         }
-        let loadMoreLinks = <div onClick={this.addNewLink} style={{cursor: "pointer", fontSize: "10px"}}>+ add header link</div>;
+        let loadMoreLinks = <div onClick={this.addNewLink} style={{cursor: "pointer", fontSize: "1.3rem"}}>+ add header link</div>;
 
         let authenticationBlock = null;
         if(this.props.requireauth) {
             authenticationBlock = (<div>
                 <TextInput label="username" keystring="auth.username" value={this.props.auth.username}/>
-                <TextInput label="passphrase" keystring="auth.passphrase" value={this.props.auth.passphrase}/>
+                <TextInput label="passphrase" keystring="auth.passphrase" value={this.props.auth.passphrase} type="password"/>
                 <hr/>
             </div>)
         }
