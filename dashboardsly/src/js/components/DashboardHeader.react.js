@@ -42,7 +42,7 @@ var DashboardHeader = React.createClass({
 
             banner = (
                 <div className="navbar" style={{backgroundColor: this.props.banner.backgroundcolor}}>
-                    <div style={{display: 'inline-block', verticalAlign: 'top'}} className="navbar-brand">
+                    <div style={{display: 'inline-block', verticalAlign: 'top', 'color': this.props.banner.textcolor}} className="navbar-brand">
                         {title}
                     </div>
                     <div style={{display: 'inline-block', verticalAlign: 'top'}}>
