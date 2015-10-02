@@ -183,9 +183,10 @@ label {
     height: 30px;
     margin-bottom: 0px;
     margin-right: 10px;
+    font-size: 1.7rem;
 }
 
-input[type=text] {
+input[type=text],input[type=password] {
     /*width: 13px;*/
     /*height: 13px;*/
     padding: 0;
@@ -194,6 +195,7 @@ input[type=text] {
     position: relative;
     top: -1px;
     *overflow: hidden;
+    font-size: 1.2rem;
 
     display: inline-block;
     width: 120px;
