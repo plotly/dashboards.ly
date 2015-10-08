@@ -6,7 +6,10 @@ _cwd = dirname(abspath(__file__))
 
 
 class Config(object):
-    pass
+    PLOTLY_API_DOMAIN = os.environ.get(
+        "PLOTLY_API_DOMAIN", "https://api.plot.ly")
+    PLOTLY_DOMAIN = os.environ.get(
+        "PLOTLY_DOMAIN", "https://plot.ly")
 
 
 class ProductionConfig(Config):

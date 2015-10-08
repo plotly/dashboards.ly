@@ -69,8 +69,8 @@ var PlotPicker = React.createClass({
                     <TextInput labelstyle={{textTransform: 'uppercase', fontWeight: 400,
                                             letterSpacing: '0.01rem', marginLeft: '30px'}}
                                tooltip={"Authenticate with your plotly API key to access private and secret plots and grids. "+
-                                        "Click to find your API key in https://plot.ly/settings/api/"}
-                               labellink={"https://plot.ly/settings/api"}
+                                        "Click to find your API key in "+CONFIG.PLOTLY_DOMAIN+"/settings/api/"}
+                               labellink={CONFIG.PLOTLY_DOMAIN+"/settings/api"}
                                label={"plotly api key (optional)"} keystring="apikey" value={this.props.apikey}/>
                     {auth}
                     {loadingSpinner}

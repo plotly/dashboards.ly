@@ -1,0 +1,23 @@
+{
+  "name": "dashboards.ly by plotly",
+  "description": "A drag-and-drop dashboards creator for plotly graphs",
+  "repository": "https://github.com/plotly/dashboards.ly",
+  "logo": "http://i.imgur.com/JVxHtjt.png",
+  "keywords": ["react", "dashboard", "plotly"],
+  "env": {
+    "PLOTLY_DOMAIN": {
+        "description": "The domain of the plotly instance. By default, this is https://plot.ly, but if you are using plotly on-premise, this will be https://your-company.plot.ly",
+        "value": "https://plot.ly"
+    },
+    "PLOTLY_API_DOMAIN": {
+        "description": "The domain of the API endpoint on the plotly instance. This is used to query the plots and datasets made by a plotly user. By default, this is https://api.plot.ly, but if you are using plotly on-premise, this will be https://api-your-company.plot.ly",
+        "value": "https://api.plot.ly"
+    }
+  },
+  "addons": [
+    "heroku-postgresql:hobby-dev"
+  ],
+  "scripts": {
+    "postdeploy": "python init_db.py"
+  }
+}

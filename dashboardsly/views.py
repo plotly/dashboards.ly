@@ -4,8 +4,6 @@ import os
 import shortuuid  # https://github.com/stochastic-technologies/shortuuid
 import logging
 import sys
-import urllib
-import md5
 
 import flask
 from flask import render_template, request, abort
@@ -94,7 +92,9 @@ def _gridjson_to_tabular_form(gridjson, preview):
 def files(username, apikey, page):
     # check if username exists. once /folders returns 404 on invalid username,
     # i can remove this
-    r = requests.head('https://api.plot.ly/v2/users/{}'.format(username))
+    r = requests.head('{}/v2/users/{}'.format(
+        app.config['PLOTLY_API_DOMAIN'],
+        username))
     try:
         r.raise_for_status()
     except requests.exceptions.HTTPError as e:
@@ -103,8 +103,9 @@ def files(username, apikey, page):
     # check if the user is authenticated
     # /folders/all is an authenticated endpoint, so query against
     # that resource to see if the API key is OK
-    r = requests.head('https://api.plot.ly/v2/folders/all'
-                      '?user={}'.format(username),
+    r = requests.head('{}/v2/folders/all'
+                      '?user={}'.format(app.config['PLOTLY_API_DOMAIN'],
+                                        username),
                       auth=requests.auth.HTTPBasicAuth(username, apikey),
                       headers={'plotly-client-platform': 'dashboardsly'})
     try:
@@ -120,10 +121,11 @@ def files(username, apikey, page):
     items = []
     pages = range((page + 1) * 2 - 1, (page + 1) * 2 + 1)
     for page in pages:
-        url = ('https://api.plot.ly/v2/folders/all'
+        url = ('{}/v2/folders/all'
                '?page={}&user={}'
                '&filetype=grid&filetype=plot'
-               '&order_by=-date_modified').format(page, username)
+               '&order_by=-date_modified'
+               '').format(app.config['PLOTLY_API_DOMAIN'], page, username)
         if authenticated:
             auth = requests.auth.HTTPBasicAuth(username, apikey)
         else:
@@ -203,7 +205,8 @@ def publish():
 
 @app.route('/create')
 def create():
-    return render_template('base.html', mode='create')
+    return render_template('base.html', mode='create', CONFIG={
+        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
 
 
 @app.route('/view')
@@ -213,7 +216,8 @@ def view():
 
 @app.route('/grid/<fid>.embed')
 def embed(fid):
-    r = requests.get('https://api.plot.ly/v2/grids/{}/content'.format(fid))
+    r = requests.get('{}/v2/grids/{}/content'.format(
+        app.config['PLOTLY_API_DOMAIN'], fid))
     data = json.loads(r.content)['cols']
     tabular = _gridjson_to_tabular_form(data, preview=False)
     return render_template('grid.html',
