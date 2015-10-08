@@ -211,7 +211,8 @@ def create():
 
 @app.route('/view')
 def view():
-    return render_template('base.html', mode='view')
+    return render_template('base.html', mode='view', CONFIG={
+        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
 
 
 @app.route('/grid/<fid>.embed')
@@ -236,13 +237,15 @@ def serve_dashboard_json():
 
 @app.route('/ua-<shortlink>', methods=['GET'])
 def serve_unauthenticated_dashboard(shortlink):
-    return render_template('base.html', mode='view')
+    return render_template('base.html', mode='view', CONFIG={
+        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
 
 
 @app.route('/<shortlink>', methods=['GET'])
 @auth.login_required
 def serve_authenticated_dashboard(shortlink):
-    return render_template('base.html', mode='view')
+    return render_template('base.html', mode='view', CONFIG={
+        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
 
 
 @app.after_request
