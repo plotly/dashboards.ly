@@ -3,7 +3,6 @@
 import AppDispatcher from '../dispatchers/AppDispatcher';
 import BaseStore from './BaseStore';
 import AppConstants from '../constants/AppConstants';
-import Collection from 'ampersand-collection';
 import AppActions from '../actions/AppActions';
 
 var _appStore = {

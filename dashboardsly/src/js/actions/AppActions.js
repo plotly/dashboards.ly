@@ -4,7 +4,6 @@ import AppConstants from '../constants/AppConstants';
 import AppDispatcher from '../dispatchers/AppDispatcher';
 import {AppStore} from '../stores/AppStore';
 
-import AppState from 'ampersand-app';
 import request from 'request';
 
 var pendingRequest;
