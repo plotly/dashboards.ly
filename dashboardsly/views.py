@@ -187,7 +187,6 @@ def get_files():
 @app.route('/publish', methods=['POST'])
 def publish():
     dashboard_json = request.form['dashboard']
-    # dashboard_json = urllib.unquote(url_encoded_dashboard_json).decode('utf8')
     dashboard = json.loads(dashboard_json)
     username = dashboard['auth']['username'] if dashboard['requireauth'] else ''
     password = dashboard['auth']['passphrase'] if dashboard['requireauth'] else ''
