@@ -191,6 +191,8 @@ def publish():
     dashboard = json.loads(dashboard_json)
     username = dashboard['auth']['username'] if dashboard['requireauth'] else ''
     password = dashboard['auth']['passphrase'] if dashboard['requireauth'] else ''
+    dashboard.pop('auth')  # don't save the raw passphrase
+    dashboard_json = json.dumps(dashboard)
 
     dashboard_obj = commit_dashboard(dashboard_json, username, password)
     dashboard_url = '/{}'.format(dashboard_obj.shortlink)
