@@ -15,6 +15,7 @@ var AppActions = {
             keystring: keystring,
             value: value
         });
+        // yikes
         if(keystring === 'username' || keystring === 'apikey') {
             this.initialize();
         }
