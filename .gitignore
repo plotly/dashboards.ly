@@ -5,3 +5,4 @@ vv/*
 *.webassets-cache/*
 dashboardsly/static/.webassets-cache/*
 package.json
+_site/*
