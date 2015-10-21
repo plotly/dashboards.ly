@@ -21,6 +21,7 @@ layout: base
     <li><a href="#How-do-I-keep-dashboards-and-plotly-graphs-private">How do I keep dashboards and plotly graphs private?</a></li>
     <li><a href="#Embedding-dashboards-in-other-HTML-pages">Embedding dashboards in other HTML pages</a></li>
     <li><a href="#Where-should-I-report-feature-suggestions-questions-or-bugs">Where should I report feature suggestions, questions, or bugs?</a></li>
+    <li><a href="#Private-dashboardsly">Running dashboards on-premise</a></li>
     <li><a href="#JSON-Structure">API - JSON Structure</a></li>
     <li><a href="#POST">API - POST at /publish</code></a></li>
     <li><a href="#Python-Example">API - Python Example</a></li>
@@ -64,6 +65,13 @@ Embed dashboards in other HTML pages with an <code>iframe</code>. Here is an exa
 <h5 id="Where-should-I-report-feature-suggestions-questions-or-bugs"><a style="color: inherit; text-decoration: none;" href="#Where-should-I-report-feature-suggestions-questions-or-bugs">Where should I report feature suggestions, questions, or bugs?</a></h5>
 Report issues in the <a href="https://github.com/plotly/dashboards.ly">dashboards.ly GitHub repo</a>.
 
+<h5 id="Private-dashboardsly"><a style="color: inherit; text-decoration: none;" href="#Private-dashboardsly">Using dashboards.ly with <a href="https://plot.ly/product/enterprise">plotly on-premise</a>.</a></h5>
+
+dashboards.ly is a beta plotly product and doesn't ship with plotly on-premise. You can easily deploy your own dashboards.ly with one-click on heroku.
+
+<a href="https://heroku.com/deploy?template=https://github.com/plotly/dashboards.ly"><img src="https://www.herokucdn.com/deploy/button.svg"/></a>
+
+You'll need to provide your heroku instance of dashboards.ly network access to your on-premise instance of plotly.
 
 <h4>API</h4>
 <h5 id="JSON-Structure"><a style="color: inherit; text-decoration: none;" href="#JSON-Structure">JSON Structure</a></h5>
