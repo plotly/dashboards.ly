@@ -25,6 +25,7 @@ layout: base
     <li><a href="#JSON-Structure">API - JSON Structure</a></li>
     <li><a href="#POST">API - POST at /publish</code></a></li>
     <li><a href="#Python-Example">API - Python Example</a></li>
+    <li><a href="#MATLAB-Example">API - MATLAB Example</a></li>
 </ul>
 
 <h5 id="how-do-I-create-these-graphs"><a style="color: inherit; text-decoration: none;" href="#how-do-I-create-these-graphs">How do I create these graphs?</a></h5>
@@ -188,3 +189,102 @@ print('dashboard url: http://dashboards.ly{}'.format(dashboard_url))
 
 Update a graph in the dashboard by making another <code>py.plot</code> with the same filename. For example:
 <pre><code>py.plot(new_figure, filename='dashboard/earnings', sharing='secret')</code></pre>
+
+
+<h5 id="MATLAB-Example"><a style="color: inherit; text-decoration: none;" href="#MATLAB-Example">MATLAB Example</a></h5>
+
+<a target="_blank" href="http://dashboards.ly/ua-JNTMiqdqLUJnDwir6W75rX">View this dashboard</a>.
+
+<iframe src="http://dashboards.ly/ua-JNTMiqdqLUJnDwir6W75rX" style="border: none;" width="100%" height="600px"></iframe>
+
+<pre><code>N = 10;
+x = linspace(1, N, N);
+clrs = {
+    [240, 179, 110]/255., ...
+    [238, 151, 0]/255.,   ...
+    [231, 91, 0]/255.,    ...
+    [161, 54, 28]/255.,   ...
+    [220, 51, 0]/255.};
+
+urls = {};
+for i=1:5
+    close all
+    fig = figure;
+    hold on
+    y = randn(N, 15);
+    plot(x, y, '.', x, mean(y'), 'linewidth', 2, 'MarkerSize', 4, 'Color', clrs{i});
+    plot(x, mean(y'), '.', 'MarkerSize', 16, 'Color', clrs{i});
+    title(['Week ', num2str(i)]);
+    pfig = plotlyfig(fig, 'strip', false);
+    pfig.PlotOptions.FileName = ['dashboard/matlab-', num2str(i)]; % name of graph as saved in plotly
+    pfig.PlotOptions.FileOpt = 'overwrite'; % overwrite any existing graphs with this filename
+    pfig.PlotOptions.WorldReadable = 1; % public
+    pfig.PlotOptions.OpenURL = 0;       % don't open the URL in the web browser
+    % send to plotly
+    pfig.plotly;
+    urls{i} = pfig.url;
+end
+
+% throw in a heatmap, too
+close all;
+fig = figure;
+size = 50;
+z = zeros(size, size);
+for r = 1:size
+    for c = 1:size
+        z(r,c) = r+c*randn/5.;
+    end
+end
+fig = figure;
+colormap('hot');
+imagesc(z);
+title('Summary');
+% convert matlab figure to plotly figure
+pfig = plotlyfig(fig, 'strip', false);
+pfig.PlotOptions.FileName = ['dashboard/matlab-heatmap']; % name of graph as saved in plotly
+pfig.PlotOptions.FileOpt = 'overwrite'; % overwrite any existing graphs with this filename
+pfig.PlotOptions.WorldReadable = 1; % public
+pfig.PlotOptions.OpenURL = 0;       % don't open the URL in the web browser
+pfig.plotly                         % send the figure to your plotly account
+urls{i+1} = pfig.url;
+
+% arrange the graphs in a dashboard
+dashboard = struct();
+dashboard.rows = {...
+    % first row of plots
+    {struct('plot_url', urls{1}), struct('plot_url', urls{2})}, ...
+    % second row of plots
+    {struct('plot_url', urls{3})} ...
+    % third row of plots
+    {struct('plot_url', urls{4}), struct('plot_url', urls{5})} ...
+    % fourth row of plots
+    {struct('plot_url', urls{6})} ...
+    % place as many rows as you wish here
+};
+dashboard.banner = struct(...
+    'visible', true,...                % if you don't want to show a banner, set to false
+    'backgroundcolor', '#ff2800',...   % background color of the banner
+    'textcolor', 'white',...           % color of the text in the banner
+    'title', 'Performance Results',... % title of the banner
+    'links', {{...                     % list of (optional) links in the banner
+        struct('href', 'https://google.com', 'text', 'Metrics'),...
+        struct('href', 'https://google.com', 'text', 'Performance')...
+    }}...
+);
+dashboard.requireauth = false;         % set to true if you want to set password authentication
+dashboard.auth = struct(...            % set the passphrase and username of the optional password auth
+    'username', 'Acme Corp',...
+    'passphrase', ''...
+);
+
+% send the description of the dashboard to the server
+body = ['dashboard=', urlencode(m2json(dashboard))];
+[response_string, extras] = urlread2('http://dashboards.ly/publish', 'POST', body);
+
+% handle 400 and 500 level errors, parse the output
+response_handler(response_string, extras);
+response_object = loadjson(response_string);
+dashboard_url = ['http://dashboards.ly', response_object.url];
+
+% open up the dashboard in your web browser
+web(dashboard_url, '-browser')</code></pre>
