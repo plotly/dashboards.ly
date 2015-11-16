@@ -2,12 +2,40 @@
 <html>
 
 <head>
-    <link rel="shortcut icon" type="image/png" href="/static/images/favicon.ico"/>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:200,400,300,700' rel='stylesheet' type='text/css'>
-    {% assets "css_all" %}
-        <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"></script>
-    {% endassets %}
-    <link href="/static/custom.css" rel="stylesheet" type="text/css">
+    
+<link rel="shortcut icon" type="image/png" href="/static/images/favicon.ico"/>
+<link href='https://fonts.googleapis.com/css?family=Open+Sans:200,400,300,700' rel='stylesheet' type='text/css'>
+{% assets "css_all" %}
+    <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"></script>
+{% endassets %}
+<link href="/static/custom.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    
+<title>Dashboards.ly: Make Dashboards Online</title>
+<meta name="description" content="Create dashboards online with Dashboards.ly and Plotly charts. Share dashboards with your team and customers with easy, password-proteced links." />
+
+<!-- Schema.org markup for Google+ -->
+<meta itemprop="name" content="Dashboards.ly: Make Dashboards Online">
+<meta itemprop="description" content="Create dashboards online with Dashboards.ly and Plotly charts. Share dashboards with your team and customers with easy, password-proteced links.">
+<meta itemprop="image" content="http://images.plot.ly/excel/dashboards/dashboard.png">
+
+<!-- Twitter Card data -->
+<meta name="twitter:card" content="http://images.plot.ly/excel/dashboards/dashboards-thumbnail.png">
+<meta name="twitter:site" content="@plotlygraphs">
+<meta name="twitter:title" content="Dashboards.ly: Make Dashboards Online">
+<meta name="twitter:description" content="Create dashboards online with Dashboards.ly and Plotly charts. Share dashboards with your team and customers with easy, password-proteced links.">
+<meta name="twitter:creator" content="@plotlygraphs">
+<!-- Twitter summary card with large image must be at least 280x150px -->
+<meta name="twitter:image:src" content="http://images.plot.ly/excel/dashboards/dashboard.png">
+
+<!-- Open Graph data -->
+<meta property="og:title" content="Dashboards.ly: Make Dashboards Online" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://dashboards.ly/" />
+<meta property="og:image" content="http://images.plot.ly/excel/dashboards/dashboards-thumbnail.png" />
+<meta property="og:description" content="Create dashboards online with Dashboards.ly and Plotly charts. Share dashboards with your team and customers with easy, password-proteced links." />
+<meta property="og:site_name" content="Dashboards.ly" />
+
 </head>
 
 <body>
@@ -24,5 +52,15 @@
         ENV.mode = "{{mode}}";
     </script>
     <script src="/static/js/bundle.js"></script>
+    
+    <!-- Google analytics --> 
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-39373211-1', 'auto');
+        ga('send', 'pageview');
+    </script>
 </footer>
 </html>
