@@ -51,13 +51,13 @@ var AppContainer = React.createClass({
             let astyle = {'paddingLeft': '5px', 'paddingRight': '5px'};
             footer = (<div style={{textAlign: "center", paddingTop: "30px;"}}>
                 <span>
-                    <a style={astyle} target="_blank" className="muted" href="https://github.com/plotly/dashboards.ly">fork on github</a>
+                    <a style={astyle} target="_blank" className="muted" href="https://github.com/plotly/dashboards.ly"><i class="fa fa-github-alt"></i> Fork on GitHub</a>
                     -
-                    <a style={astyle} target="_blank" className="muted" href="http://help.plot.ly/dashboards.ly/">faq</a>
+                    <a style={astyle} target="_blank" className="muted" href="http://help.plot.ly/dashboards.ly/">FAQ</a>
                     -
-                    <a style={astyle} target="_blank" className="muted" href="http://help.plot.ly/dashboards.ly/">documentation</a>
+                    <a style={astyle} target="_blank" className="muted" href="http://help.plot.ly/dashboards.ly/">Documentation</a>
                     -
-                    <a style={astyle} target="_blank" className="muted" href="http://dashboards.ly/ua-mUzaU5RwdSdaz5ERTudSZH">example dashboard</a>
+                    <a style={astyle} target="_blank" className="muted" href="http://dashboards.ly/ua-mUzaU5RwdSdaz5ERTudSZH">Example Dashboard</a>
                 </span>
             </div>);
         }
