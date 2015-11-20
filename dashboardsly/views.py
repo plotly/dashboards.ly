@@ -209,6 +209,10 @@ def create():
     return render_template('base.html', mode='create', CONFIG={
         'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
 
+@app.route('/google8786ccf07cde43db.html')
+def create():
+    return render_template('google8786ccf07cde43db.html', mode='create', CONFIG={
+        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
 
 @app.route('/view')
 def view():
