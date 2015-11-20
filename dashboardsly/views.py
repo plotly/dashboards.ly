@@ -171,6 +171,9 @@ def files(username, apikey, page):
 def index():
     return render_template('index.html')
 
+@app.route('/google8786ccf07cde43db.html')
+def google_verification():
+    return render_template('google8786ccf07cde43db.html')
 
 @app.route('/files')
 def get_files():
@@ -207,11 +210,6 @@ def publish():
 @app.route('/create')
 def create():
     return render_template('base.html', mode='create', CONFIG={
-        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
-
-@app.route('/google8786ccf07cde43db.html')
-def create():
-    return render_template('google8786ccf07cde43db.html', mode='create', CONFIG={
         'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
 
 @app.route('/view')
