@@ -6,3 +6,47 @@ a.muted {
 a.muted:hover {
     text-decoration: underline;
 }
+
+#floating-cta{
+    position: absolute;
+    left: calc(50% - 190px);
+    width: 80%;
+    top: 35%;
+    width:80%;
+    margin-right: auto;
+    display: block;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    z-index: 1;
+    background-color: rgba(253,253,253, 0.9);
+    width: 350px;
+    padding: 30px;
+    border-radius: 6px;
+    border: thin lightgrey solid;
+    -webkit-box-shadow: 10px 10px 35px -16px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 35px -16px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 35px -16px rgba(0,0,0,0.75);
+}
+
+#floating-cta h4, #floating-cta a{
+    margin-left: auto; 
+    margin-right: auto; 
+    display: block; 
+    text-decoration: none
+}
+
+#video-container{
+    display: block; 
+    margin-left: auto; 
+    margin-right: auto; 
+    max-width: 1280px; 
+    width: 100%;
+}
+
+#heading-container{
+    text-align: center;
+    text-transform: uppercase;
+    padding: 2px;
+    border-bottom: 1px solid #444;
+}
