@@ -174,6 +174,10 @@ def index():
 @app.route('/google8786ccf07cde43db.html')
 def google_verification():
     return render_template('google8786ccf07cde43db.html')
+    
+@app.route('/robots.txt')
+def robotron():
+    return render_template('robots.txt')    
 
 @app.route('/files')
 def get_files():
