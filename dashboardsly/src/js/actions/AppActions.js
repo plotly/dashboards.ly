@@ -112,6 +112,8 @@ var AppActions = {
     initialize: function() {
         console.warn('initialize');
 
+        // Check for initial state in a JSON-ified, URL-encoded query parameter `initialstate`
+        // If it exists, then set the store to this state
         let initialState = getParameterByName('initialstate');
         if(initialState !== '') {
             initialState = JSON.parse(initialState);
