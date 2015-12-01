@@ -3,6 +3,7 @@
 import AppConstants from '../constants/AppConstants';
 import AppDispatcher from '../dispatchers/AppDispatcher';
 import {AppStore} from '../stores/AppStore';
+import getParameterByName from '../utils/utils';
 
 import request from 'request';
 
@@ -110,9 +111,20 @@ var AppActions = {
 
     initialize: function() {
         console.warn('initialize');
-        let username = AppStore.getState().username;
-        let page = AppStore.getState().page;
-        let apikey = AppStore.getState().apikey;
+
+        let initialState = getParameterByName('initialstate');
+        if(initialState !== '') {
+            initialState = JSON.parse(initialState);
+            const validInitialStoreKeys = [
+                'username', 'rows', 'banner'
+            ];
+            validInitialStoreKeys.forEach((v, i) => {
+                if(v in initialState) {
+                    AppActions.updateKey(v, initialState[v]);
+                }
+            });
+        }
+
         if(ENV.mode==='create') {
             if(pendingRequest) {
                 pendingRequest.abort();
@@ -128,6 +140,9 @@ var AppActions = {
                 value: false
             });
 
+            const username = AppStore.getState().username;
+            const page = AppStore.getState().page;
+            const apikey = AppStore.getState().apikey;
             var url = location.protocol + '//' + window.location.host + '/files?username='+username+'&page='+page+'&apikey='+apikey;
             console.warn(url);
             pendingRequest = request({
