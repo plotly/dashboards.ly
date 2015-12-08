@@ -188,5 +188,6 @@ AppDispatcher.register(actions);
 exports.AppStore = AppStore;
 
 (function(){
+    AppActions.loadInitialState();
     AppActions.initialize();
 })();
