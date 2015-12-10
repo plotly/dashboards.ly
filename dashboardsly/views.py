@@ -37,6 +37,11 @@ CORS(app)
 auth = HTTPBasicAuth()
 
 
+@app.route('/.well-known/acme-challenge/BzvoMFiLlTFGgADooJ6laj-uiHd418oM2fU_yL8FSWs')
+def verify():
+    return 'BzvoMFiLlTFGgADooJ6laj-uiHd418oM2fU_yL8FSWs.cQU-IDceRcQLJ7ir5GWuqnHl9BuJ5QjQ3_qlIolKss4'
+
+
 @auth.verify_password
 def verify_pw(username, password):
     if username == '':
@@ -174,10 +179,10 @@ def index():
 @app.route('/google8786ccf07cde43db.html')
 def google_verification():
     return render_template('google8786ccf07cde43db.html')
-    
+
 @app.route('/robots.txt')
 def robotron():
-    return render_template('robots.txt')    
+    return render_template('robots.txt')
 
 @app.route('/files')
 def get_files():
