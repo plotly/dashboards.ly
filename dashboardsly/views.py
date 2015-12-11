@@ -156,6 +156,9 @@ def files(username, apikey, page):
             last = False
 
         for f in files:
+            # don't show deleted files
+            if f.get('deleted', '') is True:
+                continue
             if f['filetype'] == 'plot':
                 url = f['web_url']
                 if f.get('share_key_enabled', '') is True:
