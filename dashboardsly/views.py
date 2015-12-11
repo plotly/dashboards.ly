@@ -201,10 +201,11 @@ def get_files():
 
     is_last = False
     plots = []
-    while not is_last and len(plots) < 10:
+    while not is_last and len(plots) < 15:
         paginated_plots, is_last, is_authenticated = files(
             username, apikey, page)
         plots.extend(paginated_plots)
+        page += 1
 
     return flask.jsonify({
         'plots': plots,
