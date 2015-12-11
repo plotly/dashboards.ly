@@ -182,20 +182,30 @@ def files(username, apikey, page):
 def index():
     return render_template('index.html')
 
+
 @app.route('/google8786ccf07cde43db.html')
 def google_verification():
     return render_template('google8786ccf07cde43db.html')
 
+
 @app.route('/robots.txt')
 def robotron():
     return render_template('robots.txt')
+
 
 @app.route('/files')
 def get_files():
     username = request.args.get('username', 'benji.b')
     page = int(request.args.get('page', 1))
     apikey = request.args.get('apikey', '4r26wpg85l')
-    plots, is_last, is_authenticated = files(username, apikey, page)
+
+    is_last = False
+    plots = []
+    while not is_last and len(plots) < 10:
+        paginated_plots, is_last, is_authenticated = files(
+            username, apikey, page)
+        plots.extend(paginated_plots)
+
     return flask.jsonify({
         'plots': plots,
         'is_last': is_last,
