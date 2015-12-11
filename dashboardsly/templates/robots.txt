@@ -1,5 +1,5 @@
 User-Agent: *
-Disallow: 
+Disallow:
 Allow: /
 
-Sitemap: http://dashboards.ly/static/sitemap.xml
+Sitemap: https://dashboards.ly/static/sitemap.xml

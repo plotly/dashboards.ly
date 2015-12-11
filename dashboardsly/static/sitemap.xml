@@ -6,12 +6,12 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
 <url>
-  <loc>http://dashboards.ly/</loc>
+  <loc>https://dashboards.ly/</loc>
 </url>
 <url>
-  <loc>http://dashboards.ly/create</loc>
+  <loc>https://dashboards.ly/create</loc>
 </url>
 <url>
-  <loc>http://dashboards.ly/ua-mUzaU5RwdSdaz5ERTudSZH</loc>
+  <loc>https://dashboards.ly/ua-mUzaU5RwdSdaz5ERTudSZH</loc>
 </url>
 </urlset>

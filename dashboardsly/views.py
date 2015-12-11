@@ -13,8 +13,11 @@ from flask.ext.cors import CORS
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_sslify import SSLify
 
 from dashboardsly import app
+
+SSLify(app, permanent=True)
 
 db = SQLAlchemy(app)
 

@@ -57,7 +57,7 @@ var AppContainer = React.createClass({
                     -
                     <a style={astyle} target="_blank" className="muted" href="http://help.plot.ly/dashboards.ly/">Documentation</a>
                     -
-                    <a style={astyle} target="_blank" className="muted" href="http://dashboards.ly/ua-mUzaU5RwdSdaz5ERTudSZH">Example Dashboard</a>
+                    <a style={astyle} target="_blank" className="muted" href="https://dashboards.ly/ua-mUzaU5RwdSdaz5ERTudSZH">Example Dashboard</a>
                 </span>
             </div>);
         }
