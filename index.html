@@ -3,7 +3,7 @@ layout: base
 ---
 {% raw %}
 <p style="text-align: center; margin-top: 40px;">
-    <a href="http://dashboards.ly">Create a Dashboard</a> | <a href="http://plot.ly">Plotly</a> | <a href="https://github.com/plotly/dashboards.ly/">Code on GitHub</a> | <a href="https://twitter.com/plotlygraphs">Twitter</a>
+    <a href="https://dashboards.ly">Create a Dashboard</a> | <a href="http://plot.ly">Plotly</a> | <a href="https://github.com/plotly/dashboards.ly/">Code on GitHub</a> | <a href="https://twitter.com/plotlygraphs">Twitter</a>
 </p>
 
 <div class="container">
@@ -12,7 +12,7 @@ layout: base
 
 <br>
 <br>
-<h4><a href="http://dashboards.ly">Dashboards.ly</a> is an <a href="https://github.com/plotly/dashboards.ly">open source</a> web application for arranging plotly graphs into web dashboards. <a href="http://dashboards.ly/ua-mUzaU5RwdSdaz5ERTudSZH">Check out an example</a> or <a href="http://dashboards.ly/">get started</a>.</h4>
+<h4><a href="https://dashboards.ly">Dashboards.ly</a> is an <a href="https://github.com/plotly/dashboards.ly">open source</a> web application for arranging plotly graphs into web dashboards. <a href="https://dashboards.ly/ua-mUzaU5RwdSdaz5ERTudSZH">Check out an example</a> or <a href="https://dashboards.ly/">get started</a>.</h4>
 <br>
 <br>
 
@@ -55,7 +55,7 @@ Yes - see the API section below.
 Plotly graphs can be public (graphs appear in search engines, the plotly feed, and your public profile), private (you, and viewers you grant access, must login to plotly to be able to view the graphs), or secret (graphs are accessible at a random URL and won't appear in search engines, the plotly feed, or your profile. Login is not required).<br>
 If you embed <i>private</i> graphs in a dashboard, you'll need to login to plotly to view them and you'll need to grant viewing access to other plotly users. This is what a plotly dashboard with private graphs looks like as a logged out user.
 <img style="max-width: 100%" src="http://i.imgur.com/GJZCZSG.png"/><br>
- <a target="_blank" href="http://dashboards.ly/ua-5LusvgDboRqRkSAJuAhvwm">View this dashboard</a>.<br>
+ <a target="_blank" href="https://dashboards.ly/ua-5LusvgDboRqRkSAJuAhvwm">View this dashboard</a>.<br>
 <br>
 Whereas, if I'm logged in:<br>
 <img style="max-width: 100%" src="http://i.imgur.com/Kp9j8Sh.png"/><br>
@@ -63,16 +63,16 @@ If you embed <i>secret</i> graphs in a dashboard, you or your viewers don't need
 You can also password protect your dashboards. Add a password in the dashboard settings:<br>
 <img style="max-width: 100%" src="http://i.imgur.com/GvXwKBd.png"/>
 
-<a href="http://dashboards.ly/SGd8umupPS5qfjqx3sTXUG">Here is an example</a> of a password protected dashboard. The username is "anna.lyst" and the passphrase is "dashboard 2015":<br>
+<a href="https://dashboards.ly/SGd8umupPS5qfjqx3sTXUG">Here is an example</a> of a password protected dashboard. The username is "anna.lyst" and the passphrase is "dashboard 2015":<br>
 <img style="max-width: 100%" src="http://i.imgur.com/zhBtfsk.png"/>
 
 <h5 id="Embedding-dashboards-in-other-HTML-pages"><a style="color: inherit; text-decoration: none;" href="#Embedding-dashboards-in-other-HTML-pages">Embedding dashboards in other HTML pages</a></h5>
 Embed dashboards in other HTML pages with an <code>iframe</code>. Here is an example:
 
-<pre><code>&lt;iframe src="http://dashboards.ly/ua-mUzaU5RwdSdaz5ERTudSZH"
+<pre><code>&lt;iframe src="https://dashboards.ly/ua-mUzaU5RwdSdaz5ERTudSZH"
          width="100%" height="800px" style="border: none;"&gt;&lt;/iframe&gt;</code></pre>
 
-<iframe src="http://dashboards.ly/ua-mUzaU5RwdSdaz5ERTudSZH" width="100%" height="800px" style="border: none;"></iframe>
+<iframe src="https://dashboards.ly/ua-mUzaU5RwdSdaz5ERTudSZH" width="100%" height="800px" style="border: none;"></iframe>
 
 <h5 id="Where-should-I-report-feature-suggestions-questions-or-bugs"><a style="color: inherit; text-decoration: none;" href="#Where-should-I-report-feature-suggestions-questions-or-bugs">Where should I report feature suggestions, questions, or bugs?</a></h5>
 Report issues in the <a href="https://github.com/plotly/dashboards.ly">dashboards.ly GitHub repo</a>.
@@ -87,7 +87,7 @@ You'll need to provide your heroku instance of dashboards.ly network access to y
 
 <h4>API</h4>
 <h5 id="JSON-Structure"><a style="color: inherit; text-decoration: none;" href="#JSON-Structure">JSON Structure</a></h5>
-Dashboards are described declaratively in JSON. For example, here is the JSON representation <a href="http://dashboards.ly/ua-mUzaU5RwdSdaz5ERTudSZH" target="_blank">of this dashboard</a>.
+Dashboards are described declaratively in JSON. For example, here is the JSON representation <a href="https://dashboards.ly/ua-mUzaU5RwdSdaz5ERTudSZH" target="_blank">of this dashboard</a>.
 <pre><code class="json">{
     "rows": [
         [{"plot_url": "https://plot.ly/~benji.b/38"}, {"plot_url": "https://plot.ly/~benji.b/54"}],
@@ -120,7 +120,7 @@ To enable passphrase authentication, set <code>"requireauth"</code> to <code>tru
 Arguments: <code>dashboard</code> - URL encoded dashboard JSON described above.<br>
 Returns: <code>{"url": A_LINK_TO_YOUR_DASHBOARD}</code><br>
 Example of a raw request:<br>
-<pre><code class="nohighlight">POST http://dashboards.ly/publish
+<pre><code class="nohighlight">POST https://dashboards.ly/publish
 Content-Length: 818
 Content-Type: application/x-www-form-urlencoded
 
@@ -133,9 +133,9 @@ Response:<br>
 
 <h5 id="Python-Example"><a style="color: inherit; text-decoration: none;" href="#Python-Example">Python Example</a></h5>
 
-<a target="_blank" href="http://dashboards.ly/ua-4uPQ3HmURAFK8jQaQXN6vd">View this dashboard</a>.
+<a target="_blank" href="https://dashboards.ly/ua-4uPQ3HmURAFK8jQaQXN6vd">View this dashboard</a>.
 
-<iframe src="http://dashboards.ly/ua-4uPQ3HmURAFK8jQaQXN6vd" style="border: none;" width="100%" height="600px"></iframe>
+<iframe src="https://dashboards.ly/ua-4uPQ3HmURAFK8jQaQXN6vd" style="border: none;" width="100%" height="600px"></iframe>
 
 <pre><code class="python">import plotly.plotly as py
 
@@ -189,15 +189,15 @@ dashboard_json = {
     }
 }
 
-response = requests.post('http://dashboards.ly/publish',
+response = requests.post('https://dashboards.ly/publish',
                          data={'dashboard': json.dumps(dashboard_json)},
                          headers={'content-type': 'application/x-www-form-urlencoded'})
 
 response.raise_for_status()
 
 dashboard_url = response.json()['url']
-print('dashboard url: http://dashboards.ly{}'.format(dashboard_url))
-# View here: http://dashboards.ly/ua-4uPQ3HmURAFK8jQaQXN6vd
+print('dashboard url: https://dashboards.ly{}'.format(dashboard_url))
+# View here: https://dashboards.ly/ua-4uPQ3HmURAFK8jQaQXN6vd
 </code></pre>
 
 Update a graph in the dashboard by making another <code>py.plot</code> with the same filename. For example:
@@ -206,9 +206,9 @@ Update a graph in the dashboard by making another <code>py.plot</code> with the 
 
 <h5 id="MATLAB-Example"><a style="color: inherit; text-decoration: none;" href="#MATLAB-Example">MATLAB Example</a></h5>
 
-<a target="_blank" href="http://dashboards.ly/ua-JNTMiqdqLUJnDwir6W75rX">View this dashboard</a>.
+<a target="_blank" href="https://dashboards.ly/ua-JNTMiqdqLUJnDwir6W75rX">View this dashboard</a>.
 
-<iframe src="http://dashboards.ly/ua-JNTMiqdqLUJnDwir6W75rX" style="border: none;" width="100%" height="600px"></iframe>
+<iframe src="https://dashboards.ly/ua-JNTMiqdqLUJnDwir6W75rX" style="border: none;" width="100%" height="600px"></iframe>
 
 <pre><code class="matlab">%% first, make some plotly graphs to embed in the dashboard
 N = 10;
@@ -268,7 +268,7 @@ pfig.plotly                         % send the figure to your plotly account
 urls{i+1} = pfig.url;
 
 %% arrange the graphs in a dashboard
-% you can create these dashboards manually at http://dashboards.ly
+% you can create these dashboards manually at https://dashboards.ly
 % the layout, style, and content of these dashboards are described in this struct
 dashboard = struct();
 dashboard.rows = {...
@@ -300,12 +300,12 @@ dashboard.auth = struct(...            % set the passphrase and username of the 
 
 % send the description of the dashboard to the dashboards.ly server to create and view the dashboard
 body = ['dashboard=', urlencode(m2json(dashboard))];
-[response_string, extras] = urlread2('http://dashboards.ly/publish', 'POST', body);
+[response_string, extras] = urlread2('https://dashboards.ly/publish', 'POST', body);
 
 % handle 400 and 500 level errors, parse the output
 response_handler(response_string, extras);
 response_object = loadjson(response_string);
-dashboard_url = ['http://dashboards.ly', response_object.url];
+dashboard_url = ['https://dashboards.ly', response_object.url];
 
 % open up the dashboard in your web browser
 web(dashboard_url, '-browser')</code></pre>
