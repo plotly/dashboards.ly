@@ -45,7 +45,34 @@ a.muted:hover {
 }
 
 #heading-container{
-    text-align: center;
-    padding: 2px;
-    border-bottom: 1px solid #444;
+    text-align: left;
+    position: absolute;
+    color: white;
+    z-index: 99;
+    padding-left: 20px;
+    top: 40px;
+    width: 100%;
+}
+
+#heading-container h1{
+    display: inline-block;
+}
+
+#link-container{
+    float: right;
+    margin-right: 40px;
+    margin-top: 25px;
+}
+
+#link-container a{
+    color: white !important;
+    margin: 10px;
+    white-space: nowrap;
+}
+
+#background-curtain{
+    background: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0));
+    min-height: 100%;
+    width: 100%;
+    position: absolute;
 }
