@@ -137,7 +137,7 @@ def files(username, apikey, page):
         if authenticated:
             auth = requests.auth.HTTPBasicAuth(username, apikey)
         else:
-            auth = requests.auth.HTTPBasicAuth('benji.b', '4r26wpg85l')
+            auth = requests.auth.HTTPBasicAuth('benji.b', 'op16fm0vke')
         r = requests.get(url, auth=auth, headers={
             'plotly-client-platform': 'dashboardsly'})
         try:
@@ -197,7 +197,7 @@ def robotron():
 def get_files():
     username = request.args.get('username', 'benji.b')
     page = int(request.args.get('page', 1))
-    apikey = request.args.get('apikey', '4r26wpg85l')
+    apikey = request.args.get('apikey', 'op16fm0vke')
 
     is_last = False
     plots = []
