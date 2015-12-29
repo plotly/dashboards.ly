@@ -5,34 +5,6 @@ var DragSource = require('react-dnd').DragSource;
 import AppActions from '../actions/AppActions';
 import ComponentTypes from '../constants/ComponentTypes';
 
-var InputTitle = React.createClass({
-    propTypes: {
-        placeholder: React.PropTypes.string,
-        plot_url: React.PropTypes.string
-    },
-    getInitialState: function() {
-        return {value: ''};
-    },
-    handleChange: function(event) {
-        AppActions.addKeyToPlotObject({
-            plot_url: this.props.plot_url,
-            key: 'title',
-            value: event.target.value
-        });
-        this.setState({value: event.target.value});
-    },
-    render: function() {
-        return (<span>
-            <input
-            className="chart-title"
-            placeholder={this.props.placeholder}
-            type="text" value={this.state.value}
-            onChange={this.handleChange}/>
-        </span>)
-    }
-});
-
-
 var DashboardPlotBlock = React.createClass({
     propTypes: {
         item: React.PropTypes.object.isRequired,
@@ -115,6 +87,7 @@ var DashboardPlotBlock = React.createClass({
                 </a>
             </div>)
         }
+        let draggableItem = (<div style={itemStyle} className={'chart-wrapper'}>
             {dragBar}
             {content}
         </div>);
