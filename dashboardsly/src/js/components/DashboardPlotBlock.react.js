@@ -78,6 +78,10 @@ var DashboardPlotBlock = React.createClass({
             borderRadius: '3px'
         };
         if('type' in this.props.item) {
+          if(this.props.item.type === 'image') {
+              content = <img src={this.props.item.src} style={iframeStyle}/>;
+          }
+          // We could add other types of contents here, like iframes or tables
         } else if('plot_url' in this.props.item) {
           let plot_url = this.props.item.plot_url;
           let iframeUrl = plot_url + '.embed?autosize=true&link=false&source=false' + (sharekey ? '&share_key='+sharekey : '');

@@ -9,7 +9,7 @@ var _appStore = {
     requestIsPending: false,
     page: 0,
     username: 'benji.b',
-    apikey: '4r26wpg85l',
+    apikey: 'op16fm0vke',
     plots: [],
     canRearrange: false,
     requests: [],
@@ -84,7 +84,6 @@ var actions = function(action) {
                 } else {
                     obj[keys[i]] = action.value;
                 }
-
             }
         }
         AppStore.emitChange();
@@ -123,7 +122,7 @@ var actions = function(action) {
         }
 
         // Remove empty rows
-        for(var i=_appStore.rows.length-1; i>=0; i--) {
+        for(let i=_appStore.rows.length-1; i>=0; i--) {
             if(_appStore.rows[i].length === 0) {
                 _appStore.rows.splice(i, 1);
             }
@@ -141,12 +140,10 @@ var actions = function(action) {
 
 
     case 'MOVE_PLOT_TO_NEW_ROW':
-        var i, j;
         var dontremove=false;
         if(!action.allow_duplicates) {
-            for(i=0; i<_appStore.rows.length; i++) {
-                for(j=0; j<_appStore.rows[i].length; j++){
-                    if(_appStore.rows[i][j].plot_url === action.plot_url) {
+            for(let i=0; i<_appStore.rows.length; i++) {
+                for(let j=0; j<_appStore.rows[i].length; j++){
                     if(JSON.stringify(_appStore.rows[i][j]) ===
                        JSON.stringify(action.item)) {
                         if(i === action.targetRowNumber) {
@@ -163,7 +160,7 @@ var actions = function(action) {
         }
 
         // Remove empty rows
-        for(var i=_appStore.rows.length-1; i>=0; i--) {
+        for(let i=_appStore.rows.length-1; i>=0; i--) {
             if(_appStore.rows[i].length === 0) {
                 _appStore.rows.splice(i, 1);
             }
@@ -172,19 +169,7 @@ var actions = function(action) {
         setDashboardRearrangability();
         AppStore.emitChange();
         break;
-
-    case 'ADD_KEY_TO_PLOT_OBJECT':
-        for(i=0; i<_appStore.rows.length; i++) {
-            for(j=0; j<_appStore.rows[i].length; j++){
-                if(_appStore.rows[i][j].plot_url === action.plot_url) {
-                    _appStore.rows[i][j][action.key] = action.value;
-                }
-            }
-        }
-        AppStore.emitChange();
-        break;
     }
-
 };
 
 AppDispatcher.register(actions);
