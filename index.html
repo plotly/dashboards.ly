@@ -377,21 +377,18 @@ If you received an error like:
 then you need to <a href="http://www.mathworks.com/matlabcentral/answers/92506-can-i-force-urlread-and-other-matlab-functions-which-access-internet-websites-to-open-secure-websi">add the dashboards.ly SSL certificate to MATLAB</a>.
 
 In a nutshell, run this in your terminal:
-<pre><code>
-$ openssl s_client -connect dashboards.ly:443 -showcerts > certs.crt
+<pre><code>$ openssl s_client -connect dashboards.ly:443 -showcerts > certs.crt
 </code></pre>
 
 Then, run MATLAB and find your <code>keytool</code> and <code>cacerts</code> path:
-<pre><code>
->> keytool = fullfile(matlabroot,'sys','java','jre',computer('arch'),'jre','bin','keytool')
+<pre><code>>> keytool = fullfile(matlabroot,'sys','java','jre',computer('arch'),'jre','bin','keytool')
 >> cacerts = fullfile(matlabroot,'sys','java','jre',computer('arch'),'jre','lib','security','cacerts')
 </code></pre>
 
 Then, using the <code>keytool</code>, <code>cacerts</code>, and <code>certs.crt</code>
 files, run this command in your terminal:
 
-<pre><code>
-$ /Applications/MATLAB_R2015b.app/sys/java/jre/maci64/jre/bin/keytool -import -file /Users/chriddyp/Repos/dashboards.ly/certs.crt -keystore /Applications/MATLAB_R2015b.app/sys/java/jre/maci64/jre/lib/security/cacerts -storepass changeit
+<pre><code>$ /Applications/MATLAB_R2015b.app/sys/java/jre/maci64/jre/bin/keytool -import -file /Users/chriddyp/Repos/dashboards.ly/certs.crt -keystore /Applications/MATLAB_R2015b.app/sys/java/jre/maci64/jre/lib/security/cacerts -storepass changeit
 Trust this certificate? [no]:  yes
 Certificate was added to keystore
 </code></pre>
