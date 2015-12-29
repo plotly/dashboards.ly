@@ -32,6 +32,7 @@ layout: base
     <li><a href="#How-do-I-keep-dashboards-and-plotly-graphs-private">How do I keep dashboards and plotly graphs private?</a></li>
     <li><a href="#Embedding-dashboards-in-other-HTML-pages">Embedding dashboards in other HTML pages</a></li>
     <li><a href="#Where-should-I-report-feature-suggestions-questions-or-bugs">Where should I report feature suggestions, questions, or bugs?</a></li>
+    <li><a href="#Embedding-images">Can I embed images into the dashboards?</a></li>
     <li><a href="#Private-dashboardsly">Running dashboards on-premise</a></li>
     <li><a href="#JSON-Structure">API - JSON Structure</a></li>
     <li><a href="#POST">API - POST at /publish</code></a></li>
@@ -77,13 +78,17 @@ Embed dashboards in other HTML pages with an <code>iframe</code>. Here is an exa
 <h5 id="Where-should-I-report-feature-suggestions-questions-or-bugs"><a style="color: inherit; text-decoration: none;" href="#Where-should-I-report-feature-suggestions-questions-or-bugs">Where should I report feature suggestions, questions, or bugs?</a></h5>
 Report issues in the <a href="https://github.com/plotly/dashboards.ly">dashboards.ly GitHub repo</a>.
 
+<h5 id="Embedding-images"><a style="color: inherit; text-decoration: none" href="#Embedding-images">
+  Embedding images inside dashboards
+</a></h5>
+
+You can embed images inside dashboards with the dashboards.ly API.
+
 <h5 id="Private-dashboardsly"><a style="color: inherit; text-decoration: none;" href="#Private-dashboardsly">Using dashboards.ly with <a href="https://plot.ly/product/enterprise">plotly on-premise</a>.</a></h5>
 
-dashboards.ly is a beta plotly product and doesn't ship with plotly on-premise. You can easily deploy your own dashboards.ly with one-click on heroku.
-
-<a href="https://heroku.com/deploy?template=https://github.com/plotly/dashboards.ly"><img src="https://www.herokucdn.com/deploy/button.svg"/></a>
-
-You'll need to provide your heroku instance of dashboards.ly network access to your on-premise instance of plotly.
+dashboards.ly is a beta plotly product and will ship with the next release of Plotly On-Premise.
+Reach out to <a href="mailto:sales@plot.ly">sales@plot.ly</a> if you are interested in running
+Dashboards.ly or Plotly inside your own firewall.
 
 <h4>API</h4>
 <h5 id="JSON-Structure"><a style="color: inherit; text-decoration: none;" href="#JSON-Structure">JSON Structure</a></h5>
@@ -112,7 +117,21 @@ Dashboards are described declaratively in JSON. For example, here is the JSON re
 }
 </code></pre>
 
-<code>rows</code> is an array of arrays. Each inner array contains the URLs of the graphs that should be embedded in that row. In this example, the top two embedded graphs are the plots are <a href="https://plot.ly/~benji.b/38">https://plot.ly/~benji.b/38</a> and <a href="https://plot.ly/~benji.b/54">https://plot.ly/~benji.b/54</a> and are created by the plotly user "benji.b". To embed secret graphs, use the full secret URL with the <code>share_key</code> URL parameter, e.g. <a href="https://plot.ly/~chriddyp/1425?share_key=9Rh7y8eL9HO3LX1zJ6HS9i">https://plot.ly/~chriddyp/1425?share_key=9Rh7y8eL9HO3LX1zJ6HS9i</a>.<br>
+<code>rows</code> is an array of arrays.
+Each inner array contains the URLs of the graphs that should be embedded in that row.
+In this example, the top two embedded graphs are the plots are
+<a href="https://plot.ly/~benji.b/38">https://plot.ly/~benji.b/38</a> and
+<a href="https://plot.ly/~benji.b/54">https://plot.ly/~benji.b/54</a>
+and are created by the plotly user "benji.b".
+To embed secret graphs, use the full secret URL with the
+ <code>share_key</code> URL parameter, e.g.
+ <a href="https://plot.ly/~chriddyp/1425?share_key=9Rh7y8eL9HO3LX1zJ6HS9i">https://plot.ly/~chriddyp/1425?share_key=9Rh7y8eL9HO3LX1zJ6HS9i</a>.<br>
+
+<b>Embedding images</b>
+If you want to embed images instead of plotly graphs, use objects in the form
+<code>{"type": "image", "src": "https://plot.ly/~chris/1638.png"}</code>
+(replace <code>src</code> with your own image source) inside the <code>rows</code> object. <br>
+The <code>src</code> can be an image URL or a base64 encoded image string.
 
 To enable passphrase authentication, set <code>"requireauth"</code> to <code>true</code> and supply a <code>username</code> and <code>passphrase</code> in <code>"auth"</code>.
 
@@ -309,5 +328,176 @@ dashboard_url = ['https://dashboards.ly', response_object.url];
 
 % open up the dashboard in your web browser
 web(dashboard_url, '-browser')</code></pre>
+
+<h5 id="MATLAB-SSL-Error">
+  <a style="color: inherit; text-decoration: none;" href="#MATLAB-SSL-Error">
+  MATLAB SSL Error</a>
+</h5>
+
+If you received an error like:
+<pre><code>
+  Error using urlread2 (line 185)
+  Java exception occurred:
+  javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: PKIX path building failed:
+  sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+      at sun.security.ssl.Alerts.getSSLException(Alerts.java:192)
+      at sun.security.ssl.SSLSocketImpl.fatal(SSLSocketImpl.java:1904)
+      at sun.security.ssl.Handshaker.fatalSE(Handshaker.java:279)
+      at sun.security.ssl.Handshaker.fatalSE(Handshaker.java:273)
+      at sun.security.ssl.ClientHandshaker.serverCertificate(ClientHandshaker.java:1446)
+      at sun.security.ssl.ClientHandshaker.processMessage(ClientHandshaker.java:209)
+      at sun.security.ssl.Handshaker.processLoop(Handshaker.java:901)
+      at sun.security.ssl.Handshaker.process_record(Handshaker.java:837)
+      at sun.security.ssl.SSLSocketImpl.readRecord(SSLSocketImpl.java:1023)
+      at sun.security.ssl.SSLSocketImpl.performInitialHandshake(SSLSocketImpl.java:1332)
+      at sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:1359)
+      at sun.security.ssl.SSLSocketImpl.startHandshake(SSLSocketImpl.java:1343)
+      at sun.net.www.protocol.https.HttpsClient.afterConnect(HttpsClient.java:563)
+      at sun.net.www.protocol.https.AbstractDelegateHttpsURLConnection.connect(AbstractDelegateHttpsURLConnection.java:185)
+      at sun.net.www.protocol.http.HttpURLConnection.getOutputStream(HttpURLConnection.java:1092)
+      at sun.net.www.protocol.https.HttpsURLConnectionImpl.getOutputStream(HttpsURLConnectionImpl.java:250)
+  Caused by: sun.security.validator.ValidatorException: PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid
+  certification path to requested target
+      at sun.security.validator.PKIXValidator.doBuild(PKIXValidator.java:385)
+      at sun.security.validator.PKIXValidator.engineValidate(PKIXValidator.java:292)
+      at sun.security.validator.Validator.validate(Validator.java:260)
+      at sun.security.ssl.X509TrustManagerImpl.validate(X509TrustManagerImpl.java:326)
+      at sun.security.ssl.X509TrustManagerImpl.checkTrusted(X509TrustManagerImpl.java:231)
+      at sun.security.ssl.X509TrustManagerImpl.checkServerTrusted(X509TrustManagerImpl.java:126)
+      at sun.security.ssl.ClientHandshaker.serverCertificate(ClientHandshaker.java:1428)
+      ... 11 more
+  Caused by: sun.security.provider.certpath.SunCertPathBuilderException: unable to find valid certification path to requested target
+      at sun.security.provider.certpath.SunCertPathBuilder.engineBuild(SunCertPathBuilder.java:196)
+      at java.security.cert.CertPathBuilder.build(CertPathBuilder.java:268)
+      at sun.security.validator.PKIXValidator.doBuild(PKIXValidator.java:380)
+      ... 17 more
+</code></pre>
+
+then you need to <a href="http://www.mathworks.com/matlabcentral/answers/92506-can-i-force-urlread-and-other-matlab-functions-which-access-internet-websites-to-open-secure-websi">add the dashboards.ly SSL certificate to MATLAB</a>.
+
+In a nutshell, run this in your terminal:
+<pre><code>
+$ openssl s_client -connect dashboards.ly:443 -showcerts > certs.crt
+</code></pre>
+
+Then, run MATLAB and find your <code>keytool</code> and <code>cacerts</code> path:
+<pre><code>
+>> keytool = fullfile(matlabroot,'sys','java','jre',computer('arch'),'jre','bin','keytool')
+>> cacerts = fullfile(matlabroot,'sys','java','jre',computer('arch'),'jre','lib','security','cacerts')
+</code></pre>
+
+Then, using the <code>keytool</code>, <code>cacerts</code>, and <code>certs.crt</code>
+files, run this command in your terminal:
+
+<pre><code>
+$ /Applications/MATLAB_R2015b.app/sys/java/jre/maci64/jre/bin/keytool -import -file /Users/chriddyp/Repos/dashboards.ly/certs.crt -keystore /Applications/MATLAB_R2015b.app/sys/java/jre/maci64/jre/lib/security/cacerts -storepass changeit
+Trust this certificate? [no]:  yes
+Certificate was added to keystore
+</code></pre>
+
+Replace <code>/Applications/MATLAB_R2015b.app/sys/java/jre/maci64/jre/bin/keytool</code>
+with your <code>keytool</code> path.<br>
+Replace <code>/Users/chriddyp/Repos/dashboards.ly/certs.crt</code>
+with the path of <code>certs.crt</code>.<br>
+Replace <code>/Applications/MATLAB_R2015b.app/sys/java/jre/maci64/jre/lib/security/cacerts</code>
+with your <code>cacerts</code> path.<br>
+
+Then, restart MATLAB and re-run the script.
+
+<h5 id="MATLAB-Example-with-images">
+  <a style="color: inherit; text-decoration: none;" href="#MATLAB-Example-with-images">
+  MATLAB Example 2 - Embedding Google Maps Images</a>
+</h5>
+
+Embed images inside the <code>rows</code> cell array with a <code>struct</code>
+in the form:
+<code>struct('type', 'image', 'src', 'https://plot.ly/~chris/1638.png')</code>
+where <code>'src'</code> is a image url or a base64 encoded image string.<br>
+
+Here is an example using <a href="https://github.com/zoharby/plot_google_map">
+google maps images</a>:
+
+First, download the <a href="https://github.com/zoharby/plot_google_map">
+MATLAB google maps package</a>,
+the <a href="https://github.com/altmany/export_fig">export_fig</a> package,
+and the <a href="http://www.mathworks.com/matlabcentral/fileexchange/39526-byte-encoding-utilities">
+byte encoding utilities</a>.
+
+<pre><code>
+
+  %% Create a google map image
+  addpath(genpath('~/Downloads/zoharby-plot_google_map-ef61cad'))
+  lat = [48.8708 51.5188 41.9260 40.4312 52.523 37.982];
+  lon = [2.4131 -0.1300 12.4951 -3.6788 13.415 23.715];
+  plot(lon,lat,'.r','MarkerSize',20)
+  plot_google_map
+
+  %% Export the figure to `out.png`
+  addpath(genpath('~/Downloads/altmany-export_fig-4c015d5'))
+  export_fig('out.png');
+
+  %% Read the image from the file and base64 encode it.
+  addpath(genpath('~/Downloads/encoder'))
+  fid = fopen('out.png');
+  im = fread(fid);
+  fclose(fid)
+  png = base64encode(im);
+  png = strrep(sprintf(png), sprintf('\r\n'), '');
+  % base64 encoded image format
+  imgsrc = ['data:image/png;base64,', png];
+
+  %% arrange the graphs in a dashboard
+  % you can create these dashboards manually at https://dashboards.ly
+  % the layout, style, and content of these dashboards are described in this struct
+  dashboard = struct();
+  dashboard.rows = {...
+      % first row of plots (two plots in one row)
+      {
+        struct('plot_url', 'https://plot.ly/~benji.b/38'),
+        struct('plot_url', 'https://plot.ly/~benji.b/54')
+      }, ...
+
+      % second row of plots (two plots in the third row)
+      {
+        % base64 images are accepted
+        struct('type', 'image', 'src', imgsrc), ...
+        % so are image urls
+        struct('type', 'image', 'src', 'https://plot.ly/~chris/1638.png')
+      } ...
+      % place as many rows as you wish here
+  };
+  dashboard.banner = struct(...
+      'visible', true,...                % if you don't want to show a banner, set to false
+      'backgroundcolor', '#ff2800',...   % background color of the banner
+      'textcolor', 'white',...           % color of the text in the banner
+      'title', 'Performance Results',... % title of the banner
+      'links', {{...                     % list of (optional) links in the banner
+          struct('href', 'https://google.com', 'text', 'Metrics'),...
+          struct('href', 'https://google.com', 'text', 'Performance')...
+      }}...
+  );
+  dashboard.requireauth = false;         % set to true if you want to set password authentication
+  dashboard.auth = struct(...            % set the passphrase and username of the optional password auth
+      'username', 'Acme Corp',...
+      'passphrase', ''...
+  );
+
+  % send the description of the dashboard to the dashboards.ly server to create and view the dashboard
+  body = ['dashboard=', urlencode(m2json(dashboard))];
+  [response_string, extras] = urlread2('https://dashboards.ly/publish', 'POST', body);
+
+  % handle 400 and 500 level errors, parse the output
+  response_handler(response_string, extras);
+  response_object = loadjson(response_string);
+  dashboard_url = ['https://dashboards.ly', response_object.url];
+
+  % open up the dashboard in your web browser
+  web(dashboard_url, '-browser')
+
+  % example: https://dashboards.ly/ua-gpSyCzTF92UkSppxTNaJeK
+</code></pre>
+
+Here is the example: <a href="https://dashboards.ly/ua-gpSyCzTF92UkSppxTNaJeK">
+https://dashboards.ly/ua-gpSyCzTF92UkSppxTNaJeK</a>
 
 {% endraw %}
