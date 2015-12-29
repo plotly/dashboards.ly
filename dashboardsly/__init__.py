@@ -12,4 +12,7 @@ else:
     # development on localhost
     app.config.from_object('dashboardsly.config.DevelopmentConfig')
 
+app.config['DEFAULT_USERNAME'] = 'benji.b'
+app.config['DEFAULT_APIKEY'] = 'op16fm0vke'
+
 import dashboardsly.views

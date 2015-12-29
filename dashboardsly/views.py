@@ -16,6 +16,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_sslify import SSLify
 
 from dashboardsly import app
+from dashboardsly import default_plots
 
 SSLify(app, permanent=True)
 
@@ -96,18 +97,7 @@ def _gridjson_to_tabular_form(gridjson, preview):
 
     return {'column_names': ordered_cols, 'data': tabular_data}
 
-
-def files(username, apikey, page):
-    # check if username exists. once /folders returns 404 on invalid username,
-    # i can remove this
-    r = requests.head('{}/v2/users/{}'.format(
-        app.config['PLOTLY_API_DOMAIN'],
-        username))
-    try:
-        r.raise_for_status()
-    except requests.exceptions.HTTPError as e:
-        abort(e.response.status_code)
-
+def check_if_authenticated(username, apikey):
     # check if the user is authenticated
     # /folders/all is an authenticated endpoint, so query against
     # that resource to see if the API key is OK
@@ -125,6 +115,20 @@ def files(username, apikey, page):
             abort(e.response.status_code)
     else:
         authenticated = True
+    return authenticated
+
+def files(username, apikey, page):
+    # check if username exists. once /folders returns 404 on invalid username,
+    # i can remove this
+    r = requests.head('{}/v2/users/{}'.format(
+        app.config['PLOTLY_API_DOMAIN'],
+        username))
+    try:
+        r.raise_for_status()
+    except requests.exceptions.HTTPError as e:
+        abort(e.response.status_code)
+
+    authenticated = check_if_authenticated(username, apikey)
 
     items = []
     pages = range((page + 1) * 2 - 1, (page + 1) * 2 + 1)
@@ -137,7 +141,9 @@ def files(username, apikey, page):
         if authenticated:
             auth = requests.auth.HTTPBasicAuth(username, apikey)
         else:
-            auth = requests.auth.HTTPBasicAuth('benji.b', 'op16fm0vke')
+            auth = requests.auth.HTTPBasicAuth(
+                app.config['DEFAULT_USERNAME'],
+                app.config['DEFAULT_APIKEY'])
         r = requests.get(url, auth=auth, headers={
             'plotly-client-platform': 'dashboardsly'})
         try:
@@ -195,17 +201,23 @@ def robotron():
 
 @app.route('/files')
 def get_files():
-    username = request.args.get('username', 'benji.b')
-    page = int(request.args.get('page', 1))
-    apikey = request.args.get('apikey', 'op16fm0vke')
+    username = request.args.get('username', app.config['DEFAULT_USERNAME'])
+    page = int(request.args.get('page', 0))
+    apikey = request.args.get('apikey', app.config['DEFAULT_APIKEY'])
 
-    is_last = False
-    plots = []
-    while not is_last and len(plots) < 15:
-        paginated_plots, is_last, is_authenticated = files(
-            username, apikey, page)
-        plots.extend(paginated_plots)
-        page += 1
+    # cache benji.b's files
+    if username == app.config['DEFAULT_USERNAME'] and page == 0:
+        plots = default_plots.plots
+        is_last = False
+        is_authenticated = apikey == app.config['DEFAULT_APIKEY']
+    else:
+        is_last = False
+        plots = []
+        while not is_last and len(plots) < 15:
+            paginated_plots, is_last, is_authenticated = files(
+                username, apikey, page)
+            plots.extend(paginated_plots)
+            page += 1
 
     return flask.jsonify({
         'plots': plots,
