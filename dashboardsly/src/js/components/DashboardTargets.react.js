@@ -11,7 +11,7 @@ var Row = React.createClass({
     propTypes: {
         isOver: React.PropTypes.bool.isRequired,
         canDrop: React.PropTypes.bool.isRequired,
-        plots: React.PropTypes.array.isRequired,
+        items: React.PropTypes.array.isRequired,
         rowNumber: React.PropTypes.number.isRequired,
         canRearrange: React.PropTypes.bool.isRequired
     },
@@ -30,10 +30,10 @@ var Row = React.createClass({
             rowStyle.border = 'thin dashed rgb(174, 163, 255)';
         }
         let columns = [];
-        for(var i=0; i<this.props.plots.length; i++) {
+        for(var i=0; i<this.props.items.length; i++) {
             columns.push(
-                <div key={i} style={{width: this.gridColumnWidth(this.props.plots.length)}} className="columns">
-                    <DashboardPlotBlock plot_url={this.props.plots[i].plot_url} canRearrange={this.props.canRearrange}/>
+                <div key={i} style={{width: this.gridColumnWidth(this.props.items.length)}} className="columns">
+                    <DashboardPlotBlock item={this.props.items[i]} canRearrange={this.props.canRearrange}/>
                 </div>)
         }
         return connectDropTarget(<div style={rowStyle} className="row">{columns}</div>);
@@ -70,33 +70,34 @@ var NewRowTarget = React.createClass({
 
 var newRowTargetSpec = {
     hover: function(props, monitor) {
-        AppActions.appendPlotToDashboard(monitor.getItem().id);
+        AppActions.appendPlotToDashboard(monitor.getItem().item);
     },
     drop: function(props, monitor) {
-        AppActions.appendPlotToDashboard(monitor.getItem().id);
+        AppActions.appendPlotToDashboard(monitor.getItem().item);
     }
 };
 
 var panelTargetSpec = {
     hover: function(props, monitor) {
         let targetRowNumber = props.rowNumber
-        let plot_url = monitor.getItem().id;
-        AppActions.movePlotToNewRow(plot_url, targetRowNumber);
+        let item = monitor.getItem().item;
+        AppActions.movePlotToNewRow(item, targetRowNumber);
     },
 
     drop: function(props, monitor) {
         let targetRowNumber = props.rowNumber
-        let plot_url = monitor.getItem().id;
-        AppActions.movePlotToNewRow(plot_url, targetRowNumber);
+        let item = monitor.getItem().item;
+        AppActions.movePlotToNewRow(item, targetRowNumber);
     },
 
     canDrop: function(props, monitor) {
         // Can't drop on our own row
         let rows = AppStore.getState().rows;
-        let plot_url = monitor.getItem().id;
+        let item = monitor.getItem().item;
         for(let i=0; i<rows.length; i++) {
             for(let j=0; j<rows[i].length; j++){
-                if(rows[i][j].plot_url === plot_url && i === props.rowNumber) {
+                if(JSON.stringify(rows[i][j]) === JSON.stringify(item) &&
+                   i === props.rowNumber) {
                     return false;
                 }
             }

@@ -17,7 +17,7 @@ var PlotThumbnail = React.createClass({
     },
 
     handleChange: function(event) {
-        AppActions.addPlotToDashboard(this.props.url);
+        AppActions.addPlotToDashboard({'plot_url': this.props.url});
     },
 
     mouseOver: function() {

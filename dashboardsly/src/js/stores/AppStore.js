@@ -113,9 +113,10 @@ var actions = function(action) {
 
     case 'REMOVE_PLOT':
         // TODO - Removes *all* plots with that URL
-        for(var i=0; i<_appStore.rows.length; i++) {
-            for(var j=_appStore.rows[i].length-1; j>=0; j--){
-                if(_appStore.rows[i][j].plot_url === action.plot_url) {
+        for(let i=0; i<_appStore.rows.length; i++) {
+            for(let j=_appStore.rows[i].length-1; j>=0; j--){
+                if(JSON.stringify(_appStore.rows[i][j]) ===
+                   JSON.stringify(action.item)) {
                     _appStore.rows[i].splice(j, 1);
                 }
             }
@@ -133,7 +134,7 @@ var actions = function(action) {
         break;
 
     case 'APPEND_PLOT_TO_DASHBOARD':
-        _appStore.rows.push([{'plot_url': action.plot_url}])
+        _appStore.rows.push([action.item])
         setDashboardRearrangability();
         AppStore.emitChange();
         break;
@@ -146,6 +147,8 @@ var actions = function(action) {
             for(i=0; i<_appStore.rows.length; i++) {
                 for(j=0; j<_appStore.rows[i].length; j++){
                     if(_appStore.rows[i][j].plot_url === action.plot_url) {
+                    if(JSON.stringify(_appStore.rows[i][j]) ===
+                       JSON.stringify(action.item)) {
                         if(i === action.targetRowNumber) {
                             dontremove=true;
                             break;
@@ -156,7 +159,7 @@ var actions = function(action) {
             }
         }
         if(!dontremove){
-            _appStore.rows[action.targetRowNumber].push({'plot_url': action.plot_url});
+            _appStore.rows[action.targetRowNumber].push(action.item);
         }
 
         // Remove empty rows

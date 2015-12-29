@@ -31,33 +31,33 @@ var AppActions = {
         AppDispatcher.dispatch({event: 'REMOVELINK', index: i});
     },
 
-    addPlotToDashboard: function(plot_url) {
+    addPlotToDashboard: function(item) {
         AppDispatcher.dispatch({
             event: 'MOVE_PLOT_TO_NEW_ROW',
-            plot_url: plot_url,
+            item: item,
             targetRowNumber: AppStore.getState().rows.length-1,
             allow_duplicates: true
         });
     },
 
-    appendPlotToDashboard: function(plot_url) {
+    appendPlotToDashboard: function(item) {
         AppDispatcher.dispatch({
             event: 'APPEND_PLOT_TO_DASHBOARD',
-            plot_url: plot_url
+            item: item
         });
     },
 
-    removePlotFromDashboard: function(plot_url) {
+    removePlotFromDashboard: function(item) {
         AppDispatcher.dispatch({
             event: 'REMOVE_PLOT',
-            plot_url: plot_url
+            item: item
         });
     },
 
-    movePlotToNewRow: function(plot_url, rowNumber) {
+    movePlotToNewRow: function(item, rowNumber) {
         AppDispatcher.dispatch({
             event: 'MOVE_PLOT_TO_NEW_ROW',
-            plot_url: plot_url,
+            item: item,
             targetRowNumber: rowNumber,
             allow_duplicates: false
         });
