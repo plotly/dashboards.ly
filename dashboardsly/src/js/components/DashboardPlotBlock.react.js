@@ -56,13 +56,13 @@ var DashboardPlotBlock = React.createClass({
           // We could add other types of contents here, like iframes or tables
         } else if('plot_url' in this.props.item) {
           let plot_url = this.props.item.plot_url;
-          let iframeUrl = plot_url + '.embed?autosize=true&link=false&source=false' + (sharekey ? '&share_key='+sharekey : '');
           content = <iframe src={iframeUrl} style={iframeStyle}></iframe>;
           let sharekey;
           if(plot_url.indexOf('share_key') > -1){
               sharekey = plot_url.slice(plot_url.indexOf('?share_key=')+'?share_key='.length, plot_url.length);
               plot_url = plot_url.replace('?share_key='+sharekey, '');
           }
+          let iframeUrl = plot_url + '.embed?autosize=true&link=false&source=false' + (sharekey ? '&share_key='+sharekey : '');          
           content = <iframe src={iframeUrl} style={iframeStyle}></iframe>
         } else {
           return(<div style={itemStyle} className="chart-wrapper"></div>);
