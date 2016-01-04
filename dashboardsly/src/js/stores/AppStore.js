@@ -86,6 +86,7 @@ var actions = function(action) {
                 }
             }
         }
+        setDashboardRearrangability();
         AppStore.emitChange();
         break;
 
