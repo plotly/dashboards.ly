@@ -194,6 +194,11 @@ def google_verification():
     return render_template('google8786ccf07cde43db.html')
 
 
+@app.route('/google5185f1ab89e0d6bf.html')
+def webmasters_verification():
+    return 'google-site-verification: google5185f1ab89e0d6bf.html'
+
+
 @app.route('/robots.txt')
 def robotron():
     return render_template('robots.txt')
