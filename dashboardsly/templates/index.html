@@ -62,10 +62,10 @@
       <img src="http://i.imgur.com/jCMx2iC.png" style="height: 50px;vertical-align: -50%;">
       <h1>PLOTLY ONLINE DASHBOARDS</h1>
       <div id="link-container">
-        <a href="/create" target="_blank">MAKE DASHBOARD</a>
-        <a class="typeform-share link" href="https://plotly.typeform.com/to/seG7Vb" data-mode="1" target="_blank">REQUEST DEMO</a>
+        <a href="/create" target="_blank" onclick="window.mixpanel.track('Create dashboard');>MAKE DASHBOARD</a>
+        <a class="typeform-share link" href="https://plotly.typeform.com/to/seG7Vb" data-mode="1" target="_blank" onclick="window.mixpanel.track('Typeform demo request');>REQUEST DEMO</a>
         <script>(function(){var qs,js,q,s,d=document,gi=d.getElementById,ce=d.createElement,gt=d.getElementsByTagName,id='typef_orm',b='https://s3-eu-west-1.amazonaws.com/share.typeform.com/';if(!gi.call(d,id)){js=ce.call(d,'script');js.id=id;js.src=b+'share.js';q=gt.call(d,'script')[0];q.parentNode.insertBefore(js,q)}})()</script>
-        <a href="http://help.plot.ly/dashboards.ly/" target="_blank"><i class="fa fa-life-ring fa-2"></i> HELP</a>
+        <a href="http://help.plot.ly/dashboards.ly/" target="_blank" onclick="window.mixpanel.track('Dashboard help request');><i class="fa fa-life-ring fa-2"></i> HELP</a>
       </div>
     </div>
 
@@ -97,6 +97,23 @@
         ga('create', 'UA-39373211-1', 'auto');
         ga('send', 'pageview');
     </script>
+    
+    
+    
+<!-- start Mixpanel -->
+<!-- Pasted directly from plot.ly by @adrianericcook -->
+<script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="//cdn.mxpnl.com/libs/mixpanel-2.2.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+mixpanel.init(ad6df61d0b9400400b240631576c24d4);</script>
+<!-- end Mixpanel -->
+
+<!-- Crazy Egg -->
+<script type="text/javascript">
+setTimeout(function(){var a=document.createElement("script");
+var b=document.getElementsByTagName("script")[0];
+a.src=document.location.protocol+"//script.crazyegg.com/pages/scripts/0042/1249.js?"+Math.floor(new Date().getTime()/3600000);
+a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+</script>
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
