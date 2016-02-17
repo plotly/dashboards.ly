@@ -3,7 +3,7 @@ import os
 
 app = Flask(__name__)
 
-if 'DYNO' in os.environ:
+if 'DYNO' in os.environ or 'DASHBOARDSLY_PROD' in os.environ:
     # production on Heroku
     app.config.from_object('dashboardsly.config.ProductionConfig')
 elif os.environ.get('FLASK_CONFIG', '') == 'TEST':
