@@ -33,7 +33,7 @@ The variables in each of these environments are here: https://github.com/plotly/
 Here is an example of setting the environment variables
 ```
 # Use the "production" environment
-DASHBOARDLY_PROD="true"; export DASHBOARDLY_PROD
+DASHBOARDSLY_PROD="true"; export DASHBOARDSLY_PROD
 
 # Set the Postgres Database URI
 DATABASE_URL="postgresql://chriddyp@localhost/chriddyp"; export DATABASE_URL;
