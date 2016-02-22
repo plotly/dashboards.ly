@@ -2,6 +2,7 @@ Flask==0.10.1
 Flask-Assets==0.11
 Flask-Cors==2.1.0
 Flask-HTTPAuth==2.7.0
+Flask-Reverse-Proxy==0.2.0.0
 Flask-SQLAlchemy==2.0
 Flask-SSLify==0.1.5
 gunicorn==19.3.0

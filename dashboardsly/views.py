@@ -13,12 +13,15 @@ from flask.ext.cors import CORS
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_reverse_proxy import FlaskReverseProxied
 from flask_sslify import SSLify
 
 from dashboardsly import app
 from dashboardsly import default_plots
 
 SSLify(app, permanent=True)
+
+proxied = FlaskReverseProxied(app)
 
 db = SQLAlchemy(app)
 
