@@ -50,7 +50,11 @@ def frontend_config():
         'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN'],
         'ROOT_PATH': request.script_root or '/',
     }
-    return { 'CONFIG': config }
+    return {
+        'CONFIG': config,
+        'USE_CONTENT_DELIVERY_NETWORKS':
+            app.config['USE_CONTENT_DELIVERY_NETWORKS'],
+    }
 
 
 @app.route('/.well-known/acme-challenge/BzvoMFiLlTFGgADooJ6laj-uiHd418oM2fU_yL8FSWs')

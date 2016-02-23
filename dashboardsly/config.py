@@ -10,6 +10,9 @@ class Config(object):
         "PLOTLY_API_DOMAIN", "https://api.plot.ly")
     PLOTLY_DOMAIN = os.environ.get(
         "PLOTLY_DOMAIN", "https://plot.ly")
+    USE_CONTENT_DELIVERY_NETWORKS = bool(int(os.environ.get(
+        "PLOTLY_USE_CONTENT_DELIVERY_NETWORKS", 1)))
+
 
 
 class ProductionConfig(Config):
