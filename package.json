@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "tap test",
-    "build": "./build/build-js",
-    "watch": "./build/watch-js"
+    "build": "dashboardsly/build/build-js",
+    "watch": "dashboardsly/build/watch-js"
   },
   "author": "",
   "license": "MIT",
