@@ -1,7 +1,7 @@
 {
   "name": "dashboardsly",
   "version": "0.0.2",
-  "description": "simple websocket communication module",
+  "description": "a drag and drop web app for creating dashboards with plotly graphs",
   "main": "index.js",
   "scripts": {
     "test": "tap test",
