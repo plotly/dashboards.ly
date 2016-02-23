@@ -54,6 +54,7 @@ def frontend_config():
         'CONFIG': config,
         'USE_CONTENT_DELIVERY_NETWORKS':
             app.config['USE_CONTENT_DELIVERY_NETWORKS'],
+        'PLOTLY_ON_PREM': app.config['PLOTLY_ON_PREM'],
     }
 
 
