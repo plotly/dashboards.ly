@@ -48,6 +48,7 @@ auth = HTTPBasicAuth()
 def frontend_config():
     config = {
         'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN'],
+        'ROOT_PATH': request.script_root,
     }
     return { 'CONFIG': config }
 
