@@ -29,7 +29,7 @@ var PlotPicker = React.createClass({
         if(this.props.requestIsPending) {
             loadingSpinner = (<img
                 style={{height: '18px', 'marginBottom': '-6px'}}
-                src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-small.gif"/>);
+                src="static/images/loader-small.gif"/>);
         }
 
         let loadMoreButton;
