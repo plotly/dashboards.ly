@@ -4,7 +4,11 @@
 
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% if USE_CONTENT_DELIVERY_NETWORKS %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% else %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}">
+{% endif %}
 
 <title>Dashboards.ly: Make Dashboards Online</title>
 <meta name="description" content="Create dashboards online with Dashboards.ly and Plotly charts. Share dashboards with your team and customers with easy, password-proteced links." />
@@ -38,7 +42,11 @@
 
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:200,400,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+  {% if USE_CONTENT_DELIVERY_NETWORKS %}
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:200,400,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+  {% else %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='open-sans/css/fonts.css') }}">
+  {% endif %}
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
