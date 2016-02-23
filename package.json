@@ -1,0 +1,30 @@
+{
+  "name": "dashboardsly",
+  "version": "0.0.2",
+  "description": "simple websocket communication module",
+  "main": "index.js",
+  "scripts": {
+    "test": "tap test",
+    "build": "./build/build-js",
+    "watch": "./build/watch-js"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "babelify": "^6.2.0",
+    "flux": "^2.1.1",
+    "react": "^0.13.3",
+    "request": "2.64.0",
+    "object-assign": "^4.0.1",
+    "react-dnd": "1.1.8"
+  },
+  "devDependencies": {
+    "tap": "^1.4.1",
+    "tape": "^4.2.0"
+  },
+  "browserify": {
+    "transform": [
+      "babelify"
+    ]
+  }
+}
