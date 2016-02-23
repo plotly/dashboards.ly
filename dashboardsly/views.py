@@ -44,6 +44,14 @@ CORS(app)
 auth = HTTPBasicAuth()
 
 
+@app.context_processor
+def frontend_config():
+    config = {
+        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN'],
+    }
+    return { 'CONFIG': config }
+
+
 @app.route('/.well-known/acme-challenge/BzvoMFiLlTFGgADooJ6laj-uiHd418oM2fU_yL8FSWs')
 def verify():
     return 'BzvoMFiLlTFGgADooJ6laj-uiHd418oM2fU_yL8FSWs.cQU-IDceRcQLJ7ir5GWuqnHl9BuJ5QjQ3_qlIolKss4'
@@ -255,13 +263,12 @@ def publish():
 
 @app.route('/create')
 def create():
-    return render_template('base.html', mode='create', CONFIG={
-        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
+    return render_template('base.html', mode='create')
+
 
 @app.route('/view')
 def view():
-    return render_template('base.html', mode='view', CONFIG={
-        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
+    return render_template('base.html', mode='view')
 
 
 @app.route('/grid/<fid>.embed')
@@ -286,15 +293,13 @@ def serve_dashboard_json():
 
 @app.route('/ua-<shortlink>', methods=['GET'])
 def serve_unauthenticated_dashboard(shortlink):
-    return render_template('base.html', mode='view', CONFIG={
-        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
+    return render_template('base.html', mode='view')
 
 
 @app.route('/<shortlink>', methods=['GET'])
 @auth.login_required
 def serve_authenticated_dashboard(shortlink):
-    return render_template('base.html', mode='view', CONFIG={
-        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
+    return render_template('base.html', mode='view')
 
 
 @app.after_request
