@@ -51,7 +51,7 @@
         ENV = {};
         ENV.mode = "{{mode}}";
     </script>
-    <script src="/static/js/bundle.js"></script>
+    <script src="{{ url_for('static', filename='js/bundle.js') }}"></script>
 
     <!-- Google analytics -->
     <script>
