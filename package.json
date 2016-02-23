@@ -4,7 +4,6 @@
   "description": "a drag and drop web app for creating dashboards with plotly graphs",
   "main": "index.js",
   "scripts": {
-    "test": "tap test",
     "build": "dashboardsly/build/build-js",
     "watch": "dashboardsly/build/watch-js"
   },
