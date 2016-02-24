@@ -376,9 +376,23 @@ If you received an error like:
 
 then you need to <a href="http://www.mathworks.com/matlabcentral/answers/92506-can-i-force-urlread-and-other-matlab-functions-which-access-internet-websites-to-open-secure-websi">add the dashboards.ly SSL certificate to MATLAB</a>.
 
-In a nutshell, run this in your terminal:
+<br>
+In a nutshell, you can run this in your terminal to download the certificate:
 <pre><code>$ openssl s_client -connect dashboards.ly:443 -showcerts > certs.crt
 </code></pre>
+
+<br>
+Alternatively, you can download the certificate from your browser by:
+<br>
+1. Clicking on the padlock icon next to the URL
+<img style="max-width: 100%" src="https://images.plot.ly/plotly-documentation/images/SSLErr1.jpg"/>
+2. Select 'More Information'
+3. Select 'View Certificate'
+4. Select 'Details'
+5. Select Export and save as certs.crt
+<img style="max-width: 100%" src="https://images.plot.ly/plotly-documentation/images/SSLErr2.jpg"/>
+<img style="max-width: 100%" src="https://images.plot.ly/plotly-documentation/images/SSLErr3.jpg"/>
+<br>
 
 Then, run MATLAB and find your <code>keytool</code> and <code>cacerts</code> path:
 <pre><code>>> keytool = fullfile(matlabroot,'sys','java','jre',computer('arch'),'jre','bin','keytool')
