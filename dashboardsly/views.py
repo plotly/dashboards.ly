@@ -57,6 +57,8 @@ def frontend_config():
     config = {
         'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN'],
         'ROOT_PATH': request.script_root,
+        'DEFAULT_USERNAME': app.config['DEFAULT_USERNAME'],
+        'DEFAULT_APIKEY': app.config['DEFAULT_APIKEY'],
     }
     # Other variables end up in the page's context, for templates
     return {

@@ -8,8 +8,8 @@ import AppActions from '../actions/AppActions';
 var _appStore = {
     requestIsPending: false,
     page: 0,
-    username: 'benji.b',
-    apikey: 'op16fm0vke',
+    username: CONFIG.DEFAULT_USERNAME,
+    apikey: CONFIG.DEFAULT_APIKEY,
     plots: [],
     canRearrange: false,
     requests: [],
