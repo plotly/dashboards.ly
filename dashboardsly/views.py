@@ -235,8 +235,9 @@ def get_files():
     page = int(request.args.get('page', 0))
     apikey = request.args.get('apikey', app.config['DEFAULT_APIKEY'])
 
-    # cache benji.b's files
-    if username == app.config['DEFAULT_USERNAME'] and page == 0:
+    # Use cached files for benji.b, Non-Prem
+    if (username == app.config['DEFAULT_USERNAME'] and page == 0 and
+        not app.config['PLOTLY_ON_PREM']):
         plots = default_plots.plots
         is_last = False
         is_authenticated = apikey == app.config['DEFAULT_APIKEY']
