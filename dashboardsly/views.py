@@ -13,12 +13,15 @@ from flask.ext.cors import CORS
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_reverse_proxy import FlaskReverseProxied
 from flask_sslify import SSLify
 
 from dashboardsly import app
 from dashboardsly import default_plots
 
 SSLify(app, permanent=True)
+
+proxied = FlaskReverseProxied(app)
 
 db = SQLAlchemy(app)
 
@@ -39,6 +42,15 @@ env.register(
 CORS(app)
 
 auth = HTTPBasicAuth()
+
+
+@app.context_processor
+def frontend_config():
+    config = {
+        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN'],
+        'ROOT_PATH': request.script_root or '/',
+    }
+    return { 'CONFIG': config }
 
 
 @app.route('/.well-known/acme-challenge/BzvoMFiLlTFGgADooJ6laj-uiHd418oM2fU_yL8FSWs')
@@ -252,13 +264,12 @@ def publish():
 
 @app.route('/create')
 def create():
-    return render_template('base.html', mode='create', CONFIG={
-        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
+    return render_template('base.html', mode='create')
+
 
 @app.route('/view')
 def view():
-    return render_template('base.html', mode='view', CONFIG={
-        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
+    return render_template('base.html', mode='view')
 
 
 @app.route('/grid/<fid>.embed')
@@ -283,15 +294,13 @@ def serve_dashboard_json():
 
 @app.route('/ua-<shortlink>', methods=['GET'])
 def serve_unauthenticated_dashboard(shortlink):
-    return render_template('base.html', mode='view', CONFIG={
-        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
+    return render_template('base.html', mode='view')
 
 
 @app.route('/<shortlink>', methods=['GET'])
 @auth.login_required
 def serve_authenticated_dashboard(shortlink):
-    return render_template('base.html', mode='view', CONFIG={
-        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN']})
+    return render_template('base.html', mode='view')
 
 
 @app.after_request

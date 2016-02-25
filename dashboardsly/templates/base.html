@@ -3,12 +3,12 @@
 
 <head>
 
-<link rel="shortcut icon" type="image/png" href="/static/images/favicon.ico"/>
+<link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/favicon.ico') }}"/>
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:200,400,300,700' rel='stylesheet' type='text/css'>
 {% assets "css_all" %}
     <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"></script>
 {% endassets %}
-<link href="/static/custom.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
 <title>Dashboards.ly: Make Dashboards Online</title>
@@ -51,7 +51,7 @@
         ENV = {};
         ENV.mode = "{{mode}}";
     </script>
-    <script src="/static/js/bundle.js"></script>
+    <script src="{{ url_for('static', filename='js/bundle.js') }}"></script>
 
     <!-- Google analytics -->
     <script>
