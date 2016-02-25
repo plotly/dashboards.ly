@@ -147,7 +147,7 @@ var AppActions = {
             const username = AppStore.getState().username;
             const page = AppStore.getState().page;
             const apikey = AppStore.getState().apikey;
-            var url = location.protocol + '//' + window.location.host + CONFIG.ROOT_PATH + 'files?username='+username+'&page='+page+'&apikey='+apikey;
+            var url = location.protocol + '//' + window.location.host + CONFIG.ROOT_PATH + '/files?username='+username+'&page='+page+'&apikey='+apikey;
             console.warn(url);
             pendingRequest = request({
                 method: 'GET',
@@ -202,7 +202,7 @@ var AppActions = {
 
             request({
                 method: 'GET',
-                url: location.origin + CONFIG.ROOT_PATH + 'dashboard?id='+dashboard_id
+                url: location.origin + CONFIG.ROOT_PATH + '/dashboard?id='+dashboard_id
             }, function(err, res, body) {
                 if(!err && res.statusCode == 200) {
                     let content = JSON.parse(body).content;

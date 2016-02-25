@@ -56,7 +56,7 @@ def frontend_config():
     # "config" variables are available in the frontend from the global CONFIG
     config = {
         'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN'],
-        'ROOT_PATH': request.script_root or '/',
+        'ROOT_PATH': request.script_root,
     }
     # Other variables end up in the page's context, for templates
     return {
