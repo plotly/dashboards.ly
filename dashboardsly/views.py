@@ -166,14 +166,11 @@ def files(username, apikey, page):
                '&filetype=grid&filetype=plot'
                '&order_by=-date_modified'
                '').format(app.config['PLOTLY_API_DOMAIN'], page, username)
+        kwargs = {}
         if authenticated:
-            auth = requests.auth.HTTPBasicAuth(username, apikey)
-        else:
-            auth = requests.auth.HTTPBasicAuth(
-                app.config['DEFAULT_USERNAME'],
-                app.config['DEFAULT_APIKEY'])
-        r = requests.get(url, auth=auth, headers={
-            'plotly-client-platform': 'dashboardsly'})
+            kwargs['auth'] = requests.auth.HTTPBasicAuth(username, apikey)
+        r = requests.get(url, headers={
+            'plotly-client-platform': 'dashboardsly'}, **kwargs)
         try:
             r.raise_for_status()
         except requests.exceptions.HTTPError as e:
