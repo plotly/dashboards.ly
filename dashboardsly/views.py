@@ -50,6 +50,8 @@ def frontend_config():
         'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN'],
         'ROOT_PATH': request.script_root,
     }
+    print 'request: {}'.format(request)
+    print 'ROOT_PATH: {}'.format(request.script_root)
     return { 'CONFIG': config }
 
 
