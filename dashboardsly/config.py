@@ -13,7 +13,7 @@ class Config(object):
     USE_CONTENT_DELIVERY_NETWORKS = bool(int(os.environ.get(
         "PLOTLY_USE_CONTENT_DELIVERY_NETWORKS", 1)))
     PLOTLY_ON_PREM = bool(int(os.environ.get("PLOTLY_ON_PREM", 0)))
-
+    SSL_ENABLED = bool(int(os.getenv('PLOTLY_DASHBOARDSLY_SSL_ENABLED', 1)))
 
 
 class ProductionConfig(Config):

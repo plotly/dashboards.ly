@@ -19,7 +19,14 @@ from flask_sslify import SSLify
 from dashboardsly import app
 from dashboardsly import default_plots
 
-SSLify(app, permanent=True)
+if app.config['PLOTLY_ON_PREM']:
+    if app.config['SSL_ENABLED']:
+        # On-Prem, SSL enabled: temporary redirects, and disable HSTS
+        # by setting the age to 60s.  (Allows SSL to be switched off.)
+        SSLify(app, permanent=False, age=60)
+else:
+    # Non-Prem: always enable SSL with permanent redirects and HSTS
+    SSLify(app, permanent=True)
 
 proxied = FlaskReverseProxied(app)
 
