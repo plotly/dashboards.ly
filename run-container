@@ -1,7 +1,19 @@
 #!/bin/bash
 # Run inside a Docker container
 
-# TODO: create database if needed
+export PGPASSWORD=$PLOTLY_DB_PASSWORD
+export DATABASE_URL="postgresql://$PLOTLY_DB_USER@$PLOTLY_DB_HOST/dashboardsly"
+PSQL="psql -U $PLOTLY_DB_USER -h $PLOTLY_DB_HOST"
 
 cd /opt/dashboardsly
+
+if ! $PSQL -lqt | cut -d \| -f 1 | grep -w dashboardsly; then
+    echo DB does not exist
+    $PSQL db1 -c 'CREATE DATABASE dashboardsly;'
+else
+    echo DB exists
+fi
+
+python init_db.py
+
 gunicorn runserver:app --log-file=- -b 0.0.0.0:80
