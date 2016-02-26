@@ -1,0 +1,7 @@
+#!/bin/bash
+# Run inside a Docker container
+
+# TODO: create database if needed
+
+cd /opt/dashboardsly
+gunicorn runserver:app --log-file=- -b 0.0.0.0:80

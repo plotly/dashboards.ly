@@ -7,8 +7,9 @@ RUN apt-get update && \
 COPY requirements.txt /opt/dashboardsly/
 RUN cd /opt/dashboardsly && pip install -r requirements.txt
 
+COPY run-container /
 COPY init_db.py runserver.py /opt/dashboardsly/
 COPY dashboardsly /opt/dashboardsly/dashboardsly/
 
 EXPOSE 80
-CMD cd /opt/dashboardsly; gunicorn runserver:app --log-file=- -b 0.0.0.0:80
+CMD /run-container
