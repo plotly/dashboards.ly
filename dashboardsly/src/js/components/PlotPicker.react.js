@@ -29,7 +29,7 @@ var PlotPicker = React.createClass({
         if(this.props.requestIsPending) {
             loadingSpinner = (<img
                 style={{height: '18px', 'marginBottom': '-6px'}}
-                src="http://cdnjs.cloudflare.com/ajax/libs/semantic-ui/0.16.1/images/loader-small.gif"/>);
+                src="static/images/loader-small.gif"/>);
         }
 
         let loadMoreButton;
@@ -57,7 +57,7 @@ var PlotPicker = React.createClass({
             auth = (
                 <span>
                     <span style={{color: '#FF4136', verticalAlign: 'middle', fontSize: '16px', paddingLeft: '5px', paddingRight: '5px'}}>&times;</span>
-                    <span style={{fontSize: '10px', lineHeight: '16px'}}>(not authenticated) <a href="https://plot.ly/settings/api/" target="_blank">Get your API key</a></span>
+                    <span style={{fontSize: '10px', lineHeight: '16px'}}>(not authenticated) <a href="{CONFIG.PLOTLY_DOMAIN}/settings/api/" target="_blank">Get your API key</a></span>
                 </span>)
         }
 

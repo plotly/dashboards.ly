@@ -4,7 +4,11 @@
 
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% if USE_CONTENT_DELIVERY_NETWORKS %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% else %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}">
+{% endif %}
 
 <title>Dashboards.ly: Make Dashboards Online</title>
 <meta name="description" content="Create dashboards online with Dashboards.ly and Plotly charts. Share dashboards with your team and customers with easy, password-proteced links." />
@@ -38,7 +42,11 @@
 
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:200,400,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+  {% if USE_CONTENT_DELIVERY_NETWORKS %}
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:200,400,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+  {% else %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='open-sans/css/fonts.css') }}">
+  {% endif %}
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -48,7 +56,10 @@
 
   <!-- Scripts
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  {% if USE_CONTENT_DELIVERY_NETWORKS %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  {% endif %}
+  <script>if(!window.jQuery)document.write("<scri"+"pt src='{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}'></scr"+"ipt>");</script>
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -60,13 +71,15 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <div id="heading-container">
-      <img src="http://i.imgur.com/jCMx2iC.png" style="height: 50px;vertical-align: -50%;">
+      <img src="{{ url_for('static', filename='images/top-logo.png') }}" style="height: 50px;vertical-align: -50%;">
       <h1>PLOTLY ONLINE DASHBOARDS</h1>
       <div id="link-container">
         <a href="{{ url_for('create') }}" target="_blank" onclick="window.mixpanel.track('Create dashboard');" style="border: 1px solid #FFF; border-radius:2px; padding: 6px;">MAKE A DASHBOARD</a>
         <a href="https://plot.ly/dashboards/" target="_blank">DASHBOARD EXAMPLES</a>
+        {% if not PLOTLY_ON_PREM %}
         <a class="typeform-share link" href="https://plotly.typeform.com/to/seG7Vb" data-mode="1" target="_blank" onclick="window.mixpanel.track('Typeform demo request);">REQUEST DEMO</a>
-        <script>(function(){var qs,js,q,s,d=document,gi=d.getElementById,ce=d.createElement,gt=d.getElementsByTagName,id='typef_orm',b='https://s3-eu-west-1.amazonaws.com/share.typeform.com/';if(!gi.call(d,id)){js=ce.call(d,'script');js.id=id;js.src=b+'share.js';q=gt.call(d,'script')[0];q.parentNode.insertBefore(js,q)}})()</script>
+        <script>(function(){var qs,js,q,s,d=document,gi=d.getElementById,ce=d.createElement,gt=d.getElementsByTagName,id='typef_orm',b='https://s3-eu-west-1.amazonaws.com/share.typeform.com/';if(!gi.call(d,id)){js=ce.call(d,'script');js.id=id;js.src=b+'share.js';q=gt.call(d,'script')[0];q.parentNode.insertBefore(js,q)}})()</script
+        {% endif %}
         <a href="http://help.plot.ly/dashboards.ly/" target="_blank" onclick="window.mixpanel.track('Dashboard help request');"><i class="fa fa-life-ring fa-2"></i> HELP</a>
       </div>
     </div>
@@ -76,7 +89,11 @@
         <div id="#video-container">
             <div id="background-curtain"></div>
             <video preload="auto" loop="loop" autoplay>
+              {% if USE_CONTENT_DELIVERY_NETWORKS %}
                 <source src="https://s3.amazonaws.com/plotly-downloads/dashboardsly-splash-3.mp4" type="video/mp4">
+              {% else %}
+                <source src="{{ url_for('static', filename='videos/dashboardsly-splash-3.mp4') }}" type="video/mp4">
+              {% endif %}
             </video>
         </div>
     </div>
@@ -86,36 +103,52 @@
             <a target="_blank" class="muted" href="https://github.com/plotly/dashboards.ly"><i class="fa fa-github-alt"></i> Fork on Github</a>
             -
             <a target="_blank" class="muted" href="http://help.plot.ly/dashboards.ly/">How It Works</a>
+            {% if not PLOTLY_ON_PREM %}
             -
             <a target="_blank" class="muted" href="https://dashboards.ly/ua-mUzaU5RwdSdaz5ERTudSZH">Example Dashboard</a>
+            {% endif %}
         </span>
     </div>
 
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-39373211-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-    
-    
-    
-<!-- start Mixpanel -->
-<!-- Pasted directly from plot.ly by @adrianericcook -->
-<script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
-for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="//cdn.mxpnl.com/libs/mixpanel-2.2.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
-mixpanel.init(ad6df61d0b9400400b240631576c24d4);</script>
-<!-- end Mixpanel -->
+    {% if USE_CONTENT_DELIVERY_NETWORKS %}
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-39373211-1', 'auto');
+            ga('send', 'pageview');
+        </script>
 
-<!-- Crazy Egg -->
-<script type="text/javascript">
-setTimeout(function(){var a=document.createElement("script");
-var b=document.getElementsByTagName("script")[0];
-a.src=document.location.protocol+"//script.crazyegg.com/pages/scripts/0042/1249.js?"+Math.floor(new Date().getTime()/3600000);
-a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
-</script>
+        <!-- start Mixpanel -->
+        <!-- Pasted directly from plot.ly by @adrianericcook -->
+        <script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
+        for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="//cdn.mxpnl.com/libs/mixpanel-2.2.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
+        mixpanel.init(ad6df61d0b9400400b240631576c24d4);</script>
+        <!-- end Mixpanel -->
+
+        <!-- Crazy Egg -->
+        <script type="text/javascript">
+        setTimeout(function(){var a=document.createElement("script");
+        var b=document.getElementsByTagName("script")[0];
+        a.src=document.location.protocol+"//script.crazyegg.com/pages/scripts/0042/1249.js?"+Math.floor(new Date().getTime()/3600000);
+        a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+        </script>
+    {% else %}
+        <script type="text/javascript">
+            window.mixpanel = {
+                track: function() { console.log('skip mixpanel track()'); },
+                identify: function() { console.log('skip mixpanel identify()'); },
+                alias: function() { console.log('skip mixpanel alias()'); },
+                get_distinct_id: function() { console.log('skip mixpanel get_distinct_id()'); },
+                register_once: function() { console.log('skip mixpanel register_once()'); },
+                people: {
+                    track_charge: function () { console.log('skip mixpanel.people.track_charge()'); },
+                    set: function () { console.log('skip mixpanel.people.set()'); },
+                }
+            };
+        </script>
+    {% endif %}
 
 <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->

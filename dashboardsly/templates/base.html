@@ -4,12 +4,17 @@
 <head>
 
 <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/favicon.ico') }}"/>
-<link href='https://fonts.googleapis.com/css?family=Open+Sans:200,400,300,700' rel='stylesheet' type='text/css'>
 {% assets "css_all" %}
     <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"></script>
 {% endassets %}
 <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+{% if USE_CONTENT_DELIVERY_NETWORKS %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:200,400,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+{% else %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='open-sans/css/fonts.css') }}">
+{% endif %}
 
 <title>Dashboards.ly: Make Dashboards Online</title>
 <meta name="description" content="Create and share dashboards online for free. Best-practice dashboards for business intelligence, science, and engineering." />
@@ -53,14 +58,16 @@
     </script>
     <script src="{{ url_for('static', filename='js/bundle.js') }}"></script>
 
-    <!-- Google analytics -->
-    <script>
-        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-39373211-1', 'auto');
-        ga('send', 'pageview');
-    </script>
+    {% if USE_CONTENT_DELIVERY_NETWORKS %}
+        <!-- Google analytics -->
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+              })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-39373211-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+    {% endif %}
 </footer>
 </html>
