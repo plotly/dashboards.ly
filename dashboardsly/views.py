@@ -6,7 +6,7 @@ import logging
 import sys
 
 import flask
-from flask import render_template, request, abort
+from flask import render_template, request, abort, url_for
 
 from flask.ext import assets
 from flask.ext.cors import CORS
@@ -266,9 +266,13 @@ def publish():
     dashboard_json = json.dumps(dashboard)
 
     dashboard_obj = commit_dashboard(dashboard_json, username, password)
-    dashboard_url = '/{}'.format(dashboard_obj.shortlink)
-    if not dashboard['requireauth']:
-        dashboard_url = '/ua-' + dashboard_url[1:]
+
+    if dashboard['requireauth']:
+        dashboard_url = url_for('serve_authenticated_dashboard',
+                                shortlink=dashboard_obj.shortlink)
+    else:
+        dashboard_url = url_for('serve_unauthenticated_dashboard',
+                                shortlink=dashboard_obj.shortlink)
 
     return flask.jsonify(
         url=dashboard_url

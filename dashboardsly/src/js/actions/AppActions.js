@@ -194,10 +194,9 @@ var AppActions = {
             });
         } else if(ENV.mode==='view') {
             let dashboard_id;
-            if(window.location.pathname.indexOf('/ua-')===0) {
-                dashboard_id = window.location.pathname.slice(4, window.location.pathname.length);
-            } else {
-                dashboard_id = window.location.pathname.slice(1, window.location.pathname.length);
+            dashboard_id = window.location.pathname.split('/').pop()
+            if(dashboard_id.indexOf('ua-')===0) {
+                dashboard_id = dashboard_id.slice(3, dashboard_id.length)
             }
 
             request({
