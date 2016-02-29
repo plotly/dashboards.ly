@@ -53,10 +53,14 @@ auth = HTTPBasicAuth()
 
 @app.context_processor
 def frontend_config():
+    # "config" variables are available in the frontend from the global CONFIG
     config = {
         'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN'],
-        'ROOT_PATH': request.script_root or '/',
+        'ROOT_PATH': request.script_root,
+        'DEFAULT_USERNAME': app.config['DEFAULT_USERNAME'],
+        'DEFAULT_APIKEY': app.config['DEFAULT_APIKEY'],
     }
+    # Other variables end up in the page's context, for templates
     return {
         'CONFIG': config,
         'USE_CONTENT_DELIVERY_NETWORKS':
@@ -162,14 +166,11 @@ def files(username, apikey, page):
                '&filetype=grid&filetype=plot'
                '&order_by=-date_modified'
                '').format(app.config['PLOTLY_API_DOMAIN'], page, username)
+        kwargs = {}
         if authenticated:
-            auth = requests.auth.HTTPBasicAuth(username, apikey)
-        else:
-            auth = requests.auth.HTTPBasicAuth(
-                app.config['DEFAULT_USERNAME'],
-                app.config['DEFAULT_APIKEY'])
-        r = requests.get(url, auth=auth, headers={
-            'plotly-client-platform': 'dashboardsly'})
+            kwargs['auth'] = requests.auth.HTTPBasicAuth(username, apikey)
+        r = requests.get(url, headers={
+            'plotly-client-platform': 'dashboardsly'}, **kwargs)
         try:
             r.raise_for_status()
         except requests.exceptions.HTTPError as e:
@@ -234,8 +235,9 @@ def get_files():
     page = int(request.args.get('page', 0))
     apikey = request.args.get('apikey', app.config['DEFAULT_APIKEY'])
 
-    # cache benji.b's files
-    if username == app.config['DEFAULT_USERNAME'] and page == 0:
+    # Use cached files for benji.b, Non-Prem
+    if (username == app.config['DEFAULT_USERNAME'] and page == 0 and
+        not app.config['PLOTLY_ON_PREM']):
         plots = default_plots.plots
         is_last = False
         is_authenticated = apikey == app.config['DEFAULT_APIKEY']
