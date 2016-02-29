@@ -10,6 +10,8 @@ class Config(object):
         "PLOTLY_API_DOMAIN", "https://api.plot.ly")
     PLOTLY_DOMAIN = os.environ.get(
         "PLOTLY_DOMAIN", "https://plot.ly")
+    PLOTLY_DOMAIN_EXT = os.environ.get(
+        "PLOTLY_DOMAIN_EXT", PLOTLY_DOMAIN)
     USE_CONTENT_DELIVERY_NETWORKS = bool(int(os.environ.get(
         "PLOTLY_USE_CONTENT_DELIVERY_NETWORKS", 1)))
     PLOTLY_ON_PREM = bool(int(os.environ.get("PLOTLY_ON_PREM", 0)))
