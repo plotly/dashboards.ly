@@ -51,13 +51,13 @@ var PlotPicker = React.createClass({
             auth = (
                 <span>
                     <span style={{color: '#2ECC40', verticalAlign: 'middle', fontSize: '16px', paddingLeft: '5px', paddingRight: '5px'}}>&#10003;</span>
-                    <span style={{fontSize: '10px', lineHeight: '16px'}}>(authenticated) <a href="https://plot.ly/settings/api/" target="_blank">Get your API key</a></span>
+                    <span style={{fontSize: '10px', lineHeight: '16px'}}>(authenticated) <a href={CONFIG.PLOTLY_DOMAIN_EXT+"/settings/api/"} target="_blank">Get your API key</a></span>
                 </span>)
         } else if(this.props.isAuth===false) {
             auth = (
                 <span>
                     <span style={{color: '#FF4136', verticalAlign: 'middle', fontSize: '16px', paddingLeft: '5px', paddingRight: '5px'}}>&times;</span>
-                    <span style={{fontSize: '10px', lineHeight: '16px'}}>(not authenticated) <a href="{CONFIG.PLOTLY_DOMAIN}/settings/api/" target="_blank">Get your API key</a></span>
+                    <span style={{fontSize: '10px', lineHeight: '16px'}}>(not authenticated) <a href={CONFIG.PLOTLY_DOMAIN_EXT+"/settings/api/"} target="_blank">Get your API key</a></span>
                 </span>)
         }
 
@@ -69,8 +69,8 @@ var PlotPicker = React.createClass({
                     <TextInput labelstyle={{textTransform: 'uppercase', fontWeight: 400,
                                             letterSpacing: '0.01rem', marginLeft: '30px'}}
                                tooltip={"Authenticate with your plotly API key to access private and secret plots and grids. "+
-                                        "Click to find your API key in "+CONFIG.PLOTLY_DOMAIN+"/settings/api/"}
-                               labellink={CONFIG.PLOTLY_DOMAIN+"/settings/api"}
+                                        "Click to find your API key in "+CONFIG.PLOTLY_DOMAIN_EXT+"/settings/api/"}
+                               labellink={CONFIG.PLOTLY_DOMAIN_EXT+"/settings/api"}
                                label={"plotly api key (optional)"} keystring="apikey" value={this.props.apikey}/>
                     {auth}
                     {loadingSpinner}

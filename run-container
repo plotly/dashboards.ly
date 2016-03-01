@@ -7,6 +7,14 @@ PSQL="psql -U $PLOTLY_DB_USER -h $PLOTLY_DB_HOST"
 
 cd /opt/dashboardsly
 
+echo Waiting for database...
+while true ; do
+    $PSQL db1 -w -c "SELECT 1" && {
+        break
+    }
+    sleep 10
+done
+
 if ! $PSQL -lqt | cut -d \| -f 1 | grep -w dashboardsly; then
     echo DB does not exist
     $PSQL db1 -c 'CREATE DATABASE dashboardsly;'

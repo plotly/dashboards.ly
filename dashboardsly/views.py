@@ -55,7 +55,7 @@ auth = HTTPBasicAuth()
 def frontend_config():
     # "config" variables are available in the frontend from the global CONFIG
     config = {
-        'PLOTLY_DOMAIN': app.config['PLOTLY_DOMAIN'],
+        'PLOTLY_DOMAIN_EXT': app.config['PLOTLY_DOMAIN_EXT'],
         'ROOT_PATH': request.script_root,
         'DEFAULT_USERNAME': app.config['DEFAULT_USERNAME'],
         'DEFAULT_APIKEY': app.config['DEFAULT_APIKEY'],
