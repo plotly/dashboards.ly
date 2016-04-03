@@ -1,1 +1,4 @@
-exclude: ['dashboardsly']
+#exclude: ['dashboardsly']
+
+
+stylesheet: https://s3-us-west-1.amazonaws.com/plotly-tutorials/assets/css/api/main.css
