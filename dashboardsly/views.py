@@ -129,11 +129,15 @@ def check_if_authenticated(username, apikey):
     # check if the user is authenticated
     # /folders/all is an authenticated endpoint, so query against
     # that resource to see if the API key is OK
+    kwargs = {}
+    if app.config['PLOTLY_ON_PREM']:
+        kwargs['verify'] = False
     r = requests.head('{}/v2/folders/all'
                       '?user={}'.format(app.config['PLOTLY_API_DOMAIN'],
                                         username),
                       auth=requests.auth.HTTPBasicAuth(username, apikey),
-                      headers={'plotly-client-platform': 'dashboardsly'})
+                      headers={'plotly-client-platform': 'dashboardsly'},
+                      **kwargs)
     try:
         r.raise_for_status()
     except requests.exceptions.HTTPError as e:
@@ -148,9 +152,12 @@ def check_if_authenticated(username, apikey):
 def files(username, apikey, page):
     # check if username exists. once /folders returns 404 on invalid username,
     # i can remove this
+    kwargs = {}
+    if app.config['PLOTLY_ON_PREM']:
+        kwargs['verify'] = False
     r = requests.head('{}/v2/users/{}'.format(
         app.config['PLOTLY_API_DOMAIN'],
-        username))
+        username), **kwargs)
     try:
         r.raise_for_status()
     except requests.exceptions.HTTPError as e:
@@ -169,6 +176,8 @@ def files(username, apikey, page):
         kwargs = {}
         if authenticated:
             kwargs['auth'] = requests.auth.HTTPBasicAuth(username, apikey)
+        if app.config['PLOTLY_ON_PREM']:
+            kwargs['verify'] = False
         r = requests.get(url, headers={
             'plotly-client-platform': 'dashboardsly'}, **kwargs)
         try:
@@ -292,8 +301,11 @@ def view():
 
 @app.route('/grid/<fid>.embed')
 def embed(fid):
+    kwargs = {}
+    if app.config['PLOTLY_ON_PREM']:
+        kwargs['verify'] = False
     r = requests.get('{}/v2/grids/{}/content'.format(
-        app.config['PLOTLY_API_DOMAIN'], fid))
+        app.config['PLOTLY_API_DOMAIN'], fid), **kwargs)
     data = json.loads(r.content)['cols']
     tabular = _gridjson_to_tabular_form(data, preview=False)
     return render_template('grid.html',
