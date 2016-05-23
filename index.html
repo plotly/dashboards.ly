@@ -311,13 +311,10 @@ name: FAQ and Help
         <p>
             Response:
         </p>
-        <pre>
-            <code>
-                {
-                "url": "/ua-nxtZJtunZJSzVKGAmnVfAe"
-                }
-            </code>
-        </pre>
+<pre><code>
+{
+    "url": "/ua-nxtZJtunZJSzVKGAmnVfAe"
+}</code></pre>
     </div>
 </article>
 
@@ -337,65 +334,65 @@ name: FAQ and Help
 
 <pre><code class="python">import plotly.plotly as py
 
-    ## First, make some graphs to embed in the dashboard.
-    # See more examples: https://plot.ly/python
-    graph_url1 = py.plot({
+## First, make some graphs to embed in the dashboard.
+# See more examples: https://plot.ly/python
+graph_url1 = py.plot({
     'data': [{'x': [1, 2, 3], 'y': [3, 1, 5]}],
     'layout': {
-    'title': 'earnings',
-    # graphs embedded in dashboards look best if the margins are tightened up
-    'margin': {'l': 30, 'r': 30, 'b': 30, 't': 60}
+        'title': 'earnings',
+        # graphs embedded in dashboards look best if the margins are tightened up
+        'margin': {'l': 30, 'r': 30, 'b': 30, 't': 60}
     }
-    }, filename='dashboard/earnings',
-    sharing='secret') # more about privacy settings: https://plot.ly/python/privacy
+}, filename='dashboard/earnings',
+sharing='secret') # more about privacy settings: https://plot.ly/python/privacy
 
-    graph_url2 = py.plot({
+graph_url2 = py.plot({
     'data': [{'x': [1, 2, 3], 'y': [3, 40, 5]}],
     'layout': {
-    'title': 'growth',
-    'margin': {'l': 30, 'r': 30, 'b': 30, 't': 60}
+        'title': 'growth',
+        'margin': {'l': 30, 'r': 30, 'b': 30, 't': 60}
     }
-    }, filename='dashboard/growth', sharing='secret')
+}, filename='dashboard/growth', sharing='secret')
 
-    graph_url3 = py.plot({
+graph_url3 = py.plot({
     'data': [{'x': [1, 2, 3], 'y': [10, 6l, 2]}],
     'layout': {
-    'title': 'performance',
-    'margin': {'l': 30, 'r': 30, 'b': 30, 't': 60}
+        'title': 'performance',
+        'margin': {'l': 30, 'r': 30, 'b': 30, 't': 60}
     }
-    }, filename='dashboard/performance', sharing='secret')
+}, filename='dashboard/performance', sharing='secret')
 
-    ## Now, create a dashboard
-    import requests, json
+## Now, create a dashboard
+import requests, json
 
-    dashboard_json = {
+dashboard_json = {
     "rows": [
     [{"plot_url": graph_url1}, {"plot_url": graph_url2}],
     [{"plot_url": graph_url3}]
     ],
     "banner": {
-    "visible": True,
-    "backgroundcolor": "#3d4a57",
-    "textcolor": "white",
-    "title": "Quarterly Outlook",
-    "links": []
+        "visible": True,
+        "backgroundcolor": "#3d4a57",
+        "textcolor": "white",
+        "title": "Quarterly Outlook",
+        "links": []
     },
     "requireauth": False,
     "auth": {
-    "username": "Acme Corp",
-    "passphrase": ""
+        "username": "Acme Corp",
+        "passphrase": ""
     }
-    }
+}
 
-    response = requests.post('https://dashboards.ly/publish',
-    data={'dashboard': json.dumps(dashboard_json)},
-    headers={'content-type': 'application/x-www-form-urlencoded'})
+response = requests.post('https://dashboards.ly/publish',
+data={'dashboard': json.dumps(dashboard_json)},
+headers={'content-type': 'application/x-www-form-urlencoded'})
 
-    response.raise_for_status()
+response.raise_for_status()
 
-    dashboard_url = response.json()['url']
-    print('dashboard url: https://dashboards.ly{}'.format(dashboard_url))
-    # View here: https://dashboards.ly/ua-vNxpsNCb9aYTzb2Q64ZDUa
+dashboard_url = response.json()['url']
+print('dashboard url: https://dashboards.ly{}'.format(dashboard_url))
+# View here: https://dashboards.ly/ua-vNxpsNCb9aYTzb2Q64ZDUa
 </code></pre>
 
         <p>
@@ -416,7 +413,7 @@ name: FAQ and Help
             <a target="_blank" href="https://dashboards.ly/ofd6SZ4wRGqW9UrWj5My2n">View this dashboard</a>.
 
         </p>
-        <iframe src="https://dashboards.ly/ofd6SZ4wRGqW9UrWj5My2n" style="border: none;" width="100%"
+        <iframe src="https://dashboards.ly/ua-nw5KyqcJqYAU9X6CYZNo9d" style="border: none;" width="100%"
                 height="600px"></iframe>
 
 <pre><code class="R">library(plotly)
@@ -437,7 +434,7 @@ p3 <- plotly_POST(p3)
 p4 <- plotly_POST(p4)
 
 lst <- list(
-  requireauth = "false",
+
   rows = list(
     list(
       list(plot_url = p1$url),
@@ -448,14 +445,15 @@ lst <- list(
       list(plot_url = p4$url))),
 
   banner = list(
-    visible = "true",
+    visible = T,
     textcolor = "white",
     backgroundcolor = "#3d4a57",
     title = "MTCARS Dashboard",
     links = list()),
 
+  requireauth = F,
   auth = list(
-    username = "Plotly",
+    username = "",
     passphrase = ""
   ))
 
@@ -481,107 +479,107 @@ resp <- POST('https://dashboards.ly/publish', body = list(dashboard=json),
         <iframe src="https://dashboards.ly/ua-JNTMiqdqLUJnDwir6W75rX" style="border: none;" width="100%"
                 height="600px"></iframe>
 
-<pre>
-    <code class="matlab">%% first, make some plotly graphs to embed in the dashboard
-        N = 10;
-        x = linspace(1, N, N);
-        % list of colors
-        clrs = {
-        [240, 179, 110]/255., ...
-        [238, 151, 0]/255., ...
-        [231, 91, 0]/255., ...
-        [161, 54, 28]/255., ...
-        [220, 51, 0]/255.};
+<pre><code class="matlab">%% first, make some plotly graphs to embed in the dashboard
+N = 10;
+x = linspace(1, N, N);
+% list of colors
+clrs = {
+    [240, 179, 110]/255., ...
+    [238, 151, 0]/255., ...
+    [231, 91, 0]/255., ...
+    [161, 54, 28]/255., ...
+    [220, 51, 0]/255.
+};
 
-        urls = {}; % store the URLs of the graphs in this cell array
-        % make 5 random line graphs
-        for i=1:5
-        close all
-        fig = figure;
-        hold on
-        y = randn(N, 15);
-        plot(x, y, '.', x, mean(y'), 'linewidth', 2, 'MarkerSize', 4, 'Color', clrs{i});
-        plot(x, mean(y'), '.', 'MarkerSize', 16, 'Color', clrs{i});
-        title(['Week ', num2str(i)]);
+urls = {}; % store the URLs of the graphs in this cell array
+% make 5 random line graphs
+for i=1:5
+    close all
+    fig = figure;
+    hold on
+    y = randn(N, 15);
+    plot(x, y, '.', x, mean(y'), 'linewidth', 2, 'MarkerSize', 4, 'Color', clrs{i});
+    plot(x, mean(y'), '.', 'MarkerSize', 16, 'Color', clrs{i});
+    title(['Week ', num2str(i)]);
 
-        % create plotly versions of these graphs
-        pfig = plotlyfig(fig, 'strip', false);
-        pfig.PlotOptions.FileName = ['dashboard/matlab-', num2str(i)]; % name of graph as saved in plotly
-        pfig.PlotOptions.FileOpt = 'overwrite'; % overwrite any existing graphs with this filename
-        pfig.PlotOptions.WorldReadable = 1; % public
-        pfig.PlotOptions.OpenURL = 0; % don't open the URL in the web browser
-        % send to plotly
-        pfig.plotly;
-        % store the URL of this plotly graph in the url array. example url: https://plot.ly/~chriddyp/1555
-        urls{i} = pfig.url;
-        end
+    % create plotly versions of these graphs
+    pfig = plotlyfig(fig, 'strip', false);
+    pfig.PlotOptions.FileName = ['dashboard/matlab-', num2str(i)]; % name of graph as saved in plotly
+    pfig.PlotOptions.FileOpt = 'overwrite'; % overwrite any existing graphs with this filename
+    pfig.PlotOptions.WorldReadable = 1; % public
+    pfig.PlotOptions.OpenURL = 0; % don't open the URL in the web browser
+    % send to plotly
+    pfig.plotly;
+    % store the URL of this plotly graph in the url array. example url: https://plot.ly/~chriddyp/1555
+    urls{i} = pfig.url;
+end
 
-        % throw in a heatmap, too
-        close all;
-        fig = figure;
-        size = 50;
-        z = zeros(size, size);
-        for r = 1:size
-        for c = 1:size
+% throw in a heatmap, too
+close all;
+fig = figure;
+size = 50;
+z = zeros(size, size);
+for r = 1:size
+    for c = 1:size
         z(r,c) = r+c*randn/5.;
-        end
-        end
-        fig = figure;
-        colormap('hot');
-        imagesc(z);
-        title('Summary');
-        % convert matlab figure to plotly figure
-        pfig = plotlyfig(fig, 'strip', false);
-        pfig.PlotOptions.FileName = ['dashboard/matlab-heatmap']; % name of graph as saved in plotly
-        pfig.PlotOptions.FileOpt = 'overwrite'; % overwrite any existing graphs with this filename
-        pfig.PlotOptions.WorldReadable = 1; % public
-        pfig.PlotOptions.OpenURL = 0; % don't open the URL in the web browser
-        pfig.plotly % send the figure to your plotly account
-        urls{i+1} = pfig.url;
+    end
+end
 
-        %% arrange the graphs in a dashboard
-        % you can create these dashboards manually at https://dashboards.ly
-        % the layout, style, and content of these dashboards are described in this struct
-        dashboard = struct();
-        dashboard.rows = {...
-        % first row of plots (two plots in one row)
-        {struct('plot_url', urls{1}), struct('plot_url', urls{2})}, ...
-        % second row of plots (a single plot that spans the row)
-        {struct('plot_url', urls{3})} ...
-        % third row of plots (two plots in the third row)
-        {struct('plot_url', urls{4}), struct('plot_url', urls{5})} ...
-        % fourth row of plots (a single plot that spans the fourth row)
-        {struct('plot_url', urls{6})} ...
-        % place as many rows as you wish here
-        };
-        dashboard.banner = struct(...
-        'visible', true,... % if you don't want to show a banner, set to false
-        'backgroundcolor', '#ff2800',... % background color of the banner
-        'textcolor', 'white',... % color of the text in the banner
-        'title', 'Performance Results',... % title of the banner
-        'links', {{... % list of (optional) links in the banner
+fig = figure;
+colormap('hot');
+imagesc(z);
+title('Summary');
+% convert matlab figure to plotly figure
+pfig = plotlyfig(fig, 'strip', false);
+pfig.PlotOptions.FileName = ['dashboard/matlab-heatmap']; % name of graph as saved in plotly
+pfig.PlotOptions.FileOpt = 'overwrite'; % overwrite any existing graphs with this filename
+pfig.PlotOptions.WorldReadable = 1; % public
+pfig.PlotOptions.OpenURL = 0; % don't open the URL in the web browser
+pfig.plotly % send the figure to your plotly account
+urls{i+1} = pfig.url;
+
+%% arrange the graphs in a dashboard
+% you can create these dashboards manually at https://dashboards.ly
+% the layout, style, and content of these dashboards are described in this struct
+dashboard = struct();
+dashboard.rows = {...
+    % first row of plots (two plots in one row)
+    {struct('plot_url', urls{1}), struct('plot_url', urls{2})}, ...
+    % second row of plots (a single plot that spans the row)
+    {struct('plot_url', urls{3})} ...
+    % third row of plots (two plots in the third row)
+    {struct('plot_url', urls{4}), struct('plot_url', urls{5})} ...
+    % fourth row of plots (a single plot that spans the fourth row)
+    {struct('plot_url', urls{6})} ...
+    % place as many rows as you wish here
+};
+dashboard.banner = struct(...
+    'visible', true,... % if you don't want to show a banner, set to false
+    'backgroundcolor', '#ff2800',... % background color of the banner
+    'textcolor', 'white',... % color of the text in the banner
+    'title', 'Performance Results',... % title of the banner
+    'links', {{... % list of (optional) links in the banner
         struct('href', 'https://google.com', 'text', 'Metrics'),...
         struct('href', 'https://google.com', 'text', 'Performance')...
-        }}...
-        );
-        dashboard.requireauth = false; % set to true if you want to set password authentication
-        dashboard.auth = struct(... % set the passphrase and username of the optional password auth
-        'username', 'Acme Corp',...
-        'passphrase', ''...
-        );
+    }}...
+);
+dashboard.requireauth = false; % set to true if you want to set password authentication
+dashboard.auth = struct(... % set the passphrase and username of the optional password auth
+    'username', 'Acme Corp',...
+    'passphrase', ''...
+);
 
-        % send the description of the dashboard to the dashboards.ly server to create and view the dashboard
-        body = ['dashboard=', urlencode(m2json(dashboard))];
-        [response_string, extras] = urlread2('https://dashboards.ly/publish', 'POST', body);
+% send the description of the dashboard to the dashboards.ly server to create and view the dashboard
+body = ['dashboard=', urlencode(m2json(dashboard))];
+[response_string, extras] = urlread2('https://dashboards.ly/publish', 'POST', body);
 
-        % handle 400 and 500 level errors, parse the output
-        response_handler(response_string, extras);
-        response_object = loadjson(response_string);
-        dashboard_url = ['https://dashboards.ly', response_object.url];
+% handle 400 and 500 level errors, parse the output
+response_handler(response_string, extras);
+response_object = loadjson(response_string);
+dashboard_url = ['https://dashboards.ly', response_object.url];
 
-        % open up the dashboard in your web browser
-        web(dashboard_url, '-browser')
-    </code>
+% open up the dashboard in your web browser
+web(dashboard_url, '-browser')</code>
 </pre>
 
     </div>
@@ -735,76 +733,78 @@ resp <- POST('https://dashboards.ly/publish', body = list(dashboard=json),
 
 <pre><code>
 
-    %% Create a google map image
-    addpath(genpath('~/Downloads/zoharby-plot_google_map-ef61cad'))
-    lat = [48.8708 51.5188 41.9260 40.4312 52.523 37.982];
-    lon = [2.4131 -0.1300 12.4951 -3.6788 13.415 23.715];
-    plot(lon,lat,'.r','MarkerSize',20)
-    plot_google_map
+%% Create a google map image
+addpath(genpath('~/Downloads/zoharby-plot_google_map-ef61cad'))
+lat = [48.8708 51.5188 41.9260 40.4312 52.523 37.982];
+lon = [2.4131 -0.1300 12.4951 -3.6788 13.415 23.715];
+plot(lon,lat,'.r','MarkerSize',20)
+plot_google_map
 
-    %% Export the figure to `out.png`
-    addpath(genpath('~/Downloads/altmany-export_fig-4c015d5'))
-    export_fig('out.png');
+%% Export the figure to `out.png`
+addpath(genpath('~/Downloads/altmany-export_fig-4c015d5'))
+export_fig('out.png');
 
-    %% Read the image from the file and base64 encode it.
-    addpath(genpath('~/Downloads/encoder'))
-    fid = fopen('out.png');
-    im = fread(fid);
-    fclose(fid)
-    png = base64encode(im);
-    png = strrep(sprintf(png), sprintf('\r\n'), '');
-    % base64 encoded image format
-    imgsrc = ['data:image/png;base64,', png];
+%% Read the image from the file and base64 encode it.
+addpath(genpath('~/Downloads/encoder'))
+fid = fopen('out.png');
+im = fread(fid);
+fclose(fid)
+png = base64encode(im);
+png = strrep(sprintf(png), sprintf('\r\n'), '');
+% base64 encoded image format
+imgsrc = ['data:image/png;base64,', png];
 
-    %% arrange the graphs in a dashboard
-    % you can create these dashboards manually at https://dashboards.ly
-    % the layout, style, and content of these dashboards are described in this struct
-    dashboard = struct();
-    dashboard.rows = {...
+%% arrange the graphs in a dashboard
+% you can create these dashboards manually at https://dashboards.ly
+% the layout, style, and content of these dashboards are described in this struct
+dashboard = struct();
+dashboard.rows = {...
     % first row of plots (two plots in one row)
     {
-    struct('plot_url', 'https://plot.ly/~benji.b/38'),
-    struct('plot_url', 'https://plot.ly/~benji.b/54')
+        struct('plot_url', 'https://plot.ly/~benji.b/38'),
+        struct('plot_url', 'https://plot.ly/~benji.b/54')
     }, ...
 
     % second row of plots (two plots in the third row)
     {
-    % base64 images are accepted
-    struct('type', 'image', 'src', imgsrc), ...
-    % so are image urls
-    struct('type', 'image', 'src', 'https://plot.ly/~chris/1638.png')
+        % base64 images are accepted
+        struct('type', 'image', 'src', imgsrc), ...
+        % so are image urls
+        struct('type', 'image', 'src', 'https://plot.ly/~chris/1638.png')
     } ...
+
     % place as many rows as you wish here
-    };
-    dashboard.banner = struct(...
+};
+
+dashboard.banner = struct(...
     'visible', true,... % if you don't want to show a banner, set to false
     'backgroundcolor', '#ff2800',... % background color of the banner
     'textcolor', 'white',... % color of the text in the banner
     'title', 'Performance Results',... % title of the banner
     'links', {{... % list of (optional) links in the banner
-    struct('href', 'https://google.com', 'text', 'Metrics'),...
-    struct('href', 'https://google.com', 'text', 'Performance')...
+        struct('href', 'https://google.com', 'text', 'Metrics'),...
+        struct('href', 'https://google.com', 'text', 'Performance')...
     }}...
-    );
-    dashboard.requireauth = false; % set to true if you want to set password authentication
-    dashboard.auth = struct(... % set the passphrase and username of the optional password auth
+);
+dashboard.requireauth = false; % set to true if you want to set password authentication
+dashboard.auth = struct(... % set the passphrase and username of the optional password auth
     'username', 'Acme Corp',...
     'passphrase', ''...
-    );
+);
 
-    % send the description of the dashboard to the dashboards.ly server to create and view the dashboard
-    body = ['dashboard=', urlencode(m2json(dashboard))];
-    [response_string, extras] = urlread2('https://dashboards.ly/publish', 'POST', body);
+% send the description of the dashboard to the dashboards.ly server to create and view the dashboard
+body = ['dashboard=', urlencode(m2json(dashboard))];
+[response_string, extras] = urlread2('https://dashboards.ly/publish', 'POST', body);
 
-    % handle 400 and 500 level errors, parse the output
-    response_handler(response_string, extras);
-    response_object = loadjson(response_string);
-    dashboard_url = ['https://dashboards.ly', response_object.url];
+% handle 400 and 500 level errors, parse the output
+response_handler(response_string, extras);
+response_object = loadjson(response_string);
+dashboard_url = ['https://dashboards.ly', response_object.url];
 
-    % open up the dashboard in your web browser
-    web(dashboard_url, '-browser')
+% open up the dashboard in your web browser
+web(dashboard_url, '-browser')
 
-    % example: https://dashboards.ly/ua-gpSyCzTF92UkSppxTNaJeK
+% example: https://dashboards.ly/ua-gpSyCzTF92UkSppxTNaJeK
 </code></pre>
 
         <p>
