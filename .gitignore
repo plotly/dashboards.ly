@@ -6,3 +6,4 @@ vv/*
 dashboardsly/static/.webassets-cache/*
 package.json
 _site/*
+venv
