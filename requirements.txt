@@ -1,5 +1,6 @@
 Flask==0.10.1
 Flask-Assets==0.11
+Flask-Compress==1.3.0
 Flask-Cors==2.1.0
 Flask-HTTPAuth==2.7.0
 Flask-Reverse-Proxy==0.2.0.0
