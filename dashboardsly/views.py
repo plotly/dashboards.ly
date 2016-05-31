@@ -1,54 +1,14 @@
 import requests
 import json
-import os
-import shortuuid  # https://github.com/stochastic-technologies/shortuuid
-import logging
-import sys
+import shortuuid
 
 import flask
 from flask import render_template, request, abort, url_for
 
-from flask.ext import assets
-from flask.ext.cors import CORS
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask_httpauth import HTTPBasicAuth
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_reverse_proxy import FlaskReverseProxied
-from flask_sslify import SSLify
 
-from dashboardsly import app
+from dashboardsly import app, auth, db
 from dashboardsly import default_plots
-
-if app.config['PLOTLY_ON_PREM']:
-    if app.config['SSL_ENABLED']:
-        # On-Prem, SSL enabled: temporary redirects, and disable HSTS
-        # by setting the age to 60s.  (Allows SSL to be switched off.)
-        SSLify(app, permanent=False, age=60)
-else:
-    # Non-Prem: always enable SSL with permanent redirects and HSTS
-    SSLify(app, permanent=True)
-
-proxied = FlaskReverseProxied(app)
-
-db = SQLAlchemy(app)
-
-app.logger.addHandler(logging.StreamHandler(sys.stdout))
-app.logger.setLevel(logging.ERROR)
-
-env = assets.Environment(app)
-env.load_path = [os.path.join(os.path.dirname(__file__), 'sass')]
-env.register(
-    'css_all',
-    assets.Bundle(
-        'skeleton.scss',
-        filters='scss',
-        output='css_all.css'
-    )
-)
-
-CORS(app)
-
-auth = HTTPBasicAuth()
 
 
 @app.context_processor
@@ -125,6 +85,7 @@ def _gridjson_to_tabular_form(gridjson, preview):
 
     return {'column_names': ordered_cols, 'data': tabular_data}
 
+
 def check_if_authenticated(username, apikey):
     # check if the user is authenticated
     # /folders/all is an authenticated endpoint, so query against
@@ -148,6 +109,7 @@ def check_if_authenticated(username, apikey):
     else:
         authenticated = True
     return authenticated
+
 
 def files(username, apikey, page):
     # check if username exists. once /folders returns 404 on invalid username,
@@ -205,7 +167,8 @@ def files(username, apikey, page):
                     url += '?share_key=' + f['share_key']
             elif f['filetype'] == 'grid':
                 if f['world_readable'] is False:
-                    continue  # gotta find a workaround to embedabble grids first.
+                    # gotta find a workaround to embedabble grids first.
+                    continue
                 url = '/grid/' + f['api_urls']['grids'].split('/')[-1]
             items.append({
                 'filetype': f['filetype'],
@@ -246,7 +209,7 @@ def get_files():
 
     # Use cached files for benji.b, Non-Prem
     if (username == app.config['DEFAULT_USERNAME'] and page == 0 and
-        not app.config['PLOTLY_ON_PREM']):
+            not app.config['PLOTLY_ON_PREM']):
         plots = default_plots.plots
         is_last = False
         is_authenticated = apikey == app.config['DEFAULT_APIKEY']
@@ -269,8 +232,10 @@ def get_files():
 def publish():
     dashboard_json = request.form['dashboard']
     dashboard = json.loads(dashboard_json)
-    username = dashboard['auth']['username'] if dashboard['requireauth'] else ''
-    password = dashboard['auth']['passphrase'] if dashboard['requireauth'] else ''
+    username = dashboard['auth'][
+        'username'] if dashboard['requireauth'] else ''
+    password = dashboard['auth'][
+        'passphrase'] if dashboard['requireauth'] else ''
     dashboard.pop('auth')  # don't save the raw passphrase
     dashboard_json = json.dumps(dashboard)
 

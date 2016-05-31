@@ -4,37 +4,37 @@
 
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-{% if USE_CONTENT_DELIVERY_NETWORKS %}
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-{% else %}
-  <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}">
-{% endif %}
+  {% if USE_CONTENT_DELIVERY_NETWORKS %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  {% else %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}">
+  {% endif %}
 
-<title>Dashboards.ly: Make Dashboards Online</title>
-<meta name="description" content="Create dashboards online with Dashboards.ly and Plotly charts. Share dashboards with your team and customers with easy, password-proteced links." />
-<link rel="canonical" href="https://dashboards.ly/" />
+  <title>Dashboards.ly: Make Dashboards Online</title>
+  <meta name="description" content="Create dashboards online with Dashboards.ly and Plotly charts. Share dashboards with your team and customers with easy, password-proteced links." />
+  <link rel="canonical" href="https://dashboards.ly/" />
 
-<!-- Schema.org markup for Google+ -->
-<meta itemprop="name" content="Dashboards.ly: Make Dashboards Online">
-<meta itemprop="description" content="Create and share dashboards online for free. Best-practice dashboards for business intelligence, science, and engineering.">
-<meta itemprop="image" content="http://images.plot.ly/excel/dashboards/dashboard.png">
+  <!-- Schema.org markup for Google+ -->
+  <meta itemprop="name" content="Dashboards.ly: Make Dashboards Online">
+  <meta itemprop="description" content="Create and share dashboards online for free. Best-practice dashboards for business intelligence, science, and engineering.">
+  <meta itemprop="image" content="http://images.plot.ly/excel/dashboards/dashboard.png">
 
-<!-- Twitter Card data -->
-<meta name="twitter:card" content="http://images.plot.ly/excel/dashboards/dashboards-thumbnail.png">
-<meta name="twitter:site" content="@plotlygraphs">
-<meta name="twitter:title" content="Dashboards.ly: Make Dashboards Online">
-<meta name="twitter:description" content="Create dashboards online with Dashboards.ly and Plotly charts. Share dashboards with your team and customers with easy, password-protected links.">
-<meta name="twitter:creator" content="@plotlygraphs">
-<!-- Twitter summary card with large image must be at least 280x150px -->
-<meta name="twitter:image:src" content="http://images.plot.ly/excel/dashboards/dashboard.png">
+  <!-- Twitter Card data -->
+  <meta name="twitter:card" content="http://images.plot.ly/excel/dashboards/dashboards-thumbnail.png">
+  <meta name="twitter:site" content="@plotlygraphs">
+  <meta name="twitter:title" content="Dashboards.ly: Make Dashboards Online">
+  <meta name="twitter:description" content="Create dashboards online with Dashboards.ly and Plotly charts. Share dashboards with your team and customers with easy, password-protected links.">
+  <meta name="twitter:creator" content="@plotlygraphs">
+  <!-- Twitter summary card with large image must be at least 280x150px -->
+  <meta name="twitter:image:src" content="http://images.plot.ly/excel/dashboards/dashboard.png">
 
-<!-- Open Graph data -->
-<meta property="og:title" content="Dashboards.ly: Make Dashboards Online" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://dashboards.ly/" />
-<meta property="og:image" content="http://images.plot.ly/excel/dashboards/dashboards-thumbnail.png" />
-<meta property="og:description" content="Create dashboards online with Dashboards.ly and Plotly charts. Share dashboards with your team and customers with easy, password-proteced links." />
-<meta property="og:site_name" content="Dashboards.ly" />
+  <!-- Open Graph data -->
+  <meta property="og:title" content="Dashboards.ly: Make Dashboards Online" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://dashboards.ly/" />
+  <meta property="og:image" content="http://images.plot.ly/excel/dashboards/dashboards-thumbnail.png" />
+  <meta property="og:description" content="Create dashboards online with Dashboards.ly and Plotly charts. Share dashboards with your team and customers with easy, password-proteced links." />
+  <meta property="og:site_name" content="Dashboards.ly" />
 
   <!-- Mobile Specific Metas
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -57,13 +57,11 @@
   <!-- Scripts
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   {% if USE_CONTENT_DELIVERY_NETWORKS %}
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   {% endif %}
-  <script>if(!window.jQuery)document.write("<scri"+"pt src='{{ url_for('static', filename='js/jquery-2.1.1.min.js') }}'></scr"+"ipt>");</script>
 
   <!-- Favicon
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/favicon.ico') }}"/>
+  <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/favicon.ico') }}"/>
 
 </head>
 <body style="background-color: #f2f2f2;">
@@ -74,7 +72,7 @@
       <img src="{{ url_for('static', filename='images/top-logo.png') }}" style="height: 50px;vertical-align: -50%;">
       <h1>PLOTLY ONLINE DASHBOARDS</h1>
       <div id="link-container">
-        <a href="{{ url_for('create') }}" target="_blank" onclick="window.mixpanel.track('Create dashboard');" style="border: 1px solid #FFF; border-radius:2px; padding: 6px;">MAKE A DASHBOARD</a>
+        <a href="{{ url_for('create') }}" onclick="window.mixpanel.track('Create dashboard');" style="border: 1px solid #FFF; border-radius:2px; padding: 6px;">MAKE A DASHBOARD</a>
         <a href="https://plot.ly/dashboards/" target="_blank">DASHBOARD EXAMPLES</a>
         {% if not PLOTLY_ON_PREM %}
           <a class="typeform-share link" href="https://plotly.typeform.com/to/seG7Vb" data-mode="1" target="_blank" onclick="window.mixpanel.track('Typeform demo request);">REQUEST DEMO</a>
@@ -123,10 +121,9 @@
         </script>
 
         <!-- start Mixpanel -->
-        <!-- Pasted directly from plot.ly by @adrianericcook -->
-        <script type="text/javascript">(function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" ");
-        for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="//cdn.mxpnl.com/libs/mixpanel-2.2.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]);
-        mixpanel.init(ad6df61d0b9400400b240631576c24d4);</script>
+        <script type="text/javascript">
+          (function(f,b){if(!b.__SV){var a,e,i,g;window.mixpanel=b;b._i=[];b.init=function(a,e,d){function f(b,h){var a=h.split(".");2==a.length&&(b=b[a[0]],h=a[1]);b[h]=function(){b.push([h].concat(Array.prototype.slice.call(arguments,0)))}}var c=b;"undefined"!==typeof d?c=b[d]=[]:d="mixpanel";c.people=c.people||[];c.toString=function(b){var a="mixpanel";"mixpanel"!==d&&(a+="."+d);b||(a+=" (stub)");return a};c.people.toString=function(){return c.toString(1)+".people (stub)"};i="disable track track_pageview track_links track_forms register register_once alias unregister identify name_tag set_config people.set people.set_once people.increment people.append people.track_charge people.clear_charges people.delete_user".split(" "); for(g=0;g<i.length;g++)f(c,i[g]);b._i.push([a,e,d])};b.__SV=1.2;a=f.createElement("script");a.type="text/javascript";a.async=!0;a.src="//cdn.mxpnl.com/libs/mixpanel-2.2.min.js";e=f.getElementsByTagName("script")[0];e.parentNode.insertBefore(a,e)}})(document,window.mixpanel||[]); mixpanel.init(ad6df61d0b9400400b240631576c24d4);
+        </script>
         <!-- end Mixpanel -->
 
         <!-- Crazy Egg -->
@@ -152,7 +149,7 @@
         </script>
     {% endif %}
 
-<!-- End Document
+  <!-- End Document
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 </body>
 </html>
