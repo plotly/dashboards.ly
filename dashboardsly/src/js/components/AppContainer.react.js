@@ -11,8 +11,6 @@ import appStoreMixin from './AppStore.mixin.js';
 import Dashboard from './Dashboard.react';
 import PlotPicker from './PlotPicker.react';
 
-console.warn('test');
-
 var AppContainer = React.createClass({
     getInitialState: function () {
         return this.getState();

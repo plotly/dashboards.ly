@@ -62,7 +62,7 @@ var DashboardPlotBlock = React.createClass({
               sharekey = plot_url.slice(plot_url.indexOf('?share_key=')+'?share_key='.length, plot_url.length);
               plot_url = plot_url.replace('?share_key='+sharekey, '');
           }
-          let iframeUrl = plot_url + '.embed?autosize=true&link=false&source=false' + (sharekey ? '&share_key='+sharekey : '');          
+          let iframeUrl = plot_url + '.embed?autosize=true&link=false&source=false' + (sharekey ? '&share_key='+sharekey : '');
           content = <iframe src={iframeUrl} style={iframeStyle}></iframe>
         } else {
           return(<div style={itemStyle} className="chart-wrapper"></div>);
@@ -83,7 +83,7 @@ var DashboardPlotBlock = React.createClass({
                     onMouseDown={this.handleDraggingMouseDown}
                     onMouseUp={this.handleDraggingMouseUp}>
                     <span style={{verticalAlign: 'middle', paddingRight: '3px'}}>drag to rearrange</span>
-                    <img style={{'height': '14px', verticalAlign: 'middle'}} src="http://i.imgur.com/F5biwyG.png"/>
+                    <i className='fa fa-arrows' style={{ marginRight: '4px' }}/>
                 </a>
             </div>)
         }
