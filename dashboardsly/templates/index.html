@@ -4,12 +4,6 @@
 
   <!-- Basic Page Needs
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  {% if USE_CONTENT_DELIVERY_NETWORKS %}
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-  {% else %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}">
-  {% endif %}
-
   <title>Dashboards.ly: Make Dashboards Online</title>
   <meta name="description" content="Create dashboards online with Dashboards.ly and Plotly charts. Share dashboards with your team and customers with easy, password-proteced links." />
   <link rel="canonical" href="https://dashboards.ly/" />
@@ -43,16 +37,21 @@
   <!-- FONT
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   {% if USE_CONTENT_DELIVERY_NETWORKS %}
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:200,400,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:200,400,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
   {% else %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='open-sans/css/fonts.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='open-sans/css/fonts.css') }}">
   {% endif %}
 
   <!-- CSS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/skeleton.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/normalize.css') }}">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/splash.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/splash.css') }}"> -->
+
+  {% if USE_CONTENT_DELIVERY_NETWORKS %}
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  {% else %}
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='font-awesome/css/font-awesome.min.css') }}">
+  {% endif %}
 
   <!-- Scripts
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -69,10 +68,10 @@
   <!-- Primary Page Layout
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <div id="heading-container">
-      <img src="{{ url_for('static', filename='images/top-logo.png') }}" style="height: 50px;vertical-align: -50%;">
+      <img src="{{ url_for('static', filename='images/top-logo.png') }}">
       <h1>PLOTLY ONLINE DASHBOARDS</h1>
       <div id="link-container">
-        <a href="{{ url_for('create') }}" onclick="window.mixpanel.track('Create dashboard');" style="border: 1px solid #FFF; border-radius:2px; padding: 6px;">MAKE A DASHBOARD</a>
+        <a href="{{ url_for('create') }}" onclick="window.mixpanel.track('Create dashboard');" class="bordered">MAKE A DASHBOARD</a>
         <a href="https://plot.ly/dashboards/" target="_blank">DASHBOARD EXAMPLES</a>
         {% if not PLOTLY_ON_PREM %}
           <a class="typeform-share link" href="https://plotly.typeform.com/to/seG7Vb" data-mode="1" target="_blank" onclick="window.mixpanel.track('Typeform demo request);">REQUEST DEMO</a>
@@ -84,21 +83,18 @@
       </div>
     </div>
 
-    <div style="height: 100vh;">
-
-        <div id="#video-container">
-            <div id="background-curtain"></div>
-            <video preload="auto" loop="loop" autoplay>
-              {% if USE_CONTENT_DELIVERY_NETWORKS %}
-                <source src="https://s3.amazonaws.com/plotly-downloads/dashboardsly-splash-3.mp4" type="video/mp4">
-              {% else %}
-                <source src="{{ url_for('static', filename='videos/dashboardsly-splash-3.mp4') }}" type="video/mp4">
-              {% endif %}
-            </video>
-        </div>
+    <div id="video-container">
+        <div id="background-curtain"></div>
+        <video preload="auto" loop="loop" autoplay>
+          {% if USE_CONTENT_DELIVERY_NETWORKS %}
+            <source src="https://s3.amazonaws.com/plotly-downloads/dashboardsly-splash-3.mp4" type="video/mp4">
+          {% else %}
+            <source src="{{ url_for('static', filename='videos/dashboardsly-splash-3.mp4') }}" type="video/mp4">
+          {% endif %}
+        </video>
     </div>
 
-    <div style="text-align: center; padding-top: 30px;">
+    <div class="splash-footer">
         <span>
             <a target="_blank" class="muted" href="https://github.com/plotly/dashboards.ly"><i class="fa fa-github-alt"></i> Fork on Github</a>
             -
