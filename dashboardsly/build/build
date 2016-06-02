@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "Building javascript bundle..."
+./node_modules/.bin/browserify dashboardsly/src/js/main.js -o dashboardsly/static/js/bundle.js -v
+
+echo "Building css bundle..."
+./node_modules/.bin/node-sass -r --output-style compressed dashboardsly/sass/index.scss dashboardsly/static/css/style.css
