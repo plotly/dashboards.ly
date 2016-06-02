@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "dashboardsly/build/build",
-    "watch": "dashboardsly/build/watch"
+    "watch": "dashboardsly/build/watch",
+    "heroku-postbuild": "npm run build"
   },
   "author": "",
   "license": "MIT",
