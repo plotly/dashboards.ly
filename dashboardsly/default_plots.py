@@ -7,7 +7,7 @@ plots = [
  },
  {
    "filetype": "grid",
-   "name": "traffic heatmap Grid",
+   "name": "traffic heatmap grid",
    "preview": {
      "column_names": [
        "y",
@@ -65,7 +65,7 @@ plots = [
  },
  {
    "filetype": "plot",
-   "name": "Net Income",
+   "name": "net income",
    "preview": "",
    "url": "https://plot.ly/~benji.b/54/net-income-vs-net-ratio/"
  },
@@ -77,13 +77,13 @@ plots = [
  },
  {
    "filetype": "plot",
-   "name": "Log Followers Count vs Log Friends Count",
+   "name": "log followers count vs log friends count",
    "preview": "",
    "url": "https://plot.ly/~benji.b/74/log-friends-count-vs-log-followers-count/"
  },
  {
    "filetype": "plot",
-   "name": "Sign ups by Day",
+   "name": "sign ups by day",
    "preview": "",
    "url": "https://plot.ly/~benji.b/106/github-twitter-google-emailapi-total/"
  },
@@ -95,7 +95,7 @@ plots = [
  },
  {
    "filetype": "grid",
-   "name": "checkout funnel Grid",
+   "name": "checkout funnel grid",
    "preview": {
      "column_names": [
        "New, x",
@@ -158,7 +158,7 @@ plots = [
  },
  {
    "filetype": "grid",
-   "name": "treemap Grid",
+   "name": "treemap grid",
    "preview": {
      "column_names": [
        "trace0_y, trac",
@@ -197,7 +197,7 @@ plots = [
  },
  {
    "filetype": "grid",
-   "name": "high risk period Grid",
+   "name": "high risk period grid",
    "preview": {
      "column_names": [
        "c, y",
@@ -272,7 +272,7 @@ plots = [
  },
  {
    "filetype": "plot",
-   "name": "New Buyers",
+   "name": "new buyers",
    "preview": "",
    "url": "https://plot.ly/~benji.b/127/new-buyers-vs-time/"
  },
