@@ -1,3 +1,4 @@
-node_modules/*
-dashboardsly/build/*
-dashboardsly/src/*
+venv/
+node_modules/
+dashboardsly/static/js/*
+dashboardsly/static/css/*

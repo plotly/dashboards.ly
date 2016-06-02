@@ -1,9 +1,7 @@
 node_modules
+venv
+vv/*
 *.ipynb
 *.pyc
-vv/*
-*.webassets-cache/*
-dashboardsly/static/.webassets-cache/*
-package.json
-_site/*
-venv
+*.log
+
