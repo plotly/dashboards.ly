@@ -3,7 +3,6 @@ import sys
 import logging
 
 from flask import Flask
-from flask.ext import assets
 from flask.ext.compress import Compress
 from flask.ext.cors import CORS
 from flask.ext.sqlalchemy import SQLAlchemy
@@ -26,18 +25,6 @@ FlaskReverseProxied(app)
 
 db = SQLAlchemy(app)
 auth = HTTPBasicAuth()
-
-
-env = assets.Environment(app)
-env.load_path = [os.path.join(os.path.dirname(__file__), 'sass')]
-env.register(
-    'css_all',
-    assets.Bundle(
-        'skeleton.scss',
-        filters='scss',
-        output='css_all.css'
-    )
-)
 
 
 if 'DYNO' in os.environ or 'DASHBOARDSLY_PROD' in os.environ:

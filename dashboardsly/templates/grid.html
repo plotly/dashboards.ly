@@ -3,12 +3,9 @@
     {% if USE_CONTENT_DELIVERY_NETWORKS %}
         <link href='https://fonts.googleapis.com/css?family=Open+Sans:200,400,300,400,500,600,700,800' rel='stylesheet' type='text/css'>
     {% else %}
-        <link rel="stylesheet" href="{{ url_for('static', filename='open-sans/css/fonts.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='open-sans/css/fonts.css') }}">
     {% endif %}
-    {% assets "css_all" %}
-        <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"></script>
-    {% endassets %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body style="background-color: white">
     <table>

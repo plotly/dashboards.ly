@@ -4,10 +4,9 @@
 <head>
 
 <link rel="shortcut icon" type="image/png" href="{{ url_for('static', filename='images/favicon.ico') }}"/>
-{% assets "css_all" %}
-    <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}"></script>
-{% endassets %}
-<link rel="stylesheet" href="{{ url_for('static', filename='custom.css') }}">
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
+
 {% if USE_CONTENT_DELIVERY_NETWORKS %}
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
   <link href='https://fonts.googleapis.com/css?family=Open+Sans:200,400,300,400,500,600,700,800' rel='stylesheet' type='text/css'>

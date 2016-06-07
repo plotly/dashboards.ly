@@ -1,0 +1,4 @@
+# Ignore everything except this gitignore so that
+# only the directory is checked in
+*
+!.gitignore

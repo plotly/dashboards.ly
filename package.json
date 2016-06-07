@@ -4,8 +4,9 @@
   "description": "a drag and drop web app for creating dashboards with plotly graphs",
   "main": "index.js",
   "scripts": {
-    "build": "dashboardsly/build/build-js",
-    "watch": "dashboardsly/build/watch-js"
+    "build": "dashboardsly/build/build",
+    "watch": "dashboardsly/build/watch",
+    "heroku-postbuild": "npm run build"
   },
   "author": "",
   "license": "MIT",
@@ -14,14 +15,15 @@
     "react": "^0.13.3",
     "request": "2.64.0",
     "object-assign": "^4.0.1",
-    "react-dnd": "1.1.8"
+    "react-dnd": "1.1.8",
+    "browserify": "^13.0.0",
+    "node-sass": "^3.7.0",
+    "babelify": "^6.2.0",
+    "uglifyify": "^3.0.1"
   },
   "devDependencies": {
-    "babelify": "^6.2.0",
-    "browserify": "^13.0.0",
     "tap": "^1.4.1",
     "tape": "^4.2.0",
-    "uglifyify": "^3.0.1",
     "watchify": "3.1.0"
   },
   "browserify": {

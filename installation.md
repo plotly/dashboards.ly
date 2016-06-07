@@ -17,6 +17,10 @@ $ virtualenv venv
 $ source venv/bin/activate
 $ pip install -r requirements.txt
 ```
+then
+```
+$ npm install
+```
 
 3 - Install postgres
 
@@ -49,7 +53,12 @@ PLOTLY_DOMAIN="https://plotly.acme.com"
 $ python init_db.py
 ```
 
-6 - Run the server
+6. Build the javascript and css
+```
+$ npm run build
+```
+
+7 - Run the server
 ```
 $ gunicorn runserver:app
 ```
