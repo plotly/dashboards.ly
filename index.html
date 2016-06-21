@@ -410,10 +410,10 @@ print('dashboard url: https://dashboards.ly{}'.format(dashboard_url))
     </header>
     <div class="--body">
         <p>
-            <a target="_blank" href="https://dashboards.ly/ofd6SZ4wRGqW9UrWj5My2n">View this dashboard</a>.
+            <a target="_blank" href="https://dashboards.ly/ua-L7YH4hg6VTZtNEGkdBDnpL">View this dashboard</a>.
 
         </p>
-        <iframe src="https://dashboards.ly/ua-nw5KyqcJqYAU9X6CYZNo9d" style="border: none;" width="100%"
+        <iframe src="https://dashboards.ly/ua-L7YH4hg6VTZtNEGkdBDnpL" style="border: none;" width="100%"
                 height="600px"></iframe>
 
 <pre><code class="R">library(plotly)
@@ -433,12 +433,13 @@ p2 <- plotly_POST(p2)
 p3 <- plotly_POST(p3)
 p4 <- plotly_POST(p4)
 
-lst <- list(
+img_url <- "https://plot.ly/~chris/1638.png"
 
+lst <- list(
   rows = list(
     list(
       list(plot_url = p1$url),
-      list(plot_url = p2$url)),
+      list(type = "image", src=img_url)),
 
     list(
       list(plot_url = p3$url),
