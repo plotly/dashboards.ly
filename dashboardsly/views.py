@@ -19,6 +19,8 @@ def frontend_config():
         'ROOT_PATH': request.script_root,
         'DEFAULT_USERNAME': app.config['DEFAULT_USERNAME'],
         'DEFAULT_APIKEY': app.config['DEFAULT_APIKEY'],
+        'DEFAULT_BANNER_LINKS': app.config['DEFAULT_BANNER_LINKS'],
+        'DEFAULT_BANNER_TITLE': app.config['DEFAULT_BANNER_TITLE'],
     }
     # Other variables end up in the page's context, for templates
     return {
