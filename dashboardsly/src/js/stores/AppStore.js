@@ -20,12 +20,8 @@ var _appStore = {
     rows: [[]],
 
     banner: {
-        links: [
-            {href: 'https://google.com', text: 'Financials'},
-            {href: 'https://google.com', text: 'Growth'},
-            {href: 'https://google.com', text: 'Performance'}
-        ],
-        title: 'Quarterly Outlook',
+        links: CONFIG.DEFAULT_BANNER_LINKS,
+        title: CONFIG.DEFAULT_BANNER_TITLE,
         backgroundcolor: AppConstants.DEFAULT_BANNER_COLOR,
         textcolor: AppConstants.DEFAULT_BANNERTEXT_COLOR,
         visible: true

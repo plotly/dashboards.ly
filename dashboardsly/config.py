@@ -1,4 +1,35 @@
+import json
 import os
+
+
+def get_banner_links():
+    banner_links = [
+        {'href': 'https://google.com', 'text': 'Financials'},
+        {'href': 'https://google.com', 'text': 'Growth'},
+        {'href': 'https://google.com', 'text': 'Performance'},
+    ]
+
+    bl_json = os.environ.get('PLOTLY_DASHBOARDSLY_DEFAULT_BANNER_LINKS')
+
+    if not bl_json:
+        print 'No banner links found in environment; using defaults'
+        return banner_links
+
+    try:
+        banner_links = json.loads(bl_json)
+    except ValueError as e:
+        print 'Could not parse banner links: {}'.format(e)
+        raise
+
+    for link in banner_links:
+        for attr in ('href', 'text'):
+            if attr not in link:
+                exc = 'banner link {} is missing a "{}" attribute'.format(link,
+                                                                          attr)
+                print exc
+                raise ValueError(exc)
+
+    return banner_links
 
 
 class Config(object):
@@ -14,6 +45,9 @@ class Config(object):
         'PLOTLY_ON_PREM', 0)))
     SSL_ENABLED = bool(int(os.environ.get(
         'PLOTLY_DASHBOARDSLY_SSL_ENABLED', 1)))
+    DEFAULT_BANNER_LINKS = get_banner_links()
+    DEFAULT_BANNER_TITLE = os.environ.get(
+        'PLOTLY_DASHBOARDSLY_DEFAULT_BANNER_TITLE', 'Quarterly Outlook')
 
 
 class ProductionConfig(Config):
