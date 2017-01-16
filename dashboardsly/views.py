@@ -3,7 +3,7 @@ import json
 import shortuuid
 
 import flask
-from flask import render_template, request, abort, url_for
+from flask import render_template, request, abort, url_for, redirect
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -185,8 +185,7 @@ def files(username, apikey, page):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
-
+    return redirect("https://plot.ly/dashboards/", code=301)
 
 @app.route('/google8786ccf07cde43db.html')
 def google_verification():
@@ -258,8 +257,7 @@ def publish():
 
 @app.route('/create')
 def create():
-    return render_template('base.html', mode='create')
-
+    return redirect("https://plot.ly/dashboard/create", code=301)
 
 @app.route('/view')
 def view():
