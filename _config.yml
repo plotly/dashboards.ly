@@ -1,4 +1,6 @@
 #exclude: ['dashboardsly']
 
+gems:
+  - jekyll-redirect-from
 
 stylesheet: https://s3-us-west-1.amazonaws.com/plotly-tutorials/assets/css/api/main.css
