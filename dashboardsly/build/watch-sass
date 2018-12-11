@@ -1,3 +1,0 @@
-#!/bin/bash
-
-./node_modules/.bin/node-sass -r -w dashboardsly/sass/index.scss dashboardsly/static/css/style.css

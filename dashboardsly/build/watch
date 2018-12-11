@@ -1,4 +1,0 @@
-#!/bin/bash
-
-echo "Watching js and sass for changes..."
-{ dashboardsly/build/watch-js &  dashboardsly/build/watch-sass; } | cat
